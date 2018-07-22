@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina.stub
 
-import com.zavijavasoft.yafina.core.AbstractCurrencyMonitor
 import com.zavijavasoft.yafina.core.CurrencyExchangeRatio
+import com.zavijavasoft.yafina.core.CurrencyMonitor
 import com.zavijavasoft.yafina.core.CurrencyStorage
 import java.util.*
 
@@ -21,22 +21,16 @@ class StubCurrencyStorage : CurrencyStorage {
 }
 
 
-class StubCurrencyMonitor : AbstractCurrencyMonitor() {
+class StubCurrencyMonitor(override var currencyStorage: CurrencyStorage) : CurrencyMonitor {
 
 
-    override val ratios: List<CurrencyExchangeRatio>
+    val ratios: List<CurrencyExchangeRatio>
 
 
     init {
         val usdrur = CurrencyExchangeRatio("USD", "RUR", 63.46f, Date())
         val rurusd = CurrencyExchangeRatio("RUR", "USD", 1.0f / 63.46f, Date())
         ratios = listOf(usdrur, rurusd)
-    }
-
-    override fun update() {
-        for (lis in listeners) {
-            lis(ratios)
-        }
     }
 
 
