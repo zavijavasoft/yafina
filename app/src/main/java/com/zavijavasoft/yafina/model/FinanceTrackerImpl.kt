@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.model
 
 import com.zavijavasoft.yafina.utils.roundSum
 

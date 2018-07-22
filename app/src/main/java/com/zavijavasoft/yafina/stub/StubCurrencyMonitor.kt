@@ -1,8 +1,8 @@
 package com.zavijavasoft.yafina.stub
 
-import com.zavijavasoft.yafina.core.CurrencyExchangeRatio
-import com.zavijavasoft.yafina.core.CurrencyMonitor
-import com.zavijavasoft.yafina.core.CurrencyStorage
+import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
+import com.zavijavasoft.yafina.model.CurrencyMonitor
+import com.zavijavasoft.yafina.model.CurrencyStorage
 import java.util.*
 
 

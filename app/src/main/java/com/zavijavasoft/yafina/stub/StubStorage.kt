@@ -1,8 +1,8 @@
 package com.zavijavasoft.yafina.stub
 
-import com.zavijavasoft.yafina.core.TransactionInfo
-import com.zavijavasoft.yafina.core.TransactionStorage
-import com.zavijavasoft.yafina.core.TransactionType
+import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.model.TransactionStorage
+import com.zavijavasoft.yafina.model.TransactionType
 import java.util.*
 
 class StubStorage : TransactionStorage {

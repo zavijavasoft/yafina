@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.model
 
 interface TransactionStorage {
     fun add(transaction: TransactionInfo): List<TransactionInfo>

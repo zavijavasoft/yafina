@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina
 
-import com.zavijavasoft.yafina.core.FinanceTracker
-import com.zavijavasoft.yafina.core.FinanceTrackerImpl
+import com.zavijavasoft.yafina.model.FinanceTracker
+import com.zavijavasoft.yafina.model.FinanceTrackerImpl
 import com.zavijavasoft.yafina.stub.StubCurrencyMonitor
 import com.zavijavasoft.yafina.stub.StubCurrencyStorage
 import com.zavijavasoft.yafina.stub.StubStorage
