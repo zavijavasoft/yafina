@@ -8,8 +8,6 @@ import org.junit.Test
 
 class StubTest {
 
-    var i = 0
-
     @Test
     fun testStubStorage() {
         val storage = StubStorage()

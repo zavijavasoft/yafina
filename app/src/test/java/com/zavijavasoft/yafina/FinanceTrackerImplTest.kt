@@ -9,7 +9,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
 
-class IFinanceTrackerImplTest {
+class FinanceTrackerImplTest {
 
 
     @Test
