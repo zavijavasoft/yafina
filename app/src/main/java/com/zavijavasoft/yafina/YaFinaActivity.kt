@@ -30,12 +30,9 @@ class YaFinaActivity : MvpAppCompatActivity(), IMainView {
     lateinit var mainPresenter: MainPresenter
 
 
-    lateinit var _fragmentManager: FragmentManager
     var tabState: MainTabs = MainTabs.BALANCE
 
-    val balanceFragment = BalanceFragment.getInstance()
-    val aboutFragment = AboutFragment.getInstance()
-    val settingsFragment = SettingsFragment.getInstance()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,16 +42,14 @@ class YaFinaActivity : MvpAppCompatActivity(), IMainView {
 
         ButterKnife.bind(this)
 
-        _fragmentManager = supportFragmentManager
-
         if (null == savedInstanceState &&
-                null == _fragmentManager.findFragmentByTag(BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)) {
-            val fragmentTransaction = _fragmentManager
-                    .beginTransaction()
-            // добавляем фрагмент
-            fragmentTransaction.add(R.id.balance_container,
-                    balanceFragment, BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
-            fragmentTransaction.commit()
+                null == supportFragmentManager.findFragmentByTag(BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)) {
+            val balanceFragment = BalanceFragment.getInstance()
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.balance_container,
+                            balanceFragment, BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
+                    .commit()
+
         }
 
 
@@ -65,43 +60,42 @@ class YaFinaActivity : MvpAppCompatActivity(), IMainView {
     private fun initNavigationButtons() {
 
         buttonBalance.setOnClickListener {
-            val fragment = _fragmentManager
+            val fragment = supportFragmentManager
                     .findFragmentByTag(BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
-
             if (fragment == null) {
-
-                val fragmentTransaction = _fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.balance_container, balanceFragment,
-                        BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
-                fragmentTransaction.commit()
+                val balanceFragment = BalanceFragment.getInstance()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.balance_container, balanceFragment,
+                                BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
+                        .commit()
 
             }
         }
 
         buttonSettings.setOnClickListener {
-            val fragment = _fragmentManager
+            val fragment = supportFragmentManager
                     .findFragmentByTag(SettingsFragment.TAG_YAFINA_SETTINGS_FRAGMENT)
-
             if (fragment == null) {
-
-                val fragmentTransaction = _fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.balance_container, settingsFragment,
-                        SettingsFragment.TAG_YAFINA_SETTINGS_FRAGMENT)
-                fragmentTransaction.commit()
+                val settingsFragment = SettingsFragment.getInstance()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.balance_container, settingsFragment,
+                                SettingsFragment.TAG_YAFINA_SETTINGS_FRAGMENT)
+                        .commit()
 
             }
         }
 
         buttonAbout.setOnClickListener {
-            val fragment = _fragmentManager
+            val fragment = supportFragmentManager
                     .findFragmentByTag(AboutFragment.TAG_YAFINA_ABOUT_FRAGMENT)
 
             if (fragment == null) {
+                val aboutFragment = AboutFragment.getInstance()
 
-                val fragmentTransaction = _fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.balance_container, aboutFragment,
+                supportFragmentManager.beginTransaction()
+                .replace(R.id.balance_container, aboutFragment,
                         AboutFragment.TAG_YAFINA_ABOUT_FRAGMENT)
-                fragmentTransaction.commit()
+                .commit()
 
             }
         }
