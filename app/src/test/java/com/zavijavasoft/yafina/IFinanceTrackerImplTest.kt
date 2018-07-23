@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina
 
-import com.zavijavasoft.yafina.model.FinanceTracker
 import com.zavijavasoft.yafina.model.FinanceTrackerImpl
+import com.zavijavasoft.yafina.model.IFinanceTracker
 import com.zavijavasoft.yafina.stub.StubCurrencyMonitor
 import com.zavijavasoft.yafina.stub.StubCurrencyStorage
 import com.zavijavasoft.yafina.stub.StubStorage
@@ -9,7 +9,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
 
-class FinanceTrackerImplTest {
+class IFinanceTrackerImplTest {
 
 
     @Test
@@ -18,16 +18,17 @@ class FinanceTrackerImplTest {
         val storage = StubStorage()
         val currencyMonitor = StubCurrencyMonitor(currencyStorage)
 
-        val tracker: FinanceTracker = FinanceTrackerImpl(storage)
+        val tracker: IFinanceTracker = FinanceTrackerImpl(storage)
         tracker.currencyRatios = currencyMonitor.ratios
 
-        val tr1 = tracker.retrieveTransactions()[0]
+        tracker.retrieveTransactions()
+        val tr1 = tracker.transactions[0]
         val rur1 = tracker.calculateBalance("RUR", listOf(tr1))
         assertEquals(rur1, 80000.0f)
         val usd1 = tracker.calculateBalance("USD", listOf(tr1))
         assertEquals(usd1, 1260.64f)
 
-        val tr2 = tracker.retrieveTransactions()[1]
+        val tr2 = tracker.transactions[1]
         val rur2 = tracker.calculateBalance("RUR", listOf(tr1, tr2))
         assertEquals(rur2, 30000.0f)
         val usd2 = tracker.calculateBalance("USD", listOf(tr1, tr2))
@@ -38,7 +39,7 @@ class FinanceTrackerImplTest {
         assertEquals(ar, br)
 
 
-        val tr3 = tracker.retrieveTransactions()[2]
+        val tr3 = tracker.transactions[2]
         val rur3 = tracker.calculateBalance("RUR", listOf(tr1, tr2, tr3))
         assertEquals(rur3, 37615.2f)
         val usd3 = tracker.calculateBalance("USD", listOf(tr1, tr2, tr3))

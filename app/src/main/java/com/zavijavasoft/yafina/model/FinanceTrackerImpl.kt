@@ -3,7 +3,7 @@ package com.zavijavasoft.yafina.model
 import com.zavijavasoft.yafina.utils.roundSum
 
 
-class FinanceTrackerImpl(var storage: TransactionStorage) : FinanceTracker {
+class FinanceTrackerImpl(var storage: ITransactionStorage) : IFinanceTracker {
 
     private var _transactions: List<TransactionInfo> = listOf()
 
@@ -31,9 +31,8 @@ class FinanceTrackerImpl(var storage: TransactionStorage) : FinanceTracker {
         return transactions.filter(filter)
     }
 
-    override fun retrieveTransactions(): List<TransactionInfo> {
+    override fun retrieveTransactions() {
         _transactions = storage.findAll()
-        return transactions
     }
 
 
@@ -68,5 +67,8 @@ class FinanceTrackerImpl(var storage: TransactionStorage) : FinanceTracker {
         return sum.roundSum()
     }
 
+    override fun listCurrenciesInAccounts(): List<String> {
+        return transactions.asSequence().map { it.currency }.distinct().toList()
+    }
 
 }
