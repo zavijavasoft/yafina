@@ -1,16 +1,20 @@
 package com.zavijavasoft.yafina.stub
 
+import android.support.annotation.NonNull
+import com.zavijavasoft.yafina.model.ITransactionStorage
 import com.zavijavasoft.yafina.model.TransactionInfo
-import com.zavijavasoft.yafina.model.TransactionStorage
 import com.zavijavasoft.yafina.model.TransactionType
+import dagger.Module
+import dagger.Provides
 import java.util.*
+import javax.inject.Singleton
 
-class StubStorage : TransactionStorage {
+class StubStorage : ITransactionStorage {
 
     val transactions: List<TransactionInfo>
 
     init {
-        val t1 = TransactionInfo(currency = "RUR", type = TransactionType.INCOME, sum = 80000.0f, article = "Зарплата", datetime = Date())
+        val t1 = TransactionInfo(currency = "RUR", type = TransactionType.INCOME, sum = 100000.0f, article = "Зарплата", datetime = Date())
         Thread.sleep(10)
         val t2 = TransactionInfo(currency = "RUR", type = TransactionType.OUTCOME, sum = 50000.0f, article = "Покупка ноутбука", datetime = Date())
         Thread.sleep(10)
@@ -54,6 +58,18 @@ class StubStorage : TransactionStorage {
 
     override fun findAll(): List<TransactionInfo> {
         return transactions
+    }
+
+}
+
+@Module
+class StubTransactionsStorageModule {
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getTransactionStorage(): ITransactionStorage {
+        return StubStorage()
     }
 
 }

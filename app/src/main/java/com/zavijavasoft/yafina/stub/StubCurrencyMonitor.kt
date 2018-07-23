@@ -1,12 +1,16 @@
 package com.zavijavasoft.yafina.stub
 
+import android.support.annotation.NonNull
 import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
-import com.zavijavasoft.yafina.model.CurrencyMonitor
-import com.zavijavasoft.yafina.model.CurrencyStorage
+import com.zavijavasoft.yafina.model.ICurrencyMonitor
+import com.zavijavasoft.yafina.model.ICurrencyStorage
+import dagger.Module
+import dagger.Provides
 import java.util.*
+import javax.inject.Singleton
 
 
-class StubCurrencyStorage : CurrencyStorage {
+class StubCurrencyStorage : ICurrencyStorage {
     override fun getCurrencyList(): List<String> {
         return listOf("USD", "RUR")
     }
@@ -21,7 +25,7 @@ class StubCurrencyStorage : CurrencyStorage {
 }
 
 
-class StubCurrencyMonitor(override var currencyStorage: CurrencyStorage) : CurrencyMonitor {
+class StubCurrencyMonitor(override var currencyStorage: ICurrencyStorage) : ICurrencyMonitor {
 
 
     val ratios: List<CurrencyExchangeRatio>
@@ -37,4 +41,30 @@ class StubCurrencyMonitor(override var currencyStorage: CurrencyStorage) : Curre
     override fun pull(): List<CurrencyExchangeRatio> {
         return ratios
     }
+}
+
+
+@Module
+class StubCurrencyStorageModule {
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getCurrencyStorage(): ICurrencyStorage {
+        return StubCurrencyStorage()
+    }
+
+}
+
+
+@Module
+class StubCurrencyMonitorModule {
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getCurrencyMonitor(currencyStorage: ICurrencyStorage): ICurrencyMonitor {
+        return StubCurrencyMonitor(currencyStorage)
+    }
+
 }
