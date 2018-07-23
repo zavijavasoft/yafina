@@ -9,6 +9,6 @@ enum class MainTabs {
     ABOUT
 }
 
-interface IMainView : MvpView {
+interface MainView : MvpView {
     fun switchNewTab(tab: MainTabs)
 }

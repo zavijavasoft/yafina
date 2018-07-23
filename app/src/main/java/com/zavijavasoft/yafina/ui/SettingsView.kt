@@ -2,6 +2,6 @@ package com.zavijavasoft.yafina.ui
 
 import com.arellomobile.mvp.MvpView
 
-interface ISettingsView : MvpView {
+interface SettingsView : MvpView {
     fun update(currencyList: List<String>)
 }

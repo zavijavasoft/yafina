@@ -1,8 +1,8 @@
 package com.zavijavasoft.yafina.model
 
 
-interface ICurrencyMonitor {
-    var currencyStorage: ICurrencyStorage
+interface CurrencyMonitor {
+    var currencyStorage: CurrencyStorage
     fun pull(): List<CurrencyExchangeRatio>
 }
 

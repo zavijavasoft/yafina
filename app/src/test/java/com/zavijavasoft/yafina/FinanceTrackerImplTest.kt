@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina
 
 import com.zavijavasoft.yafina.model.FinanceTrackerImpl
-import com.zavijavasoft.yafina.model.IFinanceTracker
+import com.zavijavasoft.yafina.model.FinanceTracker
 import com.zavijavasoft.yafina.stub.StubCurrencyMonitor
 import com.zavijavasoft.yafina.stub.StubCurrencyStorage
 import com.zavijavasoft.yafina.stub.StubStorage
@@ -18,7 +18,7 @@ class FinanceTrackerImplTest {
         val storage = StubStorage()
         val currencyMonitor = StubCurrencyMonitor(currencyStorage)
 
-        val tracker: IFinanceTracker = FinanceTrackerImpl(storage)
+        val tracker: FinanceTracker = FinanceTrackerImpl(storage)
         tracker.currencyRatios = currencyMonitor.ratios
 
         tracker.retrieveTransactions()

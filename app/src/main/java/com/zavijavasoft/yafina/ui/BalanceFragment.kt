@@ -11,10 +11,10 @@ import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.BalancePresenter
+import com.zavijavasoft.yafina.core.BalancePresenterImpl
 
 
-class BalanceFragment : MvpAppCompatFragment(), IBalanceView {
+class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
     companion object {
         val TAG_YAFINA_BALANCE_FRAGMENT = "TAG_YAFINA_BALANCE_FRAGMENT"
@@ -29,7 +29,7 @@ class BalanceFragment : MvpAppCompatFragment(), IBalanceView {
 
 
     @InjectPresenter
-    lateinit var presenter: BalancePresenter
+    lateinit var presenter: BalancePresenterImpl
 
     @BindView(R.id.balance_rur)
     lateinit var rurSummary: TextView

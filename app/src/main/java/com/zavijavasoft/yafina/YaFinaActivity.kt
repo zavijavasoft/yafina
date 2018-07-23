@@ -2,16 +2,15 @@ package com.zavijavasoft.yafina
 
 
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
 import android.widget.ImageButton
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
-import com.zavijavasoft.yafina.core.MainPresenter
+import com.zavijavasoft.yafina.core.MainPresenterImpl
 import com.zavijavasoft.yafina.ui.*
 
-class YaFinaActivity : MvpAppCompatActivity(), IMainView {
+class YaFinaActivity : MvpAppCompatActivity(), MainView {
 
 
     @BindView(R.id.image_button_balance)
@@ -27,7 +26,7 @@ class YaFinaActivity : MvpAppCompatActivity(), IMainView {
     lateinit var buttonAbout: ImageButton
 
     @InjectPresenter
-    lateinit var mainPresenter: MainPresenter
+    lateinit var mainPresenter: MainPresenterImpl
 
 
     var tabState: MainTabs = MainTabs.BALANCE

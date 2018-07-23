@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.zavijavasoft.yafina.R
 
-class SettingsFragment : MvpAppCompatFragment(), ISettingsView {
+class SettingsFragment : MvpAppCompatFragment(), SettingsView {
 
 
     companion object {

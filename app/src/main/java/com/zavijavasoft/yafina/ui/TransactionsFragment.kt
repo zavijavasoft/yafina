@@ -8,7 +8,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.zavijavasoft.yafina.R
 
 
-class TransactionsFragment : MvpAppCompatFragment(), ITransactionsListView {
+class TransactionsFragment : MvpAppCompatFragment(), TransactionsListView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

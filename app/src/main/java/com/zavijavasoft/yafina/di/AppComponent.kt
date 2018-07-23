@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina.di
 
-import com.zavijavasoft.yafina.core.BalancePresenter
-import com.zavijavasoft.yafina.core.SettingsPresenter
+import com.zavijavasoft.yafina.core.BalancePresenterImpl
+import com.zavijavasoft.yafina.core.SettingsPresenterImpl
 import com.zavijavasoft.yafina.stub.StubCurrencyMonitorModule
 import com.zavijavasoft.yafina.stub.StubCurrencyStorageModule
 import com.zavijavasoft.yafina.stub.StubTransactionsStorageModule
@@ -14,6 +14,6 @@ import javax.inject.Singleton
         StubCurrencyMonitorModule::class))
 @Singleton
 interface AppComponent {
-    fun inject(balancePresenter: BalancePresenter)
-    fun inject(settingsPresenter: SettingsPresenter)
+    fun inject(balancePresenter: BalancePresenterImpl)
+    fun inject(settingsPresenter: SettingsPresenterImpl)
 }

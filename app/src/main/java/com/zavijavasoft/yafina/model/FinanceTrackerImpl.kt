@@ -3,7 +3,7 @@ package com.zavijavasoft.yafina.model
 import com.zavijavasoft.yafina.utils.roundSum
 
 
-class FinanceTrackerImpl(var storage: ITransactionStorage) : IFinanceTracker {
+class FinanceTrackerImpl(var storage: TransactionStorage) : FinanceTracker {
 
     private var _transactions: List<TransactionInfo> = listOf()
 
@@ -47,10 +47,10 @@ class FinanceTrackerImpl(var storage: ITransactionStorage) : IFinanceTracker {
     }
 
 
-    override fun calculateBalance(currency: String, trans: List<TransactionInfo>): Float {
+    override fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float {
         val conv = currencyRatios.filter { it -> it.currencyTo == currency }
         var sum = 0f
-        for (t in trans) {
+        for (t in transactionsList) {
             val ratio = if (t.currency != currency) {
                 val exchange = conv.find { it -> it.currencyFrom == t.currency }
                         ?: throw IllegalStateException()
