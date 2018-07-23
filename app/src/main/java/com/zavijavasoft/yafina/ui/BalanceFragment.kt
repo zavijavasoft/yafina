@@ -1,0 +1,69 @@
+package com.zavijavasoft.yafina.ui
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.zavijavasoft.yafina.R
+import com.zavijavasoft.yafina.core.BalancePresenter
+
+
+class BalanceFragment : MvpAppCompatFragment(), IBalanceView {
+
+    companion object {
+        val TAG_YAFINA_BALANCE_FRAGMENT = "TAG_YAFINA_BALANCE_FRAGMENT"
+
+        fun getInstance(): BalanceFragment {
+            val fragment = BalanceFragment()
+            val args = Bundle()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+
+    @InjectPresenter
+    lateinit var presenter: BalancePresenter
+
+    @BindView(R.id.balance_rur)
+    lateinit var rurSummary: TextView
+
+    @BindView(R.id.balance_usd)
+    lateinit var usdSummary: TextView
+
+    @BindView(R.id.balance_update)
+    lateinit var buttonUpdate: ImageButton
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+        val view = inflater.inflate(R.layout.fragment_balance, container, false)
+        ButterKnife.bind(this, view)
+
+
+        buttonUpdate.setOnClickListener {
+            presenter.update()
+        }
+
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.update()
+    }
+
+    override fun displayBalance(currency: String, sum: Float) {
+        when (currency) {
+            "USD" -> usdSummary.text = String.format("%.2f %s", sum, currency)
+            "RUR" -> rurSummary.text = String.format("%.2f %s", sum, currency)
+        }
+    }
+}
