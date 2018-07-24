@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.Unbinder
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -51,6 +52,8 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
     lateinit var buttonUpdate: ImageButton
 
 
+    lateinit var unbinder: Unbinder
+
     override fun onAttach(context: Context?) {
         YaFinaApplication.component.inject(this)
         super.onAttach(context)
@@ -60,7 +63,7 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
                               savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_balance, container, false)
-        ButterKnife.bind(this, view)
+        unbinder = ButterKnife.bind(this, view)
 
 
         buttonUpdate.setOnClickListener {
@@ -69,6 +72,11 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
 
         return view
+    }
+
+    override fun onDestroyView() {
+        unbinder.unbind()
+        super.onDestroyView()
     }
 
     override fun onResume() {

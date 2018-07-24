@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ImageButton
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.Unbinder
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.zavijavasoft.yafina.core.MainPresenterImpl
@@ -29,6 +30,8 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
     lateinit var mainPresenter: MainPresenterImpl
 
 
+    lateinit var unbinder: Unbinder
+
     var tabState: MainTabs = MainTabs.BALANCE
 
 
@@ -40,7 +43,7 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance)
 
-        ButterKnife.bind(this)
+        unbinder = ButterKnife.bind(this)
 
         if (null == savedInstanceState &&
                 null == supportFragmentManager.findFragmentByTag(BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)) {
@@ -56,6 +59,11 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
         initNavigationButtons()
     }
 
+    // Код, который вызовется раз в тысячу лет. Но симметрия должна соблюдаться
+    override fun onDestroy() {
+        unbinder.unbind()
+        super.onDestroy()
+    }
 
     private fun initNavigationButtons() {
 
