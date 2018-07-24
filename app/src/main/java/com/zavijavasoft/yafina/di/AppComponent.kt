@@ -1,19 +1,27 @@
 package com.zavijavasoft.yafina.di
 
-import com.zavijavasoft.yafina.core.BalancePresenterImpl
-import com.zavijavasoft.yafina.core.SettingsPresenterImpl
-import com.zavijavasoft.yafina.stub.StubCurrencyMonitorModule
-import com.zavijavasoft.yafina.stub.StubCurrencyStorageModule
-import com.zavijavasoft.yafina.stub.StubTransactionsStorageModule
+import com.zavijavasoft.yafina.YaFinaApplication
+import com.zavijavasoft.yafina.ui.BalanceFragment
+import com.zavijavasoft.yafina.ui.SettingsFragment
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = arrayOf(TrackerModule::class,
-        StubCurrencyStorageModule::class,
-        StubTransactionsStorageModule::class,
-        StubCurrencyMonitorModule::class))
+
+@Component(modules = [(AppModule::class)])
 @Singleton
 interface AppComponent {
-    fun inject(balancePresenter: BalancePresenterImpl)
-    fun inject(settingsPresenter: SettingsPresenterImpl)
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(app: YaFinaApplication): Builder
+
+        fun build(): AppComponent
+    }
+
+
+    fun inject(app: YaFinaApplication)
+    fun inject(fragment: BalanceFragment)
+    fun inject(fragment: SettingsFragment)
 }

@@ -1,15 +1,11 @@
 package com.zavijavasoft.yafina.stub
 
-import android.support.annotation.NonNull
-import com.zavijavasoft.yafina.model.TransactionStorage
 import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.model.TransactionStorage
 import com.zavijavasoft.yafina.model.TransactionType
-import dagger.Module
-import dagger.Provides
 import java.util.*
-import javax.inject.Singleton
 
-class StubStorage : TransactionStorage {
+class StubTransactionStorageImpl : TransactionStorage {
 
     val transactions: List<TransactionInfo>
 
@@ -62,14 +58,3 @@ class StubStorage : TransactionStorage {
 
 }
 
-@Module
-class StubTransactionsStorageModule {
-
-    @Singleton
-    @Provides
-    @NonNull
-    fun getTransactionStorage(): TransactionStorage {
-        return StubStorage()
-    }
-
-}

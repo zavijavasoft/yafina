@@ -12,7 +12,7 @@ import com.zavijavasoft.yafina.R
 class AboutFragment : Fragment() {
 
     companion object {
-        val TAG_YAFINA_ABOUT_FRAGMENT = "TAG_YAFINA_ABOUT_FRAGMENT"
+        const val TAG_YAFINA_ABOUT_FRAGMENT = "TAG_YAFINA_ABOUT_FRAGMENT"
 
         fun getInstance(): AboutFragment {
             val fragment = AboutFragment()

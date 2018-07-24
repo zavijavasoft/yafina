@@ -1,5 +1,6 @@
 package com.zavijavasoft.yafina.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,17 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
+import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.core.BalancePresenterImpl
+import javax.inject.Inject
 
 
 class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
     companion object {
-        val TAG_YAFINA_BALANCE_FRAGMENT = "TAG_YAFINA_BALANCE_FRAGMENT"
+        const val TAG_YAFINA_BALANCE_FRAGMENT = "TAG_YAFINA_BALANCE_FRAGMENT"
 
         fun getInstance(): BalanceFragment {
             val fragment = BalanceFragment()
@@ -28,8 +32,14 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
     }
 
 
+    @Inject
     @InjectPresenter
     lateinit var presenter: BalancePresenterImpl
+
+    @ProvidePresenter
+    fun providePresenter(): BalancePresenterImpl {
+        return presenter
+    }
 
     @BindView(R.id.balance_rur)
     lateinit var rurSummary: TextView
@@ -39,6 +49,12 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
     @BindView(R.id.balance_update)
     lateinit var buttonUpdate: ImageButton
+
+
+    override fun onAttach(context: Context?) {
+        YaFinaApplication.component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

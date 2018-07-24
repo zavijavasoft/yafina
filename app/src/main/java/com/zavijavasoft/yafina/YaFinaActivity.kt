@@ -34,8 +34,9 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
 
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance)
 

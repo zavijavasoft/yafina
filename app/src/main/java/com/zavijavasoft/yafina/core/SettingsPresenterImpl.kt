@@ -1,20 +1,11 @@
 package com.zavijavasoft.yafina.core
 
 import com.arellomobile.mvp.MvpPresenter
-import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.model.CurrencyStorage
 import com.zavijavasoft.yafina.ui.SettingsView
 import javax.inject.Inject
 
-class SettingsPresenterImpl : MvpPresenter<SettingsView>(), SettingsPresenter {
-
-    @Inject
-    lateinit var storage: CurrencyStorage
-
-    init {
-        YaFinaApplication.component.inject(this)
-    }
-
+class SettingsPresenterImpl @Inject constructor(private val storage: CurrencyStorage) : MvpPresenter<SettingsView>(), SettingsPresenter {
 
     override fun addCurrency(currency: String) {
         val list = storage.getCurrencyList()

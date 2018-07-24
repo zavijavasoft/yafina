@@ -1,9 +1,10 @@
 package com.zavijavasoft.yafina.model
 
 import com.zavijavasoft.yafina.utils.roundSum
+import javax.inject.Inject
 
 
-class FinanceTrackerImpl(var storage: TransactionStorage) : FinanceTracker {
+class FinanceTrackerImpl @Inject constructor(var storage: TransactionStorage) : FinanceTracker {
 
     private var _transactions: List<TransactionInfo> = listOf()
 

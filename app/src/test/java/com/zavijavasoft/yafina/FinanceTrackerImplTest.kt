@@ -1,10 +1,10 @@
 package com.zavijavasoft.yafina
 
-import com.zavijavasoft.yafina.model.FinanceTrackerImpl
 import com.zavijavasoft.yafina.model.FinanceTracker
-import com.zavijavasoft.yafina.stub.StubCurrencyMonitor
-import com.zavijavasoft.yafina.stub.StubCurrencyStorage
-import com.zavijavasoft.yafina.stub.StubStorage
+import com.zavijavasoft.yafina.model.FinanceTrackerImpl
+import com.zavijavasoft.yafina.stub.StubCurrencyMonitorImpl
+import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
+import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.math.BigDecimal
@@ -14,9 +14,9 @@ class FinanceTrackerImplTest {
 
     @Test
     fun testBalanceInDollarsFirst() {
-        val currencyStorage = StubCurrencyStorage()
-        val storage = StubStorage()
-        val currencyMonitor = StubCurrencyMonitor(currencyStorage)
+        val currencyStorage = StubCurrencyStorageImpl()
+        val storage = StubTransactionStorageImpl()
+        val currencyMonitor = StubCurrencyMonitorImpl(currencyStorage)
 
         val tracker: FinanceTracker = FinanceTrackerImpl(storage)
         tracker.currencyRatios = currencyMonitor.ratios
