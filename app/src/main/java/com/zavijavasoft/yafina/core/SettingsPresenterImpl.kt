@@ -18,15 +18,17 @@ class SettingsPresenterImpl : MvpPresenter<SettingsView>(), SettingsPresenter {
 
     override fun addCurrency(currency: String) {
         val list = storage.getCurrencyList()
-        if (currency !in list)
+        if (currency !in list) {
             storage.addCurrency(currency)
+        }
         viewState.update(storage.getCurrencyList())
     }
 
     override fun removeCurrency(currency: String) {
         val list = storage.getCurrencyList()
-        if (currency in list)
+        if (currency in list) {
             storage.removeCurrency(currency)
+        }
         viewState.update(storage.getCurrencyList())
     }
 
