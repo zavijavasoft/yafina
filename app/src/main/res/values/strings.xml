@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">YaFina</string>
+    <string name="app_name">Яфина</string>
+    <string name="balance_title">Ваш баланс:</string>
+    <string name="rur_default_balance">123456.00 RUR</string>
+    <string name="usd_default_balance">5555.13 USD</string>
+
+    <string name="app_version">Версия 0.01</string>
+    <string name="app_description">Ваш персональный финансовый трекер</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="page_is_under_construction">Страница настроек находится в разработке</string>
 </resources>
