@@ -51,7 +51,7 @@ dependencies {
     implementation "com.google.dagger:dagger:${depVersions.dagger}"
     implementation "com.google.dagger:dagger-android:${depVersions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${depVersions.dagger}"
-    implementation 'com.android.support:support-v4:27.1.1'
+    implementation "com.android.support:support-v4:${depVersions.support}"
     kapt "com.google.dagger:dagger-android-processor:${depVersions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${depVersions.dagger}"
 
@@ -64,6 +64,8 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:${depVersions.butterknife}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+    implementation 'io.reactivex:rxjava:1.3.4'
+    implementation 'io.reactivex:rxandroid:0.24.0'
 
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${depTestVersions.espresso}"
     androidTestImplementation "com.android.support.test:runner:${depTestVersions.runner}"
