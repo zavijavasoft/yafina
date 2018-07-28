@@ -13,12 +13,15 @@ import javax.inject.Singleton
 
 
 typealias ConcreteFinanceTrackerImpl = FinanceTrackerImpl
+typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
+
+
 typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
 typealias ConcreteCurrencyMonitorImpl = StubCurrencyMonitorImpl
 typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
 
 @Module(includes = [(AndroidSupportInjectionModule::class),
-    (CurrencyStorageModule::class), (TransactionsStorageModule::class)])
+    (CurrencyStorageModule::class), (TransactionsStorageModule::class), (BalanceStorageModule::class)])
 interface AppModule {
 
     @Singleton
@@ -59,3 +62,12 @@ class TransactionsStorageModule {
 
 }
 
+@Module
+class BalanceStorageModule {
+    @Singleton
+    @Provides
+    @NonNull
+    fun getBalanceStorage(): BalanceStorage {
+        return ConcreteBalanceStorageImpl()
+    }
+}
