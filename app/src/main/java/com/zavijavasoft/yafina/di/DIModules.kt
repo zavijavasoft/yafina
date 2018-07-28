@@ -2,9 +2,7 @@ package com.zavijavasoft.yafina.di
 
 import android.support.annotation.NonNull
 import com.zavijavasoft.yafina.model.*
-import com.zavijavasoft.yafina.stub.StubCurrencyMonitorImpl
-import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
-import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
+import com.zavijavasoft.yafina.stub.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,9 +17,12 @@ typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
 typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
 typealias ConcreteCurrencyMonitorImpl = StubCurrencyMonitorImpl
 typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
+typealias ConcreteArticleStorageImpl = StubArticlesStorageImpl
+typealias ConcreteAccountsStorageImpl = StubAccountsStorageImpl
 
 @Module(includes = [(AndroidSupportInjectionModule::class),
-    (CurrencyStorageModule::class), (TransactionsStorageModule::class), (BalanceStorageModule::class)])
+    (CurrencyStorageModule::class), (TransactionsStorageModule::class), (BalanceStorageModule::class),
+    (ArticlesStorageModule::class), (AccountsStorageModule::class)])
 interface AppModule {
 
     @Singleton
@@ -69,5 +70,25 @@ class BalanceStorageModule {
     @NonNull
     fun getBalanceStorage(): BalanceStorage {
         return ConcreteBalanceStorageImpl()
+    }
+}
+
+@Module
+class ArticlesStorageModule {
+    @Singleton
+    @Provides
+    @NonNull
+    fun getArticlesStorage(): ArticlesStorage {
+        return ConcreteArticleStorageImpl()
+    }
+}
+
+@Module
+class AccountsStorageModule {
+    @Singleton
+    @Provides
+    @NonNull
+    fun getAccountStorage(): AccountsStorage {
+        return ConcreteAccountsStorageImpl()
     }
 }

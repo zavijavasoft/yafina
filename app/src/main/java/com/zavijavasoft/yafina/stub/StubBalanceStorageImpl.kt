@@ -6,7 +6,7 @@ import rx.Completable
 import rx.Single
 import java.util.*
 
-class StubBalanceStorage : BalanceStorage {
+class StubBalanceStorageImpl : BalanceStorage {
     override fun getBalance(): Single<BalanceEntity> {
         val map = mutableMapOf<String, Float>()
         map["RUR"] = 666.51f

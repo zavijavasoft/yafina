@@ -8,7 +8,9 @@ import javax.inject.Inject
 
 
 class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: TransactionStorage,
-                                             private val balanceStorage: BalanceStorage) : FinanceTracker {
+                                             private val balanceStorage: BalanceStorage,
+                                             private val articlesStorage: ArticlesStorage,
+                                             private val accountsStorage: AccountsStorage) : FinanceTracker {
 
     private var _transactions: List<TransactionInfo> = listOf()
 
@@ -18,6 +20,9 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         }
 
     override var currencyRatios: List<CurrencyExchangeRatio> = listOf()
+
+    val articles = mutableMapOf<Long, ArticleEntity>()
+    val accounts = mutableMapOf<Long, AccountEntity>()
 
     override fun addTransaction(transaction: TransactionInfo) {
         _transactions = transactionsStorage.add(transaction)
@@ -69,15 +74,19 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
     override fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float {
         val conv = currencyRatios.filter { it -> it.currencyTo == currency }
+        updateArticlesAndAccounts()
+
         var sum = 0f
         for (t in transactionsList) {
-            val ratio = if (t.currency != currency) {
-                val exchange = conv.find { it -> it.currencyFrom == t.currency }
+            val account = accounts[t.accountId]!!
+            val article = articles[t.article]!!
+            val ratio = if (account.currency != currency) {
+                val exchange = conv.find { it -> it.currencyFrom == account.currency }
                         ?: throw IllegalStateException()
                 exchange.ratio
             } else 1.0f
 
-            val sign = if (t.type == TransactionType.OUTCOME) -1 else 1
+            val sign = if (article.type == ArticleType.OUTCOME) -1 else 1
             val payment = t.sum * ratio * sign
 
             sum += payment.roundSum()
@@ -87,8 +96,21 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return sum.roundSum()
     }
 
+    private fun updateArticlesAndAccounts() {
+        val accountlist = accountsStorage.getAccounts().toBlocking()
+        for (account in accountlist.value()) {
+            accounts[account.id] = account
+        }
+
+        val articlelist = articlesStorage.getArticles().toBlocking()
+        for (article in articlelist.value()) {
+            articles[article.articleId] = article
+        }
+    }
+
     override fun listCurrenciesInAccounts(): List<String> {
-        return transactions.asSequence().map { it.currency }.distinct().toList()
+        updateArticlesAndAccounts()
+        return accounts.values.asSequence().map { it.currency }.distinct().toList()
     }
 
 }
