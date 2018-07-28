@@ -1,10 +1,14 @@
 package com.zavijavasoft.yafina.model
 
 import com.zavijavasoft.yafina.utils.roundSum
+import rx.Observable
+import rx.Single
+import java.util.*
 import javax.inject.Inject
 
 
-class FinanceTrackerImpl @Inject constructor(var storage: TransactionStorage) : FinanceTracker {
+class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: TransactionStorage,
+                                             private val balanceStorage: BalanceStorage) : FinanceTracker {
 
     private var _transactions: List<TransactionInfo> = listOf()
 
@@ -16,35 +20,50 @@ class FinanceTrackerImpl @Inject constructor(var storage: TransactionStorage) : 
     override var currencyRatios: List<CurrencyExchangeRatio> = listOf()
 
     override fun addTransaction(transaction: TransactionInfo) {
-        _transactions = storage.add(transaction)
+        _transactions = transactionsStorage.add(transaction)
     }
 
     override fun removeTransaction(transactionId: Long) {
-        _transactions = storage.remove(transactionId)
+        _transactions = transactionsStorage.remove(transactionId)
     }
 
     override fun updateTransaction(transaction: TransactionInfo) {
-        _transactions = storage.update(transaction)
+        _transactions = transactionsStorage.update(transaction)
     }
 
     override fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): List<TransactionInfo> {
-        _transactions = storage.findAll()
+        _transactions = transactionsStorage.findAll()
         return transactions.filter(filter)
     }
 
     override fun retrieveTransactions() {
-        _transactions = storage.findAll()
+        _transactions = transactionsStorage.findAll()
     }
 
 
-    override fun calculateTotalBalance(): Map<String, Float> {
+    override fun calculateTotalBalance(): Observable<BalanceEntity> {
+
+
+        val initialBalance = balanceStorage.getBalance()
+        val calculatedBalance = Single.fromCallable<BalanceEntity> {
+            val newBalance = calculateAll()
+            balanceStorage.setBalance(newBalance)
+            newBalance
+        }
+
+        return initialBalance.concatWith(calculatedBalance)
+    }
+
+    private fun calculateAll(): BalanceEntity {
+        retrieveTransactions()
         val listCur = currencyRatios.map { it -> it.currencyFrom }.distinct()
-        val map: MutableMap<String, Float> = mutableMapOf()
+        val map = mutableMapOf<String, Float>()
         for (cur in listCur) {
             val saldo = calculateBalance(cur, transactions)
             map[cur] = saldo
         }
-        return map.toMap()
+
+        return BalanceEntity(map.toMap(), Date())
     }
 
 

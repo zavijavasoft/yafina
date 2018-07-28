@@ -1,5 +1,7 @@
 package com.zavijavasoft.yafina.model
 
+import rx.Observable
+
 interface FinanceTracker {
     val transactions: List<TransactionInfo>
     var currencyRatios: List<CurrencyExchangeRatio>
@@ -8,7 +10,7 @@ interface FinanceTracker {
     fun updateTransaction(transaction: TransactionInfo)
     fun retrieveTransactions()
     fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): List<TransactionInfo>
-    fun calculateTotalBalance(): Map<String, Float>
+    fun calculateTotalBalance(): Observable<BalanceEntity>
     fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float
     fun listCurrenciesInAccounts(): List<String>
 

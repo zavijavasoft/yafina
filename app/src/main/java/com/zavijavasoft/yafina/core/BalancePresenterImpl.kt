@@ -17,10 +17,12 @@ class BalancePresenterImpl @Inject constructor(private val tracker: FinanceTrack
         tracker.currencyRatios = currencyMonitor.pull()
         tracker.retrieveTransactions()
         val currenciesUsed = tracker.listCurrenciesInAccounts()
-        val balances = tracker.calculateTotalBalance()
-        val currenciesToDisplay = balances.filter { it.key in currenciesUsed }.map { it.key }
-        for (s in currenciesToDisplay) {
-            viewState.displayBalance(s, balances[s] ?: 0f)
-        }
+        tracker.calculateTotalBalance()
+                .subscribe {
+                    val currenciesToDisplay = it.balance.filter { it.key in currenciesUsed }.map { it.key }
+                    for (s in currenciesToDisplay) {
+                        viewState.displayBalance(s, it.balance[s] ?: 0f)
+                    }
+                }
     }
 }
