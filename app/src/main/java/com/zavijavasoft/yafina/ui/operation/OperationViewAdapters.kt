@@ -18,6 +18,10 @@ import com.zavijavasoft.yafina.model.ArticleType
 data class OperationArticleItem(val id: Long, val title: String, val type: ArticleType, val color: Int)
 data class OperationAccountItem(val id: Long, val title: String, val sum: String, val color: Int)
 
+const val INCOME_ARTICLE_RECYCLER_VIEW_TAG = "INCOME_ARTICLE_RECYCLER_VIEW_TAG"
+const val OUTCOME_ARTICLE_RECYCLER_VIEW_TAG = "OUTCOME_ARTICLE_RECYCLER_VIEW_TAG"
+const val ACCOUNTS_RECYCLER_VIEW_TAG = "ACCOUNTS_RECYCLER_VIEW_TAG"
+
 
 class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Context, val presenter: OperationPresenter)
     : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
@@ -42,7 +46,16 @@ class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Con
                     dragView.visibility = View.VISIBLE
                 }
                 DragEvent.ACTION_DROP -> if (isDragging) {
-                    val id = view.tag as Long
+                    val parentView = dragView.parent
+                    if (parentView is RecyclerView) {
+                        val accountId = view.tag as Long
+                        val sourceId = dragView.tag as Long
+                        if (parentView.tag as String == ACCOUNTS_RECYCLER_VIEW_TAG) {
+                            presenter.requireTransitionTransaction(sourceId, accountId)
+                        } else {
+                            presenter.requireIncomeTransaction(sourceId, accountId)
+                        }
+                    }
                     dragView.visibility = View.VISIBLE
                 }
             }
@@ -120,7 +133,9 @@ class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Con
                     dragView.visibility = View.VISIBLE
                 }
                 DragEvent.ACTION_DROP -> if (isDragging) {
-                    val id = view.tag as Long
+                    val articleId = view.tag as Long
+                    val accountId = dragView.tag as Long
+                    presenter.requireOutcomeTransaction(articleId, accountId)
                     dragView.visibility = View.VISIBLE
                 }
             }
@@ -142,6 +157,7 @@ class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Con
         holder.txtTitle.text = itemsList[position].title
         holder.txtSum.text = itemsList[position].sum
         holder.cardView.tag = itemsList[position].id
+        holder.cardView.setOnDragListener(holder)
 
 
         holder.cardView.setOnLongClickListener { view ->

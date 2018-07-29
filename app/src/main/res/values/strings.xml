@@ -11,6 +11,8 @@
     <string name="outcome_articles_title">СТАТЬИ РАСХОДА</string>
     <string name="accounts_title">ВАШИ СЧЕТА</string>
 
+    <string name="not_enough_money_notification">Недостаточно средств на счету "%1$s"! В наличии %2$s, требуется %3$s</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="page_is_under_construction">Страница настроек находится в разработке</string>

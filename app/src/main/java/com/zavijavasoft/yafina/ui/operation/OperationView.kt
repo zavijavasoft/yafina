@@ -6,4 +6,5 @@ import com.zavijavasoft.yafina.model.ArticleEntity
 
 interface OperationView : MvpView {
     fun update(rests: Map<Long, Float>, arcticles: List<ArticleEntity>, accounts: List<AccountEntity>)
+    fun notifyInsufficientMoney(accountTitle: String, sumExists: String, sumRequired: String)
 }

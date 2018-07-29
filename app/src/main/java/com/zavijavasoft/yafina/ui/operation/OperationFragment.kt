@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -75,12 +76,15 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
         val view = inflater.inflate(R.layout.fragment_operation, container, false)
         unbinder = ButterKnife.bind(this, view)
 
+        recyclerIncome.tag = INCOME_ARTICLE_RECYCLER_VIEW_TAG
         recyclerIncome.adapter = incomeAdapter
         recyclerIncome.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)
 
+        recyclerOutcome.tag = OUTCOME_ARTICLE_RECYCLER_VIEW_TAG
         recyclerOutcome.adapter = outcomeAdapter
         recyclerOutcome.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)
 
+        recyclerAccounts.tag = ACCOUNTS_RECYCLER_VIEW_TAG
         recyclerAccounts.adapter = accountAdapter
         recyclerAccounts.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)
 
@@ -136,5 +140,10 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
         incomeAdapter.update(incomeArticlesList)
         outcomeAdapter.update(outcomeArticlesList)
 
+    }
+
+    override fun notifyInsufficientMoney(accountTitle: String, sumExists: String, sumRequired: String) {
+        val notification = getString(R.string.not_enough_money_notification, accountTitle, sumExists, sumRequired)
+        Toast.makeText(context, notification, 2)
     }
 }

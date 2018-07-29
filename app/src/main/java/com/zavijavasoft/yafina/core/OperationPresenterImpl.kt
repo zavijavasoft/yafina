@@ -34,14 +34,11 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
     }
 
     override fun requireIncomeTransaction(articleId: Long, accountId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun requireOutcomeTransaction(articleId: Long, accountId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun requireTransitionTransaction(accountFromId: Long, accountToId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
