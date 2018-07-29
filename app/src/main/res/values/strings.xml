@@ -7,6 +7,11 @@
     <string name="app_version">Версия 0.01</string>
     <string name="app_description">Ваш персональный финансовый трекер</string>
 
+    <string name="income_articles_title">СТАТЬИ ДОХОДА</string>
+    <string name="outcome_articles_title">СТАТЬИ РАСХОДА</string>
+    <string name="accounts_title">ВАШИ СЧЕТА</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="page_is_under_construction">Страница настроек находится в разработке</string>
 

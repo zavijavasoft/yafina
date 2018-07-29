@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".ui.OperationFragment">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/income_articles_title"
+        android:textAlignment="center"
+        android:textColor="@color/colorYaYellow"
+        android:textSize="16sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_income"
         android:layout_width="wrap_content"
@@ -14,12 +24,31 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/accounts_title"
+        android:textAlignment="center"
+        android:textColor="@color/colorYaYellow"
+        android:textSize="16sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_accounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/outcome_articles_title"
+        android:textAlignment="center"
+        android:textColor="@color/colorYaYellow"
+        android:textSize="16sp" />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_outcome"
