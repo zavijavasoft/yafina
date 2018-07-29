@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina
+package com.zavijavasoft.yafina.ui
 
 
 import android.os.Bundle
@@ -8,8 +8,11 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.core.MainPresenterImpl
-import com.zavijavasoft.yafina.ui.*
+import com.zavijavasoft.yafina.ui.balance.BalanceFragment
+import com.zavijavasoft.yafina.ui.operation.OperationFragment
+import com.zavijavasoft.yafina.ui.settings.SettingsFragment
 
 class YaFinaActivity : MvpAppCompatActivity(), MainView {
 

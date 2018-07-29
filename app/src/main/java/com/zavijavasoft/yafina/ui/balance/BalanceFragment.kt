@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.ui
+package com.zavijavasoft.yafina.ui.balance
 
 import android.content.Context
 import android.os.Bundle

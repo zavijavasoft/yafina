@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.ui
+package com.zavijavasoft.yafina.ui.operation
 
 import com.arellomobile.mvp.MvpView
 import com.zavijavasoft.yafina.model.AccountEntity

@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.CurrencyMonitor
 import com.zavijavasoft.yafina.model.FinanceTracker
-import com.zavijavasoft.yafina.ui.BalanceView
+import com.zavijavasoft.yafina.ui.balance.BalanceView
 import javax.inject.Inject
 
 @InjectViewState

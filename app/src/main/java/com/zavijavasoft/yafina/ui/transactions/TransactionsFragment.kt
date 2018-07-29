@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.ui
+package com.zavijavasoft.yafina.ui.transactions
 
 import android.os.Bundle
 import android.view.LayoutInflater

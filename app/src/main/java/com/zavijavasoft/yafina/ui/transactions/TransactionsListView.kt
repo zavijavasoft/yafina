@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.ui
+package com.zavijavasoft.yafina.ui.transactions
 
 import com.arellomobile.mvp.MvpView
 
