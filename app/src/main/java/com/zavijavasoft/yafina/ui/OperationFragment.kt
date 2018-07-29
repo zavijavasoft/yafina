@@ -68,9 +68,9 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        accountAdapter = AccountAdapter(listOf(), appContext)
-        incomeAdapter = ArticleAdapter(listOf(), appContext)
-        outcomeAdapter = ArticleAdapter(listOf(), appContext)
+        accountAdapter = AccountAdapter(listOf(), appContext, presenter)
+        incomeAdapter = ArticleAdapter(listOf(), appContext, presenter)
+        outcomeAdapter = ArticleAdapter(listOf(), appContext, presenter)
 
         val view = inflater.inflate(R.layout.fragment_operation, container, false)
         unbinder = ButterKnife.bind(this, view)
@@ -105,6 +105,7 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
         super.onDestroyView()
     }
 
+
     override fun update(rests: Map<Long, Float>, arcticles: List<ArticleEntity>, accounts: List<AccountEntity>) {
 
         val accountsList = mutableListOf<OperationAccountItem>()
@@ -125,9 +126,9 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
             val color = ColorSelector.getColorByLeadingLetter(article.title[0])
             when (article.type) {
                 ArticleType.INCOME ->
-                    incomeArticlesList.add(OperationArticleItem(article.articleId, article.title, color))
+                    incomeArticlesList.add(OperationArticleItem(article.articleId, article.title, article.type, color))
                 ArticleType.OUTCOME ->
-                    outcomeArticlesList.add(OperationArticleItem(article.articleId, article.title, color))
+                    outcomeArticlesList.add(OperationArticleItem(article.articleId, article.title, article.type, color))
 
             }
         }

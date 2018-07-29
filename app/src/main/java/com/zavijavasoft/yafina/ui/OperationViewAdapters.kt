@@ -1,31 +1,57 @@
 package com.zavijavasoft.yafina.ui
 
+import android.content.ClipData
 import android.content.Context
+import android.os.Build
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.zavijavasoft.yafina.R
+import com.zavijavasoft.yafina.core.OperationPresenter
+import com.zavijavasoft.yafina.model.ArticleType
 
 
-data class OperationArticleItem(val id: Long, val title: String, val color: Int)
+data class OperationArticleItem(val id: Long, val title: String, val type: ArticleType, val color: Int)
 data class OperationAccountItem(val id: Long, val title: String, val sum: String, val color: Int)
 
 
-class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Context)
+class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Context, val presenter: OperationPresenter)
     : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
 
-    inner class ArticleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ArticleViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnDragListener {
 
         var id: Long = -1L
         var cardView: CardView = view.findViewById(R.id.thumbnail_article)
         var txtTitle: TextView = view.findViewById(R.id.article_title)
+        private var isDragging: Boolean = false
+
+
+        override fun onDrag(view: View, dragEvent: DragEvent): Boolean {
+            val dragAction = dragEvent.action
+            val dragView = dragEvent.localState as View
+
+            when (dragAction) {
+                DragEvent.ACTION_DRAG_EXITED -> isDragging = false
+                DragEvent.ACTION_DRAG_ENTERED -> isDragging = true
+                DragEvent.ACTION_DRAG_ENDED -> if (!dragEvent.result) {
+                    dragView.visibility = View.VISIBLE
+                }
+                DragEvent.ACTION_DROP -> if (isDragging) {
+                    val id = view.tag as Long
+                    dragView.visibility = View.VISIBLE
+                }
+            }
+
+            return true
+        }
+
 
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.thumbnail_article, parent, false)
@@ -35,10 +61,27 @@ class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Con
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
 
-        holder.id = itemsList[position].id
-        holder.cardView.setCardBackgroundColor(itemsList[position].color)
-        holder.txtTitle.text = itemsList[position].title
+        val item = itemsList[position]
+        holder.id = item.id
+        holder.cardView.setCardBackgroundColor(item.color)
+        holder.txtTitle.text = item.title
+        holder.cardView.tag = item.id
 
+        if (item.type == ArticleType.INCOME) {
+            holder.cardView.setOnLongClickListener { view ->
+                val clipData = ClipData.newPlainText("", "")
+                val dsb = View.DragShadowBuilder(view)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    view.startDragAndDrop(clipData, dsb, view, 0)
+                } else {
+                    view.startDrag(clipData, dsb, view, 0)
+                }
+                view.visibility = View.INVISIBLE
+                true
+            }
+        } else {
+            holder.cardView.setOnDragListener(holder)
+        }
     }
 
 
@@ -53,17 +96,36 @@ class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Con
 }
 
 
-class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Context)
+class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Context, val presenter: OperationPresenter)
     : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
 
-    inner class AccountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class AccountViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnDragListener {
 
         var id: Long = -1L
         var cardView: CardView = view.findViewById(R.id.thumbnail_account)
         var txtTitle: TextView = view.findViewById(R.id.account_title)
         var txtSum: TextView = view.findViewById(R.id.account_sum)
+        var isDragging: Boolean = false
 
+
+        override fun onDrag(view: View, dragEvent: DragEvent): Boolean {
+            val dragAction = dragEvent.action
+            val dragView = dragEvent.localState as View
+
+            when (dragAction) {
+                DragEvent.ACTION_DRAG_EXITED -> isDragging = false
+                DragEvent.ACTION_DRAG_ENTERED -> isDragging = true
+                DragEvent.ACTION_DRAG_ENDED -> if (!dragEvent.result) {
+                    dragView.visibility = View.VISIBLE
+                }
+                DragEvent.ACTION_DROP -> if (isDragging) {
+                    val id = view.tag as Long
+                    dragView.visibility = View.VISIBLE
+                }
+            }
+            return true
+        }
     }
 
 
@@ -79,15 +141,21 @@ class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Con
         holder.cardView.setCardBackgroundColor(itemsList[position].color)
         holder.txtTitle.text = itemsList[position].title
         holder.txtSum.text = itemsList[position].sum
+        holder.cardView.tag = itemsList[position].id
 
-/*        holder.imageView.setOnClickListener(object : View.OnClickListener() {
-            fun onClick(v: View) {
-                val list = itemsList.get(position).txt.toString()
-                Toast.makeText(this@MainActivity, list, Toast.LENGTH_SHORT).show()
+
+        holder.cardView.setOnLongClickListener { view ->
+            val clipData = ClipData.newPlainText("", "")
+            val dsb = View.DragShadowBuilder(view)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                view.startDragAndDrop(clipData, dsb, view, 0)
+            } else {
+                view.startDrag(clipData, dsb, view, 0)
             }
+            view.visibility = View.INVISIBLE
+            true
+        }
 
-        })
-*/
     }
 
 
