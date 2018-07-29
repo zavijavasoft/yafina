@@ -3,7 +3,7 @@ package com.zavijavasoft.yafina.stub
 import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.ArticleType
 import com.zavijavasoft.yafina.model.ArticlesStorage
-import rx.Single
+import io.reactivex.Single
 import java.io.InvalidObjectException
 
 class StubArticlesStorageImpl : ArticlesStorage {

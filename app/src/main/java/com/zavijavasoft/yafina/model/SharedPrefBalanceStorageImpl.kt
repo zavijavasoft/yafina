@@ -3,8 +3,8 @@ package com.zavijavasoft.yafina.model
 import android.content.Context
 import android.preference.PreferenceManager
 import com.zavijavasoft.yafina.YaFinaApplication
-import rx.Completable
-import rx.Single
+import io.reactivex.Completable
+import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class SharedPrefBalanceStorageImpl : BalanceStorage {
             editor.putString(SHARED_PREF_BALANCE_CURRENCIES_KEY, balance.toCurrenciesString())
             editor.putString(SHARED_PREF_BALANCE_VALUES_KEY, balance.toValuesString())
             editor.apply()
-            it.onCompleted()
+            it.onComplete()
         }
     }
 

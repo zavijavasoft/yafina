@@ -26,6 +26,7 @@ class FinanceTrackerImplTest {
 
     @Test
     fun testRxBalanceGetter() {
+        tracker.retrieveTransactions().blockingGet()
         tracker.currencyRatios = currencyMonitor.ratios
         tracker.calculateTotalBalance().subscribe {
             logger.info("${it.balance["USD"]} USD, ${it.balance["RUR"]} RUR")
@@ -35,16 +36,17 @@ class FinanceTrackerImplTest {
 
     @Test
     fun testRxRestsGetter() {
-        val map = tracker.getRests().toBlocking().value()
+        val map = tracker.getRests().blockingGet()
         assertEquals(6, map.keys.size)
-        assertEquals(100.0f, map[6])
+        assertEquals(-100.0f, map[6])
     }
 
-    //@Test
+    @Test
     fun testBalanceInDollarsFirst() {
         tracker.currencyRatios = currencyMonitor.ratios
 
-        tracker.retrieveTransactions()
+        tracker.retrieveTransactions().blockingGet()
+        tracker.listCurrenciesInAccounts().blockingGet()
         val tr1 = tracker.transactions[0]
         val rur1 = tracker.calculateBalance("RUR", listOf(tr1))
         assertEquals(rur1, 100000.0f)

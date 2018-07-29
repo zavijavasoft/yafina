@@ -1,6 +1,6 @@
 package com.zavijavasoft.yafina.model
 
-import rx.Single
+import io.reactivex.Single
 
 
 data class AccountEntity(val id: Long, val currency: String, val name: String, val description: String)

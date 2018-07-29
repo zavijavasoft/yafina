@@ -2,10 +2,13 @@ package com.zavijavasoft.yafina.core
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import com.zavijavasoft.yafina.model.AccountEntity
+import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.FinanceTracker
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.ui.operation.OperationView
-import rx.Single
+import io.reactivex.Single
+import io.reactivex.functions.Function3
 import javax.inject.Inject
 
 @InjectViewState
@@ -18,9 +21,12 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
         val accounts = tracker.getAccountsList()
         val rests = tracker.getRests()
 
-        Single.zip(articles, accounts, rests) { articlesList, accountsList, restMap ->
+        Single.zip(articles, accounts, rests,
+                Function3 { articlesList: List<ArticleEntity>,
+                            accountsList: List<AccountEntity>,
+                            restMap: Map<Long, Float> ->
             viewState.update(restMap, articlesList, accountsList)
-        }.subscribe()
+                }).subscribe()
 
 
     }

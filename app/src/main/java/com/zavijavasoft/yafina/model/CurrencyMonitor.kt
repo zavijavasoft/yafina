@@ -1,8 +1,9 @@
 package com.zavijavasoft.yafina.model
 
+import io.reactivex.Single
 
 interface CurrencyMonitor {
-    fun pull(): List<CurrencyExchangeRatio>
+    fun pull(): Single<List<CurrencyExchangeRatio>>
 }
 
 

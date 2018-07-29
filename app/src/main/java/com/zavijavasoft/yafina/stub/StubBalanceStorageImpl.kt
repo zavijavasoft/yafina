@@ -2,8 +2,8 @@ package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.BalanceEntity
 import com.zavijavasoft.yafina.model.BalanceStorage
-import rx.Completable
-import rx.Single
+import io.reactivex.Completable
+import io.reactivex.Single
 import java.util.*
 
 class StubBalanceStorageImpl : BalanceStorage {

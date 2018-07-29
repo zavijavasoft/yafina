@@ -1,8 +1,8 @@
 package com.zavijavasoft.yafina.model
 
 import com.zavijavasoft.yafina.utils.roundSum
-import rx.Observable
-import rx.Single
+import io.reactivex.Flowable
+import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
@@ -41,31 +41,40 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return transactions.filter(filter)
     }
 
-    override fun retrieveTransactions() {
+    override fun retrieveTransactions(): Single<List<TransactionInfo>> {
         _transactions = transactionsStorage.findAll()
+        return Single.just(_transactions)
     }
 
 
-    override fun calculateTotalBalance(): Observable<BalanceEntity> {
+    override fun calculateTotalBalance(): Flowable<BalanceEntity> {
 
 
         val initialBalance = balanceStorage.getBalance()
-        val calculatedBalance = Single.fromCallable<BalanceEntity> {
+        val calculatedBalance: Single<BalanceEntity> = Single.fromCallable<BalanceEntity> {
             val newBalance = calculateAll()
             balanceStorage.setBalance(newBalance)
             newBalance
         }
 
+
         return initialBalance.concatWith(calculatedBalance)
     }
 
     private fun calculateAll(): BalanceEntity {
-        retrieveTransactions()
+        updateArticlesAndAccounts()
         val listCur = currencyRatios.map { it -> it.currencyFrom }.distinct()
+        val exchangeList = currencyRatios.filter { it -> it.currencyFrom == "RUR" }
         val map = mutableMapOf<String, Float>()
+        val saldo = calculateBalance("RUR", transactions)
+        map["RUR"] = saldo
         for (cur in listCur) {
-            val saldo = calculateBalance(cur, transactions)
-            map[cur] = saldo
+            if (cur == "RUR") continue
+            val exchange = exchangeList.find { it -> it.currencyTo == cur }
+            if (exchange != null) {
+                val payment = saldo * exchange.ratio
+                map[cur] = payment.roundSum()
+            }
         }
 
         return BalanceEntity(map.toMap(), Date())
@@ -74,7 +83,6 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
     override fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float {
         val conv = currencyRatios.filter { it -> it.currencyTo == currency }
-        updateArticlesAndAccounts()
 
         var sum = 0f
         for (t in transactionsList) {
@@ -96,21 +104,21 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return sum.roundSum()
     }
 
-    private fun updateArticlesAndAccounts() {
-        val accountlist = accountsStorage.getAccounts().toBlocking()
-        for (account in accountlist.value()) {
+    fun updateArticlesAndAccounts() {
+        val accountlist = accountsStorage.getAccounts().blockingGet()
+        for (account in accountlist) {
             accounts[account.id] = account
         }
 
-        val articlelist = articlesStorage.getArticles().toBlocking()
-        for (article in articlelist.value()) {
+        val articlelist = articlesStorage.getArticles().blockingGet()
+        for (article in articlelist) {
             articles[article.articleId] = article
         }
     }
 
-    override fun listCurrenciesInAccounts(): List<String> {
+    override fun listCurrenciesInAccounts(): Single<List<String>> {
         updateArticlesAndAccounts()
-        return accounts.values.asSequence().map { it.currency }.distinct().toList()
+        return Single.just(accounts.values.asSequence().map { it.currency }.distinct().toList())
     }
 
     override fun getArticlesList(): Single<List<ArticleEntity>> {

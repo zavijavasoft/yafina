@@ -2,7 +2,7 @@ package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.AccountsStorage
-import rx.Single
+import io.reactivex.Single
 import java.io.InvalidObjectException
 
 class StubAccountsStorageImpl : AccountsStorage {

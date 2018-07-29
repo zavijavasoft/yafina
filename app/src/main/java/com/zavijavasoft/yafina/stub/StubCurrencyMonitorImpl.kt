@@ -3,13 +3,14 @@ package com.zavijavasoft.yafina.stub
 import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
 import com.zavijavasoft.yafina.model.CurrencyMonitor
 import com.zavijavasoft.yafina.model.CurrencyStorage
+import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
 
 class StubCurrencyStorageImpl : CurrencyStorage {
     override fun getCurrencyList(): List<String> {
-        return listOf("USD", "RUR")
+        return listOf("USD", "RUR", "KZT", "EUR")
     }
 
     override fun addCurrency(currency: String) {
@@ -35,8 +36,8 @@ class StubCurrencyMonitorImpl @Inject constructor(val currencyStorage: CurrencyS
     }
 
 
-    override fun pull(): List<CurrencyExchangeRatio> {
-        return ratios
+    override fun pull(): Single<List<CurrencyExchangeRatio>> {
+        return Single.just(ratios)
     }
 }
 

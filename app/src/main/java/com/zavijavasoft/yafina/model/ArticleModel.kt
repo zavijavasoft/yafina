@@ -1,6 +1,6 @@
 package com.zavijavasoft.yafina.model
 
-import rx.Single
+import io.reactivex.Single
 
 
 enum class ArticleType {

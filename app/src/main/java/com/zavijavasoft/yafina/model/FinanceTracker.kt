@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina.model
 
-import rx.Observable
-import rx.Single
+import io.reactivex.Flowable
+import io.reactivex.Single
 
 interface FinanceTracker {
     val transactions: List<TransactionInfo>
@@ -9,11 +9,11 @@ interface FinanceTracker {
     fun addTransaction(transaction: TransactionInfo)
     fun removeTransaction(transactionId: Long)
     fun updateTransaction(transaction: TransactionInfo)
-    fun retrieveTransactions()
+    fun retrieveTransactions(): Single<List<TransactionInfo>>
     fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): List<TransactionInfo>
-    fun calculateTotalBalance(): Observable<BalanceEntity>
+    fun calculateTotalBalance(): Flowable<BalanceEntity>
     fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float
-    fun listCurrenciesInAccounts(): List<String>
+    fun listCurrenciesInAccounts(): Single<List<String>>
 
     fun getArticlesList(): Single<List<ArticleEntity>>
     fun getAccountsList(): Single<List<AccountEntity>>

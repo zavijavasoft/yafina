@@ -1,7 +1,7 @@
 package com.zavijavasoft.yafina.model
 
-import rx.Completable
-import rx.Single
+import io.reactivex.Completable
+import io.reactivex.Single
 import java.util.*
 
 data class BalanceEntity(val balance: Map<String, Float>, val lastUpdated: Date) {
