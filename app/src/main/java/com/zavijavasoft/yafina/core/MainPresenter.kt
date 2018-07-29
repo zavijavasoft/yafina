@@ -5,4 +5,5 @@ interface MainPresenter {
     fun showTransactionsListView()
     fun showSettingsView()
     fun showAboutView()
+    fun showOperationView()
 }

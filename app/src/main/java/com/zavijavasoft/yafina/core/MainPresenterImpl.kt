@@ -2,8 +2,8 @@ package com.zavijavasoft.yafina.core
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.zavijavasoft.yafina.ui.MainView
 import com.zavijavasoft.yafina.ui.MainTabs
+import com.zavijavasoft.yafina.ui.MainView
 
 
 @InjectViewState
@@ -22,5 +22,9 @@ class MainPresenterImpl : MvpPresenter<MainView>(), MainPresenter {
 
     override fun showAboutView() {
         viewState.switchNewTab(MainTabs.ABOUT)
+    }
+
+    override fun showOperationView() {
+        viewState.switchNewTab(MainTabs.OPERATION)
     }
 }

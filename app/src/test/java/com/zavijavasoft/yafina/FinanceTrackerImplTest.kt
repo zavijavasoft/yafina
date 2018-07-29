@@ -33,6 +33,13 @@ class FinanceTrackerImplTest {
     }
 
 
+    @Test
+    fun testRxRestsGetter() {
+        val map = tracker.getRests().toBlocking().value()
+        assertEquals(6, map.keys.size)
+        assertEquals(100.0f, map[6])
+    }
+
     //@Test
     fun testBalanceInDollarsFirst() {
         tracker.currencyRatios = currencyMonitor.ratios

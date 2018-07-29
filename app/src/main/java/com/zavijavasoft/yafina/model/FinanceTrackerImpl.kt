@@ -113,4 +113,29 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return accounts.values.asSequence().map { it.currency }.distinct().toList()
     }
 
+    override fun getArticlesList(): Single<List<ArticleEntity>> {
+        return articlesStorage.getArticles()
+    }
+
+    override fun getAccountsList(): Single<List<AccountEntity>> {
+        return accountsStorage.getAccounts()
+    }
+
+    override fun getRests(): Single<Map<Long, Float>> {
+
+        return Single.fromCallable<Map<Long, Float>> {
+
+            retrieveTransactions()
+            updateArticlesAndAccounts()
+
+            val map = mutableMapOf<Long, Float>()
+
+            for (id in accounts.keys) {
+                val sums = _transactions.asSequence()
+                        .filter { it -> it.accountId == id }.map { it.sum }.toList()
+                map[id] = sums.sum().roundSum()
+            }
+            map
+        }
+    }
 }

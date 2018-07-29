@@ -5,6 +5,7 @@ import com.arellomobile.mvp.MvpView
 enum class MainTabs {
     BALANCE,
     TRANSACTIONS_LIST,
+    OPERATION,
     SETTINGS,
     ABOUT
 }

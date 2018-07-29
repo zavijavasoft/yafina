@@ -17,14 +17,15 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
     @BindView(R.id.image_button_balance)
     lateinit var buttonBalance: ImageButton
 
-    // @BindView(R.id.image_button_transactions)
-    lateinit var buttonTransacionsList: ImageButton
+    @BindView(R.id.image_button_transactions)
+    lateinit var buttonTransactionsList: ImageButton
 
     @BindView(R.id.image_button_settings)
     lateinit var buttonSettings: ImageButton
 
     @BindView(R.id.image_button_about)
     lateinit var buttonAbout: ImageButton
+
 
     @InjectPresenter
     lateinit var mainPresenter: MainPresenterImpl
@@ -39,7 +40,6 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance)
 
@@ -79,6 +79,20 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
 
             }
         }
+
+        buttonTransactionsList.setOnClickListener {
+            val fragment = supportFragmentManager
+                    .findFragmentByTag(OperationFragment.TAG_YAFINA_OPERATION_FRAGMENT)
+            if (fragment == null) {
+                val operationFragment = OperationFragment.getInstance()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.balance_container, operationFragment,
+                                OperationFragment.TAG_YAFINA_OPERATION_FRAGMENT)
+                        .commit()
+
+            }
+        }
+
 
         buttonSettings.setOnClickListener {
             val fragment = supportFragmentManager
