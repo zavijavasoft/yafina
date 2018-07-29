@@ -2,7 +2,11 @@ package com.zavijavasoft.yafina.di
 
 import android.support.annotation.NonNull
 import com.zavijavasoft.yafina.model.*
-import com.zavijavasoft.yafina.stub.*
+import com.zavijavasoft.yafina.services.CbrCurrencyMonitorImpl
+import com.zavijavasoft.yafina.stub.StubAccountsStorageImpl
+import com.zavijavasoft.yafina.stub.StubArticlesStorageImpl
+import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
+import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,7 +19,7 @@ typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
 
 
 typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
-typealias ConcreteCurrencyMonitorImpl = StubCurrencyMonitorImpl
+typealias ConcreteCurrencyMonitorImpl = CbrCurrencyMonitorImpl
 typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
 typealias ConcreteArticleStorageImpl = StubArticlesStorageImpl
 typealias ConcreteAccountsStorageImpl = StubAccountsStorageImpl
