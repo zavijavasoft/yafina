@@ -132,10 +132,12 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
             for (id in accounts.keys) {
                 val sums = _transactions.asSequence()
-                        .filter { it -> it.accountId == id }.map { it.sum }.toList()
+                        .filter { it -> it.accountId == id }
+                        .map { it.sum * if (articles[it.article]?.type == ArticleType.INCOME) 1 else -1 }
+                        .toList()
                 map[id] = sums.sum().roundSum()
             }
-            map
+            /*lambda return*/map
         }
     }
 }
