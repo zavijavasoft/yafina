@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/balance_fragment_layout"
     android:layout_width="match_parent"
@@ -19,47 +16,18 @@
         android:text="@string/balance_title"
         android:textAlignment="center"
         android:textColor="@color/colorYaYellow"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@id/balance_rur"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        android:textSize="24sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/balance_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/balance_rur"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:id="@+id/chart_placeholder"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="@string/rur_default_balance"
-        android:textColor="@color/colorYaYellow"
-
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@id/balance_usd"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
-
-    <TextView
-        android:id="@+id/balance_usd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/usd_default_balance"
-        android:textColor="@color/colorYaYellow"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        android:layout_gravity="center" />
 
     <ImageButton
         android:id="@+id/balance_update"
@@ -69,8 +37,5 @@
         android:layout_marginTop="50dp"
         android:background="@color/colorYaRed"
         android:gravity="center"
-        android:src="@drawable/ic_action_cup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/balance_usd" />
+        android:src="@drawable/ic_action_cup" />
 </LinearLayout>

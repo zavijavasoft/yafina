@@ -7,8 +7,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -19,6 +19,8 @@ import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.core.BalancePresenterImpl
 import com.zavijavasoft.yafina.model.BalanceChunk
+import com.zavijavasoft.yafina.utils.CharteeGraphicView
+import com.zavijavasoft.yafina.utils.ColorSelector
 import javax.inject.Inject
 
 
@@ -48,15 +50,13 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         return presenter
     }
 
-    @BindView(R.id.balance_rur)
-    lateinit var rurSummary: TextView
-
-    @BindView(R.id.balance_usd)
-    lateinit var usdSummary: TextView
-
     @BindView(R.id.balance_update)
     lateinit var buttonUpdate: ImageButton
 
+    @BindView(R.id.chart_placeholder)
+    lateinit var chartPlaceholder: FrameLayout
+
+    lateinit var chartee: CharteeGraphicView
 
     @BindView(R.id.balance_recyclerview)
     lateinit var recyclerView: RecyclerView
@@ -87,6 +87,9 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         }
 
 
+        chartee = CharteeGraphicView(appContext)
+        chartPlaceholder.addView(chartee)
+
         return view
     }
 
@@ -100,15 +103,15 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         presenter.needUpdate()
     }
 
-    override fun displayBalance(currency: String, sum: Float) {
-
-        when (currency) {
-            "USD" -> usdSummary.text = String.format("%.2f %s", sum, currency)
-            "RUR" -> rurSummary.text = String.format("%.2f %s", sum, currency)
-        }
-    }
-
     override fun update(balances: List<BalanceChunk>) {
+
         adapter.update(balances)
+
+        // код ниже не несет никакого практического смысла и нужен лишь для отрисовки пробного чарта
+        val sum = balances.map { it.sum }.sum()
+        val arrayValues = Array(balances.size) { balances[it].sum / sum }
+        val colors = Array(balances.size) { ColorSelector.getColorByLeadingLetter(balances[it].currency[0]) }
+        chartee.update(values = arrayValues.toFloatArray(), colors = colors.toIntArray())
+
     }
 }
