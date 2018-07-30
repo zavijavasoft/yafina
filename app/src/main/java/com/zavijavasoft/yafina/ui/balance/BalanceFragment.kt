@@ -2,6 +2,8 @@ package com.zavijavasoft.yafina.ui.balance
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.core.BalancePresenterImpl
+import com.zavijavasoft.yafina.model.BalanceChunk
 import javax.inject.Inject
 
 
@@ -31,6 +34,9 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
             return fragment
         }
     }
+
+    @Inject
+    lateinit var appContext: Context
 
 
     @Inject
@@ -52,6 +58,11 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
     lateinit var buttonUpdate: ImageButton
 
 
+    @BindView(R.id.balance_recyclerview)
+    lateinit var recyclerView: RecyclerView
+
+    lateinit var adapter: BalanceAdapter
+
     lateinit var unbinder: Unbinder
 
     override fun onAttach(context: Context?) {
@@ -66,8 +77,13 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         unbinder = ButterKnife.bind(this, view)
 
 
+        adapter = BalanceAdapter(listOf(), appContext, presenter)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)
+
+
         buttonUpdate.setOnClickListener {
-            presenter.update()
+            presenter.needUpdate()
         }
 
 
@@ -81,13 +97,18 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
     override fun onResume() {
         super.onResume()
-        presenter.update()
+        presenter.needUpdate()
     }
 
     override fun displayBalance(currency: String, sum: Float) {
+
         when (currency) {
             "USD" -> usdSummary.text = String.format("%.2f %s", sum, currency)
             "RUR" -> rurSummary.text = String.format("%.2f %s", sum, currency)
         }
+    }
+
+    override fun update(balances: List<BalanceChunk>) {
+        adapter.update(balances)
     }
 }

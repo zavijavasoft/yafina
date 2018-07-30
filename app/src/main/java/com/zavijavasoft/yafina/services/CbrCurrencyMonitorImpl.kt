@@ -3,7 +3,6 @@ package com.zavijavasoft.yafina.services
 import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
 import com.zavijavasoft.yafina.model.CurrencyMonitor
 import com.zavijavasoft.yafina.model.CurrencyStorage
-import com.zavijavasoft.yafina.utils.roundSum
 import io.reactivex.Single
 import okhttp3.OkHttpClient
 import org.simpleframework.xml.Attribute
@@ -93,9 +92,9 @@ class CbrCurrencyMonitorImpl @Inject constructor(private val currencyStorage: Cu
                     val value = (valute.value ?: "1.0").replace(",", ".").toFloat()
                     val charCode = valute.charCode ?: "UNK"
                     listOut.add(CurrencyExchangeRatio(charCode, "RUR",
-                            (value / nominal).roundSum(), Date()))
+                            (value / nominal), Date()))
                     listOut.add(CurrencyExchangeRatio("RUR", charCode,
-                            (nominal / value).roundSum(), Date()))
+                            (nominal / value), Date()))
                 }
             }
 

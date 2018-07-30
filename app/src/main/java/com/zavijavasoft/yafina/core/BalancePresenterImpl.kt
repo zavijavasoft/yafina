@@ -2,10 +2,7 @@ package com.zavijavasoft.yafina.core
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
-import com.zavijavasoft.yafina.model.CurrencyMonitor
-import com.zavijavasoft.yafina.model.FinanceTracker
-import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.model.*
 import com.zavijavasoft.yafina.ui.balance.BalanceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +16,7 @@ class BalancePresenterImpl @Inject constructor(private val tracker: FinanceTrack
     : MvpPresenter<BalanceView>(), BalancePresenter {
 
 
-    override fun update() {
+    override fun needUpdate() {
         val currencyRatios = currencyMonitor.pull()
         val transactions = tracker.retrieveTransactions()
         Single.zip(currencyRatios, transactions,
@@ -32,11 +29,12 @@ class BalancePresenterImpl @Inject constructor(private val tracker: FinanceTrack
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { it ->
                     it.subscribe {
-                        val currenciesUsed = tracker.listCurrenciesInAccounts().blockingGet()
-                        val currenciesToDisplay = it.balance.filter { it.key in currenciesUsed }.map { it.key }
-                        for (s in currenciesToDisplay) {
-                            viewState.displayBalance(s, it.balance[s] ?: 0f)
+                        val list = mutableListOf<BalanceChunk>()
+                        for (currency in it.balance.keys) {
+                            list.add(BalanceChunk(currency = currency, sum = it.balance[currency]
+                                    ?: 0.0f, lastUpdated = it.lastUpdated))
                         }
+                        viewState.update(list)
                     }
                 }
     }

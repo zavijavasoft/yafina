@@ -4,6 +4,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import java.util.*
 
+data class BalanceChunk(val currency: String, val sum: Float, val lastUpdated: Date)
+
 data class BalanceEntity(val balance: Map<String, Float>, val lastUpdated: Date) {
     companion object {
         fun getInstance(currencyString: String, valuesString: String, lastUpdated: Date): BalanceEntity {
