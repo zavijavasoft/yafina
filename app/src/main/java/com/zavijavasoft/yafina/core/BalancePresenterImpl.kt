@@ -30,7 +30,7 @@ class BalancePresenterImpl @Inject constructor(private val tracker: FinanceTrack
 
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
+                .subscribe { it ->
                     it.subscribe {
                         val currenciesUsed = tracker.listCurrenciesInAccounts().blockingGet()
                         val currenciesToDisplay = it.balance.filter { it.key in currenciesUsed }.map { it.key }
@@ -38,6 +38,6 @@ class BalancePresenterImpl @Inject constructor(private val tracker: FinanceTrack
                             viewState.displayBalance(s, it.balance[s] ?: 0f)
                         }
                     }
-                }) {}
+                }
     }
 }

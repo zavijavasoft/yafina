@@ -1,15 +1,16 @@
 package com.zavijavasoft.yafina.stub
 
-import com.zavijavasoft.yafina.model.ArticleEntity
-import com.zavijavasoft.yafina.model.ArticleType
-import com.zavijavasoft.yafina.model.ArticlesStorage
+import com.zavijavasoft.yafina.model.*
 import io.reactivex.Single
 import java.io.InvalidObjectException
+
 
 class StubArticlesStorageImpl : ArticlesStorage {
     val list = mutableListOf<ArticleEntity>()
 
     init {
+        list.add(ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME, "Скрытая (входящий для переводов между счетами)", ""))
+        list.add(ArticleEntity(ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID, ArticleType.OUTCOME, "Скрытая (исходящая для переводов между счетами)", ""))
         list.add(ArticleEntity(1, ArticleType.OUTCOME, "Продукты", "То, что едят"))
         list.add(ArticleEntity(2, ArticleType.OUTCOME, "Одежда", "То, что надевают"))
         list.add(ArticleEntity(3, ArticleType.OUTCOME, "Выплаты по кредиту", "Отдавать свои кровные"))

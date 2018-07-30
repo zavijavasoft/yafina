@@ -1,9 +1,9 @@
 package com.zavijavasoft.yafina.core
 
-import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.ui.operation.TransactionRequest
 
 interface OperationPresenter {
-    fun acceptOperation(transaction: TransactionInfo)
+    fun acceptOperation(request: TransactionRequest)
     fun cancelOperation()
     fun needUpdate()
 

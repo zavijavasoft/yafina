@@ -46,16 +46,9 @@ class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Con
                     dragView.visibility = View.VISIBLE
                 }
                 DragEvent.ACTION_DROP -> if (isDragging) {
-                    val parentView = dragView.parent
-                    if (parentView is RecyclerView) {
-                        val accountId = view.tag as Long
-                        val sourceId = dragView.tag as Long
-                        if (parentView.tag as String == ACCOUNTS_RECYCLER_VIEW_TAG) {
-                            presenter.requireTransitionTransaction(sourceId, accountId)
-                        } else {
-                            presenter.requireIncomeTransaction(sourceId, accountId)
-                        }
-                    }
+                    val articleId = view.tag as Long
+                    val accountId = dragView.tag as Long
+                    presenter.requireOutcomeTransaction(articleId, accountId)
                     dragView.visibility = View.VISIBLE
                 }
             }
@@ -133,9 +126,18 @@ class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Con
                     dragView.visibility = View.VISIBLE
                 }
                 DragEvent.ACTION_DROP -> if (isDragging) {
-                    val articleId = view.tag as Long
-                    val accountId = dragView.tag as Long
-                    presenter.requireOutcomeTransaction(articleId, accountId)
+
+
+                    val parentView = dragView.parent
+                    if (parentView is RecyclerView) {
+                        val accountId = view.tag as Long
+                        val sourceId = dragView.tag as Long
+                        if (parentView.tag as String == ACCOUNTS_RECYCLER_VIEW_TAG) {
+                            presenter.requireTransitionTransaction(sourceId, accountId)
+                        } else {
+                            presenter.requireIncomeTransaction(sourceId, accountId)
+                        }
+                    }
                     dragView.visibility = View.VISIBLE
                 }
             }

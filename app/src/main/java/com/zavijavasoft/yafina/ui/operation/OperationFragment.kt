@@ -2,6 +2,7 @@ package com.zavijavasoft.yafina.ui.operation
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -21,6 +22,7 @@ import com.zavijavasoft.yafina.core.OperationPresenterImpl
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.ArticleType
+import com.zavijavasoft.yafina.ui.OpenTransactionActivity
 import com.zavijavasoft.yafina.utils.ColorSelector
 import javax.inject.Inject
 
@@ -143,7 +145,26 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
     }
 
     override fun notifyInsufficientMoney(accountTitle: String, sumExists: String, sumRequired: String) {
-        val notification = getString(R.string.not_enough_money_notification, accountTitle, sumExists, sumRequired)
-        Toast.makeText(context, notification, 2)
+        if (sumRequired.isEmpty())
+            Toast.makeText(context, getString(R.string.zero_money_notification, accountTitle, sumExists), Toast.LENGTH_LONG)
+        else
+            Toast.makeText(context, getString(R.string.not_enough_money_notification, accountTitle, sumExists, sumRequired), Toast.LENGTH_LONG)
+    }
+
+    override fun requireTransaction(request: TransactionRequest) {
+        val intent = Intent(context, OpenTransactionActivity::class.java)
+        intent.putExtra(TRANSACTION_REQUEST_TAG, request)
+        startActivityForResult(intent, 1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data != null) {
+            if (resultCode == OpenTransactionActivity.TRANSACTION_ACCEPTED) {
+                val request: TransactionRequest = data.getParcelableExtra(TRANSACTION_REQUEST_TAG)
+                presenter.acceptOperation(request)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+
     }
 }

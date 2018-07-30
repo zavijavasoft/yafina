@@ -53,7 +53,7 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         val initialBalance = balanceStorage.getBalance()
         val calculatedBalance: Single<BalanceEntity> = Single.fromCallable<BalanceEntity> {
             val newBalance = calculateAll()
-            balanceStorage.setBalance(newBalance)
+            balanceStorage.setBalance(newBalance).subscribe()
             newBalance
         }
 

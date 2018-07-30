@@ -3,6 +3,9 @@ package com.zavijavasoft.yafina.model
 import io.reactivex.Single
 
 
+const val ARTICLE_INCOME_TRANSITION_SPECIAL_ID = -1L
+const val ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID = -2L
+
 enum class ArticleType {
     INCOME,
     OUTCOME
