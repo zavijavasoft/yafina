@@ -28,6 +28,7 @@ object ColorSelector {
         return Color.parseColor(mColors[x])
     }
 
+
     val randomColor: Int
         get() {
             val color: String

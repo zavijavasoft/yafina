@@ -2,6 +2,7 @@ package com.zavijavasoft.yafina.ui
 
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.widget.ImageButton
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -13,12 +14,17 @@ import com.zavijavasoft.yafina.core.MainPresenterImpl
 import com.zavijavasoft.yafina.ui.balance.BalanceFragment
 import com.zavijavasoft.yafina.ui.operation.OperationFragment
 import com.zavijavasoft.yafina.ui.settings.SettingsFragment
+import com.zavijavasoft.yafina.ui.transactions.TransactionsFragment
 
 class YaFinaActivity : MvpAppCompatActivity(), MainView {
 
 
     @BindView(R.id.image_button_balance)
     lateinit var buttonBalance: ImageButton
+
+    @BindView(R.id.image_button_operation)
+    lateinit var buttonOperation: ImageButton
+
 
     @BindView(R.id.image_button_transactions)
     lateinit var buttonTransactionsList: ImageButton
@@ -37,9 +43,6 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
     lateinit var unbinder: Unbinder
 
     var tabState: MainTabs = MainTabs.BALANCE
-
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,8 +71,28 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
         super.onDestroy()
     }
 
+
+    private fun initSingleNavigationButton(imageButton: ImageButton, tag: String, newFragment: Fragment) {
+        imageButton.setOnClickListener {
+            val fragment = supportFragmentManager
+                    .findFragmentByTag(tag)
+            if (fragment == null) {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.balance_container, newFragment, tag)
+                        .commit()
+
+            }
+        }
+    }
+
     private fun initNavigationButtons() {
 
+        initSingleNavigationButton(buttonBalance, BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT, BalanceFragment.getInstance())
+        initSingleNavigationButton(buttonOperation, OperationFragment.TAG_YAFINA_OPERATION_FRAGMENT, OperationFragment.getInstance())
+        initSingleNavigationButton(buttonTransactionsList, TransactionsFragment.TAG_YAFINA_TRANSACTION_FRAGMENT, TransactionsFragment.getInstance())
+        initSingleNavigationButton(buttonSettings, SettingsFragment.TAG_YAFINA_SETTINGS_FRAGMENT, SettingsFragment.getInstance())
+        initSingleNavigationButton(buttonAbout, AboutFragment.TAG_YAFINA_ABOUT_FRAGMENT, AboutFragment.getInstance())
+        /*
         buttonBalance.setOnClickListener {
             val fragment = supportFragmentManager
                     .findFragmentByTag(BalanceFragment.TAG_YAFINA_BALANCE_FRAGMENT)
@@ -84,6 +107,18 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
         }
 
         buttonTransactionsList.setOnClickListener {
+            val fragment = supportFragmentManager
+                    .findFragmentByTag(TransactionsFragment.TAG_YAFINA_TRANSACTION_FRAGMENT)
+            if (fragment == null) {
+                val transactionFragment = TransactionsFragment.getInstance()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.balance_container, transactionFragment,
+                                TransactionsFragment.TAG_YAFINA_TRANSACTION_FRAGMENT)
+                        .commit()
+            }
+        }
+
+        buttonOperation.setOnClickListener {
             val fragment = supportFragmentManager
                     .findFragmentByTag(OperationFragment.TAG_YAFINA_OPERATION_FRAGMENT)
             if (fragment == null) {
@@ -118,12 +153,13 @@ class YaFinaActivity : MvpAppCompatActivity(), MainView {
                 val aboutFragment = AboutFragment.getInstance()
 
                 supportFragmentManager.beginTransaction()
-                .replace(R.id.balance_container, aboutFragment,
-                        AboutFragment.TAG_YAFINA_ABOUT_FRAGMENT)
-                .commit()
+                        .replace(R.id.balance_container, aboutFragment,
+                                AboutFragment.TAG_YAFINA_ABOUT_FRAGMENT)
+                        .commit()
 
             }
         }
+        */
     }
 
     override fun switchNewTab(tab: MainTabs) {

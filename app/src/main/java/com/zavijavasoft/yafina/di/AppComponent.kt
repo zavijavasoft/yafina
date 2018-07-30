@@ -6,6 +6,7 @@ import com.zavijavasoft.yafina.model.SharedPrefBalanceStorageImpl
 import com.zavijavasoft.yafina.ui.balance.BalanceFragment
 import com.zavijavasoft.yafina.ui.operation.OperationFragment
 import com.zavijavasoft.yafina.ui.settings.SettingsFragment
+import com.zavijavasoft.yafina.ui.transactions.TransactionsFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -30,6 +31,7 @@ interface AppComponent {
     fun inject(fragment: BalanceFragment)
     fun inject(fragment: SettingsFragment)
     fun inject(fragment: OperationFragment)
+    fun inject(fragment: TransactionsFragment)
 
     fun inject(sharedPrefBalanceStorageImpl: SharedPrefBalanceStorageImpl)
 }
