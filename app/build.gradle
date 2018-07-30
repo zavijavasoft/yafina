@@ -21,8 +21,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
+
+androidExtensions {
+    experimental = true
+}
+
+kotlin {
+
+    experimental {
+        coroutines 'enable'
+
+    }
+}
 
 def depVersions = [
         support         : '27.1.1',
@@ -54,6 +67,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:${depVersions.dagger}"
     implementation "com.android.support:support-v4:${depVersions.support}"
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     kapt "com.google.dagger:dagger-android-processor:${depVersions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${depVersions.dagger}"
 
