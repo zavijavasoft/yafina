@@ -2,7 +2,6 @@ package com.zavijavasoft.yafina.di
 
 import android.content.Context
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.model.SharedPrefBalanceStorageImpl
 import com.zavijavasoft.yafina.ui.balance.BalanceFragment
 import com.zavijavasoft.yafina.ui.operation.OperationFragment
 import com.zavijavasoft.yafina.ui.settings.SettingsFragment
@@ -33,5 +32,4 @@ interface AppComponent {
     fun inject(fragment: OperationFragment)
     fun inject(fragment: TransactionsFragment)
 
-    fun inject(sharedPrefBalanceStorageImpl: SharedPrefBalanceStorageImpl)
 }

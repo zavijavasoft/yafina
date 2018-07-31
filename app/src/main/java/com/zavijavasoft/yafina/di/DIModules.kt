@@ -24,9 +24,8 @@ typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
 typealias ConcreteArticleStorageImpl = StubArticlesStorageImpl
 typealias ConcreteAccountsStorageImpl = StubAccountsStorageImpl
 
-@Module(includes = [(AndroidSupportInjectionModule::class),
-    (CurrencyStorageModule::class), (TransactionsStorageModule::class), (BalanceStorageModule::class),
-    (ArticlesStorageModule::class), (AccountsStorageModule::class)])
+@Module(includes = [(AndroidSupportInjectionModule::class), (AccountsStorageModule::class), (ArticlesStorageModule::class),
+    (CurrencyStorageModule::class), (TransactionsStorageModule::class)])
 interface AppModule {
 
     @Singleton
@@ -39,6 +38,10 @@ interface AppModule {
     @NonNull
     fun newCurrencyMonitor(currencyMonitor: ConcreteCurrencyMonitorImpl): CurrencyMonitor
 
+    @Singleton
+    @Binds
+    @NonNull
+    fun getBalanceStorage(balanceStorage: ConcreteBalanceStorageImpl): BalanceStorage
 
 }
 
@@ -67,15 +70,6 @@ class TransactionsStorageModule {
 
 }
 
-@Module
-class BalanceStorageModule {
-    @Singleton
-    @Provides
-    @NonNull
-    fun getBalanceStorage(): BalanceStorage {
-        return ConcreteBalanceStorageImpl()
-    }
-}
 
 @Module
 class ArticlesStorageModule {

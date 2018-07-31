@@ -2,14 +2,13 @@ package com.zavijavasoft.yafina.model
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.zavijavasoft.yafina.YaFinaApplication
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
 
-class SharedPrefBalanceStorageImpl : BalanceStorage {
+class SharedPrefBalanceStorageImpl @Inject constructor(val context: Context) : BalanceStorage {
 
     companion object {
         const val SHARED_PREF_BALANCE_LASTUPDATED_KEY = "SHARED_PREF_BALANCE_LASTUPDATED_KEY"
@@ -17,13 +16,6 @@ class SharedPrefBalanceStorageImpl : BalanceStorage {
         const val SHARED_PREF_BALANCE_VALUES_KEY = "SHARED_PREF_BALANCE_VALUES_KEY"
     }
 
-
-    @Inject
-    lateinit var context: Context
-
-    init {
-        YaFinaApplication.component.inject(this)
-    }
 
     override fun getBalance(): Single<BalanceEntity> {
         return Single.create<BalanceEntity> {
