@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack"
+    android:orientation="vertical"
+    tools:context=".ui.OpenTransactionActivity">
+
+    <TextView
+        android:id="@+id/enter_sum_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="120dp"
+        android:text="@string/enter_sum_prompt"
+        android:textAlignment="center"
+        android:textColor="@color/colorYaYellow"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/enter_sum_editor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:labelFor="@id/enter_sum_title"
+            android:paddingEnd="10dp"
+            android:paddingStart="20dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorYaYellow"
+            android:textColorHint="@color/colorYaYellow"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/entered_sum_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RUR"
+            android:textAlignment="center"
+            android:textColor="@color/colorYaYellow"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/entered_sum_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="RUR"
+        android:textAlignment="center"
+        android:textColor="@color/colorYaYellow"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_confirm_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
+            android:text="@string/button_title_ok"
+            android:textColor="@color/colorYaYellow" />
+
+        <Button
+            android:id="@+id/button_cancel_transaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
+            android:text="@string/button_title_cancel"
+            android:textColor="@color/colorYaYellow" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,7 +2,9 @@ package com.zavijavasoft.yafina.di
 
 import android.support.annotation.NonNull
 import com.zavijavasoft.yafina.model.*
-import com.zavijavasoft.yafina.stub.StubCurrencyMonitorImpl
+import com.zavijavasoft.yafina.services.CbrCurrencyMonitorImpl
+import com.zavijavasoft.yafina.stub.StubAccountsStorageImpl
+import com.zavijavasoft.yafina.stub.StubArticlesStorageImpl
 import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
 import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
 import dagger.Binds
@@ -13,11 +15,16 @@ import javax.inject.Singleton
 
 
 typealias ConcreteFinanceTrackerImpl = FinanceTrackerImpl
-typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
-typealias ConcreteCurrencyMonitorImpl = StubCurrencyMonitorImpl
-typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
+typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
 
-@Module(includes = [(AndroidSupportInjectionModule::class),
+
+typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
+typealias ConcreteCurrencyMonitorImpl = CbrCurrencyMonitorImpl
+typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
+typealias ConcreteArticleStorageImpl = StubArticlesStorageImpl
+typealias ConcreteAccountsStorageImpl = StubAccountsStorageImpl
+
+@Module(includes = [(AndroidSupportInjectionModule::class), (AccountsStorageModule::class), (ArticlesStorageModule::class),
     (CurrencyStorageModule::class), (TransactionsStorageModule::class)])
 interface AppModule {
 
@@ -31,6 +38,10 @@ interface AppModule {
     @NonNull
     fun newCurrencyMonitor(currencyMonitor: ConcreteCurrencyMonitorImpl): CurrencyMonitor
 
+    @Singleton
+    @Binds
+    @NonNull
+    fun getBalanceStorage(balanceStorage: ConcreteBalanceStorageImpl): BalanceStorage
 
 }
 
@@ -59,3 +70,23 @@ class TransactionsStorageModule {
 
 }
 
+
+@Module
+class ArticlesStorageModule {
+    @Singleton
+    @Provides
+    @NonNull
+    fun getArticlesStorage(): ArticlesStorage {
+        return ConcreteArticleStorageImpl()
+    }
+}
+
+@Module
+class AccountsStorageModule {
+    @Singleton
+    @Provides
+    @NonNull
+    fun getAccountStorage(): AccountsStorage {
+        return ConcreteAccountsStorageImpl()
+    }
+}

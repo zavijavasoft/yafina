@@ -17,19 +17,33 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
+
+androidExtensions {
+    experimental = true
+}
+
+kotlin {
+
+    experimental {
+        coroutines 'enable'
+
+    }
+}
 
 def depVersions = [
         support         : '27.1.1',
         constraintlayout: '1.1.2',
         dagger          : '2.11',
         moxy            : '1.5.3',
-        butterknife     : '8.8.1'
+        butterknife     : '8.8.1',
+        retrofit        : '2.3.0'
 ]
 
 def depTestVersions = [
@@ -51,7 +65,9 @@ dependencies {
     implementation "com.google.dagger:dagger:${depVersions.dagger}"
     implementation "com.google.dagger:dagger-android:${depVersions.dagger}"
     implementation "com.google.dagger:dagger-android-support:${depVersions.dagger}"
+    implementation "com.android.support:support-v4:${depVersions.support}"
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     kapt "com.google.dagger:dagger-android-processor:${depVersions.dagger}"
     kapt "com.google.dagger:dagger-compiler:${depVersions.dagger}"
 
@@ -64,6 +80,13 @@ dependencies {
     kapt "com.jakewharton:butterknife-compiler:${depVersions.butterknife}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    implementation "com.squareup.retrofit2:retrofit:${depVersions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-simplexml:${depVersions.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${depVersions.retrofit}"
+
+
+    implementation "com.android.support:cardview-v7:${depVersions.support}"
 
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${depTestVersions.espresso}"
     androidTestImplementation "com.android.support.test:runner:${depTestVersions.runner}"

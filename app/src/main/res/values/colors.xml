@@ -6,4 +6,6 @@
     <color name="colorYaYellow">#FFCC00</color>
     <color name="colorYaRed">#E60000</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorAlarm">#FF0000</color>
 </resources>

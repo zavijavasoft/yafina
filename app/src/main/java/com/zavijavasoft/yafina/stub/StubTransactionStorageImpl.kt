@@ -2,7 +2,6 @@ package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.model.TransactionStorage
-import com.zavijavasoft.yafina.model.TransactionType
 import java.util.*
 
 class StubTransactionStorageImpl : TransactionStorage {
@@ -10,31 +9,31 @@ class StubTransactionStorageImpl : TransactionStorage {
     val transactions: List<TransactionInfo>
 
     init {
-        val t1 = TransactionInfo(currency = "RUR", type = TransactionType.INCOME, sum = 100000.0f, article = "Зарплата", datetime = Date())
+        val t1 = TransactionInfo(sum = 100000.0f, article = 5, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t2 = TransactionInfo(currency = "RUR", type = TransactionType.OUTCOME, sum = 50000.0f, article = "Покупка ноутбука", datetime = Date())
+        val t2 = TransactionInfo(sum = 50000.0f, article = 2, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t3 = TransactionInfo(currency = "USD", type = TransactionType.INCOME, sum = 120.0f, article = "Гонорар", datetime = Date())
+        val t3 = TransactionInfo(sum = 120.0f, article = 9, datetime = Date(), accountId = 2)
         Thread.sleep(10)
-        val t4 = TransactionInfo(currency = "USD", type = TransactionType.OUTCOME, sum = 20.0f, article = "Кафешка", datetime = Date())
+        val t4 = TransactionInfo(sum = 20.0f, article = 1, datetime = Date(), accountId = 2)
         Thread.sleep(10)
-        val t5 = TransactionInfo(currency = "USD", type = TransactionType.INCOME, sum = 100.0f, article = "Дивиденды", datetime = Date())
+        val t5 = TransactionInfo(sum = 100.0f, article = 6, datetime = Date(), accountId = 3)
         Thread.sleep(10)
-        val t6 = TransactionInfo(currency = "RUR", type = TransactionType.OUTCOME, sum = 3000.0f, article = "ЖКХ", datetime = Date())
+        val t6 = TransactionInfo(sum = 3000.0f, article = 4, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t7 = TransactionInfo(currency = "USD", type = TransactionType.INCOME, sum = 10.0f, article = "Алименты", datetime = Date())
+        val t7 = TransactionInfo(sum = 10.0f, article = 9, datetime = Date(), accountId = 3)
         Thread.sleep(10)
-        val t8 = TransactionInfo(currency = "USD", type = TransactionType.OUTCOME, sum = 100.0f, article = "Хакая-то фигня с AliExpress", datetime = Date())
+        val t8 = TransactionInfo(sum = 100.0f, article = 8, datetime = Date(), accountId = 6)
         Thread.sleep(10)
-        val t9 = TransactionInfo(currency = "USD", type = TransactionType.OUTCOME, sum = 450f, article = "Тур куда-то", datetime = Date())
+        val t9 = TransactionInfo(sum = 450f, article = 8, datetime = Date(), accountId = 3)
         Thread.sleep(10)
-        val t10 = TransactionInfo(currency = "RUR", type = TransactionType.OUTCOME, sum = 12340.0f, article = "Не помню куда", datetime = Date())
+        val t10 = TransactionInfo(sum = 12340.0f, article = 8, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t11 = TransactionInfo(currency = "RUR", type = TransactionType.INCOME, sum = 10.0f, article = "Продал холодильник", datetime = Date())
+        val t11 = TransactionInfo(sum = 10.0f, article = 9, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t12 = TransactionInfo(currency = "RUR", type = TransactionType.OUTCOME, sum = 10.0f, article = "Прочее", datetime = Date())
+        val t12 = TransactionInfo(sum = 10.0f, article = 8, datetime = Date(), accountId = 1)
         Thread.sleep(10)
-        val t13 = TransactionInfo(currency = "USD", type = TransactionType.INCOME, sum = 10.0f, article = "Нашел на улице", datetime = Date())
+        val t13 = TransactionInfo(sum = 10.0f, article = 9, datetime = Date(), accountId = 2)
 
 
         transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13)

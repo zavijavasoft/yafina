@@ -17,6 +17,7 @@ class YaFinaApplication : android.app.Application() {
         component = DaggerAppComponent
                 .builder()
                 .application(this)
+                .context(this.applicationContext)
                 .build()
 
     }
