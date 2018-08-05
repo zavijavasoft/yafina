@@ -1,10 +1,18 @@
 package com.zavijavasoft.yafina.model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import io.reactivex.Single
 
 
-data class AccountEntity(val id: Long, val currency: String, val name: String, val description: String)
-
+@Entity(tableName = "account")
+data class AccountEntity(
+        @PrimaryKey(autoGenerate = true)
+        val id: Long,
+        val currency: String,
+        val name: String,
+        val description: String
+)
 
 interface AccountsStorage {
     fun getAccounts(): Single<List<AccountEntity>>
