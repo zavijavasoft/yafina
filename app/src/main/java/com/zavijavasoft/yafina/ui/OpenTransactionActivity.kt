@@ -55,7 +55,7 @@ class OpenTransactionActivity : AppCompatActivity() {
 
         sumHintText.text = ""
 
-        if (request.maxSum != Float.NaN)
+        if (!request.maxSum.isNaN())
             sumHintText.text = getString(R.string.max_sum_on_account_hint, request.maxSum, request.currency)
 
 

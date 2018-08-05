@@ -11,6 +11,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -32,8 +34,13 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
                             .filter { it.articleId != ARTICLE_INCOME_TRANSITION_SPECIAL_ID }
                             .filter { it.articleId != ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID }
                             .toList()
-                    viewState.update(restMap, articlesCommon, accountsList)
-                }).subscribe()
+                    Triple(restMap, articlesCommon, accountsList)
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { res ->
+                    viewState.update(res.first, res.second, res.third)
+                }
 
 
     }
@@ -66,7 +73,9 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
 
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe { _ ->
+                    needUpdate()
+                }
     }
 
     override fun cancelOperation() {
@@ -75,7 +84,10 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
 
     override fun requireIncomeTransaction(articleId: Long, accountId: Long) {
 
-        tracker.getAccountsList().subscribe { it ->
+        tracker.getAccountsList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { it ->
             val account = it.find { it.id == accountId }
             if (account != null) {
 
@@ -101,16 +113,22 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
                         val rest = restMap[accountId] ?: 0.0f
                         if (rest <= 0.0f) {
                             val formattedRest = "$rest ${account.currency}"
-                            viewState.notifyInsufficientMoney(account.name, formattedRest, "")
+                            launch (UI) {
+                                viewState.notifyInsufficientMoney(account.name, formattedRest, "")
+                            }
                         } else {
-
-                            viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
-                                    rest, account.currency,
-                                    accountId, -1,
-                                    -1, articleId))
+                            launch (UI) {
+                                viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
+                                        rest, account.currency,
+                                        accountId, -1,
+                                        -1, articleId))
+                            }
                         }
                     }
-                }).subscribe()
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
     }
 
     override fun requireTransitionTransaction(accountFromId: Long, accountToId: Long) {
@@ -126,15 +144,22 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
                         val rest = restMap[accountFromId] ?: 0.0f
                         if (rest <= 0.0f) {
                             val formattedRest = "$rest ${account.currency}"
-                            viewState.notifyInsufficientMoney(account.name, formattedRest, "")
-                        } else {
+                            launch (UI) {
+                                viewState.notifyInsufficientMoney(account.name, formattedRest, "")
+                            }
 
-                            viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
-                                    rest, account.currency,
-                                    accountFromId, accountToId,
-                                    -1, -1))
+                        } else {
+                            launch (UI) {
+                                viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
+                                        rest, account.currency,
+                                        accountFromId, accountToId,
+                                        -1, -1))
+                            }
                         }
                     }
-                }).subscribe()
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
     }
 }

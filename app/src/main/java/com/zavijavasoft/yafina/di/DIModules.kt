@@ -1,12 +1,16 @@
 package com.zavijavasoft.yafina.di
 
 import android.support.annotation.NonNull
+import com.zavijavasoft.yafina.data.AccountsStorageImpl
+import com.zavijavasoft.yafina.data.ArticlesStorageImpl
+import com.zavijavasoft.yafina.data.CurrencyStorageImpl
+import com.zavijavasoft.yafina.data.TransactionStorageImpl
+import com.zavijavasoft.yafina.data.room.dao.AccountDao
+import com.zavijavasoft.yafina.data.room.dao.ArticleDao
+import com.zavijavasoft.yafina.data.room.dao.CurrencyDao
+import com.zavijavasoft.yafina.data.room.dao.TransactionDao
 import com.zavijavasoft.yafina.model.*
 import com.zavijavasoft.yafina.services.CbrCurrencyMonitorImpl
-import com.zavijavasoft.yafina.stub.StubAccountsStorageImpl
-import com.zavijavasoft.yafina.stub.StubArticlesStorageImpl
-import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
-import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -18,13 +22,14 @@ typealias ConcreteFinanceTrackerImpl = FinanceTrackerImpl
 typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
 
 
-typealias ConcreteTransactionStorageImpl = StubTransactionStorageImpl
+typealias ConcreteTransactionStorageImpl = TransactionStorageImpl
 typealias ConcreteCurrencyMonitorImpl = CbrCurrencyMonitorImpl
-typealias ConcreteCurrencyStorageImpl = StubCurrencyStorageImpl
-typealias ConcreteArticleStorageImpl = StubArticlesStorageImpl
-typealias ConcreteAccountsStorageImpl = StubAccountsStorageImpl
+typealias ConcreteCurrencyStorageImpl = CurrencyStorageImpl
+typealias ConcreteArticleStorageImpl = ArticlesStorageImpl
+typealias ConcreteAccountsStorageImpl = AccountsStorageImpl
 
-@Module(includes = [(AndroidSupportInjectionModule::class), (AccountsStorageModule::class), (ArticlesStorageModule::class),
+@Module(includes = [(AndroidSupportInjectionModule::class), (RoomModule::class),
+    (AccountsStorageModule::class), (ArticlesStorageModule::class),
     (CurrencyStorageModule::class), (TransactionsStorageModule::class)])
 interface AppModule {
 
@@ -52,8 +57,8 @@ class CurrencyStorageModule {
     @Singleton
     @Provides
     @NonNull
-    fun getCurrencyStorage(): CurrencyStorage {
-        return ConcreteCurrencyStorageImpl()
+    fun getCurrencyStorage(dao: CurrencyDao): CurrencyStorage {
+        return ConcreteCurrencyStorageImpl(dao)
     }
 
 }
@@ -64,8 +69,8 @@ class TransactionsStorageModule {
     @Singleton
     @Provides
     @NonNull
-    fun getTransactionStorage(): TransactionStorage {
-        return ConcreteTransactionStorageImpl()
+    fun getTransactionStorage(dao: TransactionDao): TransactionStorage {
+        return ConcreteTransactionStorageImpl(dao)
     }
 
 }
@@ -76,8 +81,8 @@ class ArticlesStorageModule {
     @Singleton
     @Provides
     @NonNull
-    fun getArticlesStorage(): ArticlesStorage {
-        return ConcreteArticleStorageImpl()
+    fun getArticlesStorage(dao: ArticleDao): ArticlesStorage {
+        return ConcreteArticleStorageImpl(dao)
     }
 }
 
@@ -86,7 +91,7 @@ class AccountsStorageModule {
     @Singleton
     @Provides
     @NonNull
-    fun getAccountStorage(): AccountsStorage {
-        return ConcreteAccountsStorageImpl()
+    fun getAccountStorage(dao: AccountDao): AccountsStorage {
+        return ConcreteAccountsStorageImpl(dao)
     }
 }

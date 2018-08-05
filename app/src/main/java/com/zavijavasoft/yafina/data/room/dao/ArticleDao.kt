@@ -15,4 +15,7 @@ interface ArticleDao {
 
     @Insert
     fun insertArticle(articleEntity: ArticleEntity)
+
+    @Insert
+    fun insertArticles(vararg articleEntities: ArticleEntity)
 }

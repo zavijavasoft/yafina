@@ -2,6 +2,7 @@ package com.zavijavasoft.yafina.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import io.reactivex.Completable
 import io.reactivex.Single
 
 
@@ -17,4 +18,5 @@ data class AccountEntity(
 interface AccountsStorage {
     fun getAccounts(): Single<List<AccountEntity>>
     fun getAccountById(id: Long): Single<AccountEntity>
+    fun addAccount(account: AccountEntity): Completable
 }

@@ -44,7 +44,8 @@ def depVersions = [
         moxy            : '1.5.3',
         butterknife     : '8.8.1',
         retrofit        : '2.3.0',
-        room            : '1.1.1'
+        room            : '1.1.1',
+        coroutines      : '0.21'
 ]
 
 def depTestVersions = [
@@ -80,7 +81,8 @@ dependencies {
     implementation "com.jakewharton:butterknife:${depVersions.butterknife}"
     kapt "com.jakewharton:butterknife-compiler:${depVersions.butterknife}"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${depVersions.coroutines}"
+
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
     implementation "com.squareup.retrofit2:retrofit:${depVersions.retrofit}"
     implementation "com.squareup.retrofit2:converter-simplexml:${depVersions.retrofit}"

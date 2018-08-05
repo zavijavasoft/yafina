@@ -1,8 +1,11 @@
 package com.zavijavasoft.yafina.model
 
 import com.zavijavasoft.yafina.utils.roundSum
+import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
@@ -25,25 +28,44 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
     val accounts = mutableMapOf<Long, AccountEntity>()
 
     override fun addTransaction(transaction: TransactionInfo) {
-        _transactions = transactionsStorage.add(transaction)
+        transactionsStorage.add(transaction)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
+                    _transactions = data
+                }
     }
 
     override fun removeTransaction(transactionId: Long) {
-        _transactions = transactionsStorage.remove(transactionId)
+        transactionsStorage.remove(transactionId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
+                    _transactions = data
+                }
     }
 
     override fun updateTransaction(transaction: TransactionInfo) {
-        _transactions = transactionsStorage.update(transaction)
+        transactionsStorage.update(transaction)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
+                    _transactions = data
+                }
     }
 
-    override fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): List<TransactionInfo> {
-        _transactions = transactionsStorage.findAll()
-        return transactions.filter(filter)
+    override fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): Single<List<TransactionInfo>> {
+        return Single.fromCallable {
+            _transactions = transactionsStorage.findAll().blockingGet()
+            _transactions.filter(filter)
+        }
     }
 
     override fun retrieveTransactions(): Single<List<TransactionInfo>> {
-        _transactions = transactionsStorage.findAll()
-        return Single.just(_transactions)
+        return transactionsStorage.findAll()
+                .doOnSuccess {
+                    _transactions = it
+                }
     }
 
 
@@ -52,7 +74,7 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
         val initialBalance = balanceStorage.getBalance()
         val calculatedBalance: Single<BalanceEntity> = Single.fromCallable<BalanceEntity> {
-            val newBalance = calculateAll()
+            val newBalance = calculateAll().blockingGet()
             balanceStorage.setBalance(newBalance).subscribe()
             newBalance
         }
@@ -61,23 +83,24 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return initialBalance.concatWith(calculatedBalance)
     }
 
-    private fun calculateAll(): BalanceEntity {
-        updateArticlesAndAccounts()
-        val listCur = currencyRatios.map { it -> it.currencyFrom }.distinct()
-        val exchangeList = currencyRatios.filter { it -> it.currencyFrom == "RUR" }
-        val map = mutableMapOf<String, Float>()
-        val saldo = calculateBalance("RUR", transactions)
-        map["RUR"] = saldo
-        for (cur in listCur) {
-            if (cur == "RUR") continue
-            val exchange = exchangeList.find { it -> it.currencyTo == cur }
-            if (exchange != null) {
-                val payment = saldo * exchange.ratio
-                map[cur] = payment.roundSum()
+    private fun calculateAll(): Single<BalanceEntity> {
+        return Single.fromCallable {
+            updateArticlesAndAccounts().blockingAwait()
+            val listCur = currencyRatios.map { it -> it.currencyFrom }.distinct()
+            val exchangeList = currencyRatios.filter { it -> it.currencyFrom == "RUR" }
+            val map = mutableMapOf<String, Float>()
+            val saldo = calculateBalance("RUR", transactions)
+            map["RUR"] = saldo
+            for (cur in listCur) {
+                if (cur == "RUR") continue
+                val exchange = exchangeList.find { it -> it.currencyTo == cur }
+                if (exchange != null) {
+                    val payment = saldo * exchange.ratio
+                    map[cur] = payment.roundSum()
+                }
             }
+            BalanceEntity(map.toMap(), Date())
         }
-
-        return BalanceEntity(map.toMap(), Date())
     }
 
 
@@ -104,21 +127,27 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return sum.roundSum()
     }
 
-    fun updateArticlesAndAccounts() {
-        val accountlist = accountsStorage.getAccounts().blockingGet()
-        for (account in accountlist) {
-            accounts[account.id] = account
+    fun updateArticlesAndAccounts(): Completable {
+        val updateArticles = Completable.fromAction {
+            val articlelist = articlesStorage.getArticles().blockingGet()
+            for (article in articlelist) {
+                articles[article.articleId] = article
+            }
         }
-
-        val articlelist = articlesStorage.getArticles().blockingGet()
-        for (article in articlelist) {
-            articles[article.articleId] = article
+        val updateAccounts = Completable.fromAction {
+            val accountlist = accountsStorage.getAccounts().blockingGet()
+            for (account in accountlist) {
+                accounts[account.id] = account
+            }
         }
+        return updateArticles.concatWith(updateAccounts).subscribeOn(Schedulers.io())
     }
 
     override fun listCurrenciesInAccounts(): Single<List<String>> {
-        updateArticlesAndAccounts()
-        return Single.just(accounts.values.asSequence().map { it.currency }.distinct().toList())
+        return Single.fromCallable {
+            updateArticlesAndAccounts().blockingAwait()
+            accounts.values.asSequence().map { it.currency }.distinct().toList()
+        }
     }
 
     override fun getArticlesList(): Single<List<ArticleEntity>> {
@@ -133,8 +162,8 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
         return Single.fromCallable<Map<Long, Float>> {
 
-            retrieveTransactions()
-            updateArticlesAndAccounts()
+            _transactions = retrieveTransactions().blockingGet()
+            updateArticlesAndAccounts().blockingAwait()
 
             val map = mutableMapOf<Long, Float>()
 

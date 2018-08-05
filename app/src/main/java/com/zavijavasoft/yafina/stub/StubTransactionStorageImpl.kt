@@ -2,6 +2,7 @@ package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.model.TransactionStorage
+import io.reactivex.Single
 import java.util.*
 
 class StubTransactionStorageImpl : TransactionStorage {
@@ -39,20 +40,20 @@ class StubTransactionStorageImpl : TransactionStorage {
         transactions = listOf(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13)
     }
 
-    override fun add(transaction: TransactionInfo): List<TransactionInfo> {
-        return transactions
+    override fun add(transaction: TransactionInfo): Single<List<TransactionInfo>> {
+        return Single.just(transactions)
     }
 
-    override fun remove(transactionId: Long): List<TransactionInfo> {
-        return transactions
+    override fun remove(transactionId: Long): Single<List<TransactionInfo>> {
+        return Single.just(transactions)
     }
 
-    override fun update(transaction: TransactionInfo): List<TransactionInfo> {
-        return transactions
+    override fun update(transaction: TransactionInfo): Single<List<TransactionInfo>> {
+        return Single.just(transactions)
     }
 
-    override fun findAll(): List<TransactionInfo> {
-        return transactions
+    override fun findAll(): Single<List<TransactionInfo>> {
+        return Single.just(transactions)
     }
 
 }

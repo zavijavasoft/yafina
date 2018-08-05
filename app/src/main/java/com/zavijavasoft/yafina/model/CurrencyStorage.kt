@@ -1,8 +1,11 @@
 package com.zavijavasoft.yafina.model
 
+import io.reactivex.Completable
+import io.reactivex.Single
+
 interface CurrencyStorage {
-    fun getCurrencyList(): List<String>
-    fun addCurrency(currency: String)
-    fun removeCurrency(currency: String)
+    fun getCurrencyList(): Single<List<String>>
+    fun addCurrency(currency: String): Completable
+    fun removeCurrency(currency: String): Completable
 }
 

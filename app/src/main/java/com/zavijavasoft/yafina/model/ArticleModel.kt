@@ -3,6 +3,7 @@ package com.zavijavasoft.yafina.model
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import io.reactivex.Completable
 import io.reactivex.Single
 
 
@@ -27,4 +28,5 @@ data class ArticleEntity(
 interface ArticlesStorage {
     fun getArticles(): Single<List<ArticleEntity>>
     fun getArticleById(id: Long): Single<ArticleEntity>
+    fun addArticle(articleEntity: ArticleEntity): Completable
 }

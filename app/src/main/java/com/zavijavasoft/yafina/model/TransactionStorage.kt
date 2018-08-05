@@ -1,8 +1,10 @@
 package com.zavijavasoft.yafina.model
 
+import io.reactivex.Single
+
 interface TransactionStorage {
-    fun add(transaction: TransactionInfo): List<TransactionInfo>
-    fun remove(transactionId: Long): List<TransactionInfo>
-    fun update(transaction: TransactionInfo): List<TransactionInfo>
-    fun findAll(): List<TransactionInfo>
+    fun add(transaction: TransactionInfo): Single<List<TransactionInfo>>
+    fun remove(transactionId: Long): Single<List<TransactionInfo>>
+    fun update(transaction: TransactionInfo): Single<List<TransactionInfo>>
+    fun findAll(): Single<List<TransactionInfo>>
 }

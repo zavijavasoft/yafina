@@ -10,7 +10,7 @@ interface FinanceTracker {
     fun removeTransaction(transactionId: Long)
     fun updateTransaction(transaction: TransactionInfo)
     fun retrieveTransactions(): Single<List<TransactionInfo>>
-    fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): List<TransactionInfo>
+    fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): Single<List<TransactionInfo>>
     fun calculateTotalBalance(): Flowable<BalanceEntity>
     fun calculateBalance(currency: String, transactionsList: List<TransactionInfo>): Float
     fun listCurrenciesInAccounts(): Single<List<String>>

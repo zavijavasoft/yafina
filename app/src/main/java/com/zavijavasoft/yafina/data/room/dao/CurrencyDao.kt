@@ -15,6 +15,9 @@ interface CurrencyDao {
     @Insert
     fun insertCurrency(currency: CurrencyEntity)
 
+    @Insert
+    fun insertCurrencies(vararg currencies: CurrencyEntity)
+
     @Delete
     fun removeCurrency(currency: CurrencyEntity)
 }
