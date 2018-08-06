@@ -7,7 +7,7 @@ interface FinanceTracker {
     val transactions: List<TransactionInfo>
     var currencyRatios: List<CurrencyExchangeRatio>
     fun addTransaction(transaction: TransactionInfo)
-    fun removeTransaction(transactionId: Long)
+    fun removeTransaction(transaction: TransactionInfo)
     fun updateTransaction(transaction: TransactionInfo)
     fun retrieveTransactions(): Single<List<TransactionInfo>>
     fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): Single<List<TransactionInfo>>

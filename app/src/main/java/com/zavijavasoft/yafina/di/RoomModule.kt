@@ -3,10 +3,7 @@ package com.zavijavasoft.yafina.di
 import android.support.annotation.NonNull
 import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.data.room.AppDatabase
-import com.zavijavasoft.yafina.data.room.dao.AccountDao
-import com.zavijavasoft.yafina.data.room.dao.ArticleDao
-import com.zavijavasoft.yafina.data.room.dao.CurrencyDao
-import com.zavijavasoft.yafina.data.room.dao.TransactionDao
+import com.zavijavasoft.yafina.data.room.dao.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -38,8 +35,15 @@ class RoomModule {
     @Singleton
     @Provides
     @NonNull
-    fun getTransactionDao(db: AppDatabase): TransactionDao {
-        return db.getTransactionDao()
+    fun getOneTimeTransactionDao(db: AppDatabase): OneTimeTransactionDao {
+        return db.getOneTimeTransactionDao()
+    }
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getScheduledTransactionDao(db: AppDatabase): ScheduledTransactionDao {
+        return db.getScheduledTransactionDao()
     }
 
     @Singleton

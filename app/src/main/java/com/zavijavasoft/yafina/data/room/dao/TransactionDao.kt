@@ -1,23 +1,52 @@
 package com.zavijavasoft.yafina.data.room.dao
 
 import android.arch.persistence.room.*
+import com.zavijavasoft.yafina.data.room.OneTimeTransactionEntity
+import com.zavijavasoft.yafina.data.room.ScheduledTransactionEntity
 import com.zavijavasoft.yafina.data.room.TransactionEntity
 
+interface TransactionDao<T: TransactionEntity> {
+    fun getTransactionById(id: Long): T
+    fun getTransactions(): List<T>
+    fun insertTransaction(transaction: T)
+    fun deleteTransaction(transaction: T)
+    fun updateTransaction(transaction: T)
+}
+
 @Dao
-interface TransactionDao {
+interface OneTimeTransactionDao: TransactionDao<OneTimeTransactionEntity> {
 
     @Query("SELECT * FROM `transaction` WHERE id = :id")
-    fun getTransactionById(id: Long): TransactionEntity
+    override fun getTransactionById(id: Long): OneTimeTransactionEntity
 
     @Query("SELECT * FROM `transaction`")
-    fun getTransactions(): List<TransactionEntity>
+    override fun getTransactions(): List<OneTimeTransactionEntity>
 
     @Insert
-    fun insertTransaction(transaction: TransactionEntity)
+    override fun insertTransaction(transaction: OneTimeTransactionEntity)
 
     @Delete
-    fun deleteTransaction(transaction: TransactionEntity)
+    override fun deleteTransaction(transaction: OneTimeTransactionEntity)
 
     @Update
-    fun updateTransaction(transaction: TransactionEntity)
+    override fun updateTransaction(transaction: OneTimeTransactionEntity)
+}
+
+@Dao
+interface ScheduledTransactionDao: TransactionDao<ScheduledTransactionEntity> {
+
+    @Query("SELECT * FROM scheduled_transaction WHERE id = :id")
+    override fun getTransactionById(id: Long): ScheduledTransactionEntity
+
+    @Query("SELECT * FROM scheduled_transaction")
+    override fun getTransactions(): List<ScheduledTransactionEntity>
+
+    @Insert
+    override fun insertTransaction(transaction: ScheduledTransactionEntity)
+
+    @Delete
+    override fun deleteTransaction(transaction: ScheduledTransactionEntity)
+
+    @Update
+    override fun updateTransaction(transaction: ScheduledTransactionEntity)
 }

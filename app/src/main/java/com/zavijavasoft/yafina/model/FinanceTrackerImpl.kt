@@ -36,8 +36,8 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
                 }
     }
 
-    override fun removeTransaction(transactionId: Long) {
-        transactionsStorage.remove(transactionId)
+    override fun removeTransaction(transaction: TransactionInfo) {
+        transactionsStorage.remove(transaction)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->

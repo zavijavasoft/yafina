@@ -45,7 +45,8 @@ def depVersions = [
         butterknife     : '8.8.1',
         retrofit        : '2.3.0',
         room            : '1.1.1',
-        coroutines      : '0.21'
+        coroutines      : '0.21',
+        archwork        : '1.0.0-alpha06'
 ]
 
 def depTestVersions = [
@@ -87,6 +88,8 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${depVersions.retrofit}"
     implementation "com.squareup.retrofit2:converter-simplexml:${depVersions.retrofit}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${depVersions.retrofit}"
+
+    implementation "android.arch.work:work-runtime:${depVersions.archwork}"
 
     implementation "android.arch.persistence.room:runtime:${depVersions.room}"
     kapt "android.arch.persistence.room:compiler:${depVersions.room}"

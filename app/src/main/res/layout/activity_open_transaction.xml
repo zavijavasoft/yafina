@@ -69,6 +69,33 @@
         android:gravity="center"
         android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/chbx_is_scheduled"
+            style="@android:style/Widget.Material.Light.CompoundButton.CheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/repeatable_transaction"
+            android:textColor="@color/colorYaYellow" />
+
+        <Spinner
+            android:id="@+id/spinner_timeUnits"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/timeUnits"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/button_confirm_transaction"
             android:layout_width="wrap_content"

@@ -6,15 +6,13 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
-import com.zavijavasoft.yafina.data.room.dao.AccountDao
-import com.zavijavasoft.yafina.data.room.dao.ArticleDao
-import com.zavijavasoft.yafina.data.room.dao.CurrencyDao
-import com.zavijavasoft.yafina.data.room.dao.TransactionDao
+import com.zavijavasoft.yafina.data.room.dao.*
 import com.zavijavasoft.yafina.model.*
 import java.util.concurrent.Executors
 
-@Database(entities = [AccountEntity::class, ArticleEntity::class,
-    CurrencyEntity::class, TransactionEntity::class], version = 1, exportSchema = false)
+@Database(entities = [AccountEntity::class, ArticleEntity::class, CurrencyEntity::class,
+    OneTimeTransactionEntity::class, ScheduledTransactionEntity::class],
+        version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
@@ -84,7 +82,8 @@ abstract class AppDatabase: RoomDatabase() {
 
     abstract fun getAccountDao(): AccountDao
     abstract fun getArticleDao(): ArticleDao
-    abstract fun getTransactionDao(): TransactionDao
+    abstract fun getOneTimeTransactionDao(): OneTimeTransactionDao
+    abstract fun getScheduledTransactionDao(): ScheduledTransactionDao
     abstract fun getCurrencyDao(): CurrencyDao
 
 }

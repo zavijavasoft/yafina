@@ -5,10 +5,7 @@ import com.zavijavasoft.yafina.data.AccountsStorageImpl
 import com.zavijavasoft.yafina.data.ArticlesStorageImpl
 import com.zavijavasoft.yafina.data.CurrencyStorageImpl
 import com.zavijavasoft.yafina.data.TransactionStorageImpl
-import com.zavijavasoft.yafina.data.room.dao.AccountDao
-import com.zavijavasoft.yafina.data.room.dao.ArticleDao
-import com.zavijavasoft.yafina.data.room.dao.CurrencyDao
-import com.zavijavasoft.yafina.data.room.dao.TransactionDao
+import com.zavijavasoft.yafina.data.room.dao.*
 import com.zavijavasoft.yafina.model.*
 import com.zavijavasoft.yafina.services.CbrCurrencyMonitorImpl
 import dagger.Binds
@@ -69,8 +66,9 @@ class TransactionsStorageModule {
     @Singleton
     @Provides
     @NonNull
-    fun getTransactionStorage(dao: TransactionDao): TransactionStorage {
-        return ConcreteTransactionStorageImpl(dao)
+    fun getTransactionStorage(oneTimeDao: OneTimeTransactionDao,
+                              scheduledDao: ScheduledTransactionDao): TransactionStorage {
+        return ConcreteTransactionStorageImpl(oneTimeDao, scheduledDao)
     }
 
 }

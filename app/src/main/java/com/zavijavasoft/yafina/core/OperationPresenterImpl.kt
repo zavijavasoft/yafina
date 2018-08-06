@@ -52,25 +52,30 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
         Single.zip(articles, accounts,
                 BiFunction { articlesList: List<ArticleEntity>,
                              accountsList: List<AccountEntity> ->
-                    when (request.type) {
-                        TransactionType.OUTCOME ->
-                            tracker.addTransaction(TransactionInfo(sum = request.maxSum,
-                                    article = request.articleTo,
-                                    accountId = request.accountFrom, datetime = Date(), comment = ""))
-                        TransactionType.INCOME ->
-                            tracker.addTransaction(TransactionInfo(sum = request.maxSum,
-                                    article = request.articleFrom,
-                                    accountId = request.accountTo, datetime = Date(), comment = ""))
-                        TransactionType.TRANSITION -> {
-                            tracker.addTransaction(TransactionInfo(sum = request.maxSum,
-                                    article = ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID,
-                                    accountId = request.accountFrom, datetime = Date(), comment = ""))
-                            tracker.addTransaction(TransactionInfo(sum = request.maxSum,
-                                    article = ARTICLE_INCOME_TRANSITION_SPECIAL_ID,
-                                    accountId = request.accountFrom, datetime = Date(), comment = ""))
+                    val accountId = when (request.type) {
+                        TransactionType.OUTCOME -> request.accountFrom
+                        TransactionType.INCOME -> request.accountTo
+                        TransactionType.TRANSITION -> request.accountFrom
                         }
+                    val article = when (request.type) {
+                        TransactionType.OUTCOME -> request.articleTo
+                        TransactionType.INCOME -> request.articleFrom
+                        TransactionType.TRANSITION -> ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID
                     }
-
+                    val transaction = if (request.isScheduled) {
+                        ScheduledTransactionInfo(sum = request.maxSum, article = article,
+                                accountId = accountId, datetime = Date(), comment = "",
+                                period = TransactionScheduleTimeUnit.values()[request.period])
+                    } else {
+                        OneTimeTransactionInfo(sum = request.maxSum, article = article,
+                                accountId = accountId, datetime = Date(), comment = "")
+                    }
+                    tracker.addTransaction(transaction)
+                    if (request.type == TransactionType.TRANSITION) {
+                        tracker.addTransaction(OneTimeTransactionInfo(sum = request.maxSum,
+                                article = ARTICLE_INCOME_TRANSITION_SPECIAL_ID,
+                                accountId = request.accountFrom, datetime = Date(), comment = ""))
+                    }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { _ ->
@@ -91,10 +96,10 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
             val account = it.find { it.id == accountId }
             if (account != null) {
 
-                viewState.requireTransaction(TransactionRequest(TransactionType.INCOME,
+                viewState.requireTransaction(TransactionRequest(TransactionType.INCOME, false,
                         Float.NaN, account.currency,
                         -1, accountId,
-                        articleId, -1))
+                        articleId, -1, -1, -1))
             }
         }
 
@@ -119,9 +124,9 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
                         } else {
                             launch (UI) {
                                 viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
-                                        rest, account.currency,
+                                        false, rest, account.currency,
                                         accountId, -1,
-                                        -1, articleId))
+                                        -1, articleId, -1, -1))
                             }
                         }
                     }
@@ -151,9 +156,9 @@ class OperationPresenterImpl @Inject constructor(private val tracker: FinanceTra
                         } else {
                             launch (UI) {
                                 viewState.requireTransaction(TransactionRequest(TransactionType.OUTCOME,
-                                        rest, account.currency,
+                                        false, rest, account.currency,
                                         accountFromId, accountToId,
-                                        -1, -1))
+                                        -1, -1, -1, -1))
                             }
                         }
                     }
