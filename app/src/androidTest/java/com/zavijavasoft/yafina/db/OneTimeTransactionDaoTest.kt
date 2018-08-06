@@ -10,7 +10,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class TransactionDaoTest {
+class OneTimeTransactionDaoTest {
 
     private lateinit var db: AppDatabase
     private lateinit var dao: OneTimeTransactionDao
