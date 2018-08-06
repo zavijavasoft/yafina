@@ -3,9 +3,8 @@ package com.zavijavasoft.yafina.ui
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -14,6 +13,7 @@ import com.zavijavasoft.yafina.ui.operation.TRANSACTION_REQUEST_TAG
 import com.zavijavasoft.yafina.ui.operation.TransactionRequest
 import com.zavijavasoft.yafina.utils.afterTextChanged
 import com.zavijavasoft.yafina.utils.roundSum
+import java.util.*
 
 
 class OpenTransactionActivity : AppCompatActivity() {
@@ -41,6 +41,12 @@ class OpenTransactionActivity : AppCompatActivity() {
     @BindView(R.id.button_cancel_transaction)
     lateinit var buttonCancel: Button
 
+    @BindView(R.id.chbx_is_scheduled)
+    lateinit var checkBoxIsScheduled: CheckBox
+
+    @BindView(R.id.spinner_timeUnits)
+    lateinit var spinnerTimeUnits: Spinner
+
     lateinit var unbinder: Unbinder
 
     lateinit var request: TransactionRequest
@@ -55,7 +61,7 @@ class OpenTransactionActivity : AppCompatActivity() {
 
         sumHintText.text = ""
 
-        if (request.maxSum != Float.NaN)
+        if (!request.maxSum.isNaN())
             sumHintText.text = getString(R.string.max_sum_on_account_hint, request.maxSum, request.currency)
 
 
@@ -68,17 +74,24 @@ class OpenTransactionActivity : AppCompatActivity() {
             }
         }
 
+        checkBoxIsScheduled.setOnCheckedChangeListener {_, isChecked ->
+            spinnerTimeUnits.visibility = if (isChecked) View.VISIBLE else View.INVISIBLE
+        }
+
         buttonOk.isEnabled = false
         buttonOk.setOnClickListener {
             val intent = Intent()
             intent.putExtra(TRANSACTION_REQUEST_TAG, TransactionRequest(
                     type = request.type,
+                    isScheduled = checkBoxIsScheduled.isChecked,
                     currency = request.currency,
                     accountFrom = request.accountFrom,
                     accountTo = request.accountTo,
                     articleFrom = request.articleFrom,
                     articleTo = request.articleTo,
-                    maxSum = sumEditor.text.toString().toFloat().roundSum())
+                    maxSum = sumEditor.text.toString().toFloat().roundSum(),
+                    day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR),
+                    period = spinnerTimeUnits.selectedItemPosition)
 
             )
             setResult(TRANSACTION_ACCEPTED, intent)

@@ -1,6 +1,7 @@
 package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.*
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.InvalidObjectException
 
@@ -33,5 +34,9 @@ class StubArticlesStorageImpl : ArticlesStorage {
             return Single.just(item)
         }
         return Single.error(InvalidObjectException("no such article id"))
+    }
+
+    override fun addArticle(articleEntity: ArticleEntity): Completable {
+        return Completable.complete()
     }
 }

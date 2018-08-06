@@ -1,5 +1,6 @@
 package com.zavijavasoft.yafina
 
+import com.zavijavasoft.yafina.stub.StubCurrencyMonitorImpl
 import com.zavijavasoft.yafina.stub.StubCurrencyStorageImpl
 import com.zavijavasoft.yafina.stub.StubTransactionStorageImpl
 import org.junit.Assert.assertEquals
@@ -17,11 +18,11 @@ class StubTest {
     fun testStubCurrencyMonitor() {
 
         val storage = StubCurrencyStorageImpl()
-        assertEquals(storage.getCurrencyList().size, 2)
+        assertEquals(storage.getCurrencyList().blockingGet().size, 4)
 
-        //val monitor = StubCurrencyMonitorImpl(storage)
+        val monitor = StubCurrencyMonitorImpl(storage)
 
-        //assertEquals(monitor.pull().size, 2)
+        assertEquals(monitor.pull().blockingGet().size, 2)
 
 
 

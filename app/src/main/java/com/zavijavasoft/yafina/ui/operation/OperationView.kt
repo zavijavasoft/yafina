@@ -18,12 +18,15 @@ enum class TransactionType {
 
 @Parcelize
 data class TransactionRequest(val type: TransactionType,
+                              val isScheduled: Boolean,
                               val maxSum: Float,
                               val currency: String,
                               val accountFrom: Long,
                               val accountTo: Long,
                               val articleFrom: Long,
-                              val articleTo: Long) : Parcelable
+                              val articleTo: Long,
+                              val day: Int,
+                              val period: Int) : Parcelable
 
 interface OperationView : MvpView {
     fun update(rests: Map<Long, Float>, arcticles: List<ArticleEntity>, accounts: List<AccountEntity>)
