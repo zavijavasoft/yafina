@@ -25,4 +25,5 @@
     <string name="button_title_ok">OK</string>
     <string name="button_title_cancel">ОТМЕНА</string>
     <string name="repeatable_transaction">Повторяемая транзакция</string>
+    <string name="message_operations">Чтобы добавить транзакцию, удерживайте и перемещайте ячейку</string>
 </resources>

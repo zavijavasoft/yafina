@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,6 +95,14 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val toast = Toast.makeText(appContext,
+                R.string.message_operations,
+                Toast.LENGTH_LONG)
+        toast.setGravity(Gravity.CENTER, 0, 0)
+        toast.show()
+    }
+
 
     override fun onAttach(context: Context?) {
         YaFinaApplication.component.inject(this)
@@ -145,10 +154,11 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
     }
 
     override fun notifyInsufficientMoney(accountTitle: String, sumExists: String, sumRequired: String) {
-        if (sumRequired.isEmpty())
+        val toast = if (sumRequired.isEmpty())
             Toast.makeText(context, getString(R.string.zero_money_notification, accountTitle, sumExists), Toast.LENGTH_LONG)
         else
             Toast.makeText(context, getString(R.string.not_enough_money_notification, accountTitle, sumExists, sumRequired), Toast.LENGTH_LONG)
+        toast.show()
     }
 
     override fun requireTransaction(request: TransactionRequest) {

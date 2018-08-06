@@ -3,38 +3,47 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/thumbnail_transaction"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
-
-    android:layout_margin="3dp"
+    android:layout_margin="8dp"
     card_view:cardBackgroundColor="#ffffff"
-    card_view:cardCornerRadius="10dp"
+    card_view:cardCornerRadius="4dp"
     card_view:cardElevation="5dp"
-    card_view:contentPadding="5dp">
+    card_view:contentPadding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <ImageView
             android:id="@+id/transaction_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_action_cup" />
 
         <LinearLayout
-
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/transaction_sum"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/transaction_account_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="12sp" />
 
@@ -42,20 +51,8 @@
                 android:id="@+id/transaction_article_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/transaction_sum"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 

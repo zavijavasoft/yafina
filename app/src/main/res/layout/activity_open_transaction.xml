@@ -74,13 +74,13 @@
             style="@android:style/Widget.Material.Light.CompoundButton.CheckBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="@string/repeatable_transaction"
+            android:buttonTint="@color/colorYaYellow"
             android:textColor="@color/colorYaYellow" />
 
         <Spinner
             android:id="@+id/spinner_timeUnits"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
