@@ -63,7 +63,9 @@ class ScheduledTransactionWorker : Worker() {
 }
 
 fun scheduleTransaction(transaction: ScheduledTransactionEntity) {
-
+    // OneTimeWorkRequest is used because of some reasons:
+    // 1. Max TimeUnit constant is DAYS (it isn't suitable to months and years
+    // with different number of days)
     val workRequest = OneTimeWorkRequest.Builder(ScheduledTransactionWorker::class.java)
             .setInitialDelay(ScheduledTransactionWorker.getDelay(transaction), TimeUnit.MILLISECONDS)
             .setInputData(ScheduledTransactionWorker.getData(transaction))
