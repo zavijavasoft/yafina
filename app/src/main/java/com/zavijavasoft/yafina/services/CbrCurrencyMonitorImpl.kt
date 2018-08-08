@@ -80,8 +80,10 @@ class CbrCurrencyMonitorImpl @Inject constructor(private val currencyStorage: Cu
 
     override fun pull(): Single<List<CurrencyExchangeRatio>> {
         return Single.fromCallable<List<CurrencyExchangeRatio>> {
-            val response = api.getCurrenciesStatus()
-            val pack: CbrDataList = response.blockingGet()
+            // FIXME: makes too many requests
+//            val response = api.getCurrenciesStatus()
+//            val pack: CbrDataList = response.blockingGet()
+            val pack = CbrDataList()
             val currencies = currencyStorage.getCurrencyList().blockingGet().toSet()
             val listOut = mutableListOf<CurrencyExchangeRatio>()
 

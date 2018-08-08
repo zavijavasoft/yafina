@@ -26,4 +26,9 @@
     <string name="button_title_cancel">ОТМЕНА</string>
     <string name="repeatable_transaction">Повторяемая транзакция</string>
     <string name="message_operations">Чтобы добавить транзакцию, удерживайте и перемещайте ячейку</string>
+    <string name="account_name">Account Name</string>
+    <string name="currency">Валюта</string>
+    <string name="account_description">Account Description</string>
+    <string name="add_account">Add account</string>
+    <string name="save">Save</string>
 </resources>

@@ -1,8 +1,6 @@
 package com.zavijavasoft.yafina.data.room.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.zavijavasoft.yafina.model.AccountEntity
 
 @Dao
@@ -16,4 +14,7 @@ interface AccountDao {
 
     @Insert
     fun insertAccount(accountEntity: AccountEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateAccount(accountEntity: AccountEntity)
 }

@@ -20,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.OpenTransactionActivity"></activity>
+        <activity android:name=".ui.OpenTransactionActivity" />
+        <activity
+            android:name=".ui.settings.account.AccountActivity"
+            android:parentActivityName=".ui.YaFinaActivity"/>
     </application>
 
 </manifest>

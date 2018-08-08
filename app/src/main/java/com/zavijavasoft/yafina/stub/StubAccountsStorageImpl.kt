@@ -35,4 +35,8 @@ class StubAccountsStorageImpl : AccountsStorage {
     override fun addAccount(account: AccountEntity): Completable {
         return Completable.complete()
     }
+
+    override fun updateAccount(account: AccountEntity): Completable {
+        return Completable.complete()
+    }
 }
