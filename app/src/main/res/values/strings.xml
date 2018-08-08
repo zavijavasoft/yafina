@@ -31,4 +31,7 @@
     <string name="account_description">Account Description</string>
     <string name="add_account">Add account</string>
     <string name="save">Save</string>
+    <string name="article_title">Article Title</string>
+    <string name="article_description">Article Description</string>
+    <string name="article_type">Article Type</string>
 </resources>

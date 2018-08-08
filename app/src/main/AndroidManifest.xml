@@ -24,6 +24,9 @@
         <activity
             android:name=".ui.settings.account.AccountActivity"
             android:parentActivityName=".ui.YaFinaActivity"/>
+        <activity
+            android:name=".ui.settings.article.ArticleActivity"
+            android:parentActivityName=".ui.YaFinaActivity"/>
     </application>
 
 </manifest>

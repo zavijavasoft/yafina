@@ -5,4 +5,8 @@
         <item>Каждый месяц</item>
         <item>Каждый год</item>
     </string-array>
+    <string-array name="articleTypes">
+        <item>Incomings</item>
+        <item>Outgoings</item>
+    </string-array>
 </resources>

@@ -39,4 +39,8 @@ class StubArticlesStorageImpl : ArticlesStorage {
     override fun addArticle(articleEntity: ArticleEntity): Completable {
         return Completable.complete()
     }
+
+    override fun updateArticle(article: ArticleEntity): Completable {
+        return Completable.complete()
+    }
 }

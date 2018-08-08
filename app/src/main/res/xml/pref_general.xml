@@ -6,4 +6,10 @@
             android:targetClass="com.zavijavasoft.yafina.ui.settings.account.AccountActivity"
             android:targetPackage="com.zavijavasoft.yafina"/>
     </Preference>
+    <Preference
+        android:title="Статьи" >
+        <intent
+            android:targetClass="com.zavijavasoft.yafina.ui.settings.article.ArticleActivity"
+            android:targetPackage="com.zavijavasoft.yafina"/>
+    </Preference>
 </PreferenceScreen>
