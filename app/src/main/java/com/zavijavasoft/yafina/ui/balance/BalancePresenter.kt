@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.balance
 
 interface BalancePresenter {
     fun needUpdate()

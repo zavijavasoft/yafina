@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.settings
 
 interface SettingsPresenter {
     fun addCurrency(currency: String)

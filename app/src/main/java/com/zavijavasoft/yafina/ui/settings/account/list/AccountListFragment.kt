@@ -11,7 +11,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.AccountListPresenterImpl
 import com.zavijavasoft.yafina.model.AccountEntity
 import kotlinx.android.synthetic.main.fragment_account_list.*
 import javax.inject.Inject

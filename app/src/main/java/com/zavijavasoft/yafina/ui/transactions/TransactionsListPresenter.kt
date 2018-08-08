@@ -1,4 +1,4 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.transactions
 
 import com.zavijavasoft.yafina.model.TransactionInfo
 

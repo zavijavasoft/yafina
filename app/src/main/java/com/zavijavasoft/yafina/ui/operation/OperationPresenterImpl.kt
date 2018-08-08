@@ -1,11 +1,8 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.operation
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.*
-import com.zavijavasoft.yafina.ui.operation.OperationView
-import com.zavijavasoft.yafina.ui.operation.TransactionRequest
-import com.zavijavasoft.yafina.ui.operation.TransactionType
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction

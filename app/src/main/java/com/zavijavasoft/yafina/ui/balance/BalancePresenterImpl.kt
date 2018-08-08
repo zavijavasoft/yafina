@@ -1,9 +1,8 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.balance
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.*
-import com.zavijavasoft.yafina.ui.balance.BalanceView
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction

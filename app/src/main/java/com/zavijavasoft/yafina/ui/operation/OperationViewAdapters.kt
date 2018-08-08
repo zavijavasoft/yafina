@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.OperationPresenter
 import com.zavijavasoft.yafina.model.ArticleType
 
 

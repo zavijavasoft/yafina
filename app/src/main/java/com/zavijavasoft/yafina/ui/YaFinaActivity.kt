@@ -10,7 +10,6 @@ import butterknife.Unbinder
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.MainPresenterImpl
 import com.zavijavasoft.yafina.ui.balance.BalanceFragment
 import com.zavijavasoft.yafina.ui.operation.OperationFragment
 import com.zavijavasoft.yafina.ui.settings.SettingsFragment

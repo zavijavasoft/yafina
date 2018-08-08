@@ -1,8 +1,7 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.settings
 
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.CurrencyStorage
-import com.zavijavasoft.yafina.ui.settings.SettingsView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

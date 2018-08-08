@@ -1,9 +1,7 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.zavijavasoft.yafina.ui.MainTabs
-import com.zavijavasoft.yafina.ui.MainView
 
 
 @InjectViewState

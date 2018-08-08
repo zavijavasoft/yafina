@@ -15,7 +15,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.TransactionsListPresenterImpl
 import com.zavijavasoft.yafina.model.TransactionInfo
 import javax.inject.Inject
 

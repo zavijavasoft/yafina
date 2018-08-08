@@ -17,7 +17,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.BalancePresenterImpl
 import com.zavijavasoft.yafina.model.BalanceChunk
 import com.zavijavasoft.yafina.utils.CharteeGraphicView
 import com.zavijavasoft.yafina.utils.ColorSelector

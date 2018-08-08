@@ -19,7 +19,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.OperationPresenterImpl
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.ArticleType

@@ -1,11 +1,10 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.settings.account.edit
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.AccountsStorage
 import com.zavijavasoft.yafina.model.CurrencyStorage
-import com.zavijavasoft.yafina.ui.settings.account.edit.AccountEditView
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,10 +1,9 @@
-package com.zavijavasoft.yafina.core
+package com.zavijavasoft.yafina.ui.transactions
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.zavijavasoft.yafina.model.FinanceTracker
 import com.zavijavasoft.yafina.model.TransactionInfo
-import com.zavijavasoft.yafina.ui.transactions.TransactionsListView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

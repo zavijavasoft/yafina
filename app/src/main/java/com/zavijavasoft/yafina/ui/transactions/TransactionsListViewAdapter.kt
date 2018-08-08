@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.TransactionsListPresenter
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.utils.ColorSelector
 

@@ -1,6 +1,4 @@
-package com.zavijavasoft.yafina.core
-
-import com.zavijavasoft.yafina.ui.operation.TransactionRequest
+package com.zavijavasoft.yafina.ui.operation
 
 interface OperationPresenter {
     fun acceptOperation(request: TransactionRequest)
