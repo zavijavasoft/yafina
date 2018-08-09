@@ -30,8 +30,8 @@ class ArticlesStorageImpl
         }
     }
 
-    override fun addArticle(articleEntity: ArticleEntity): Completable {
-        return Completable.fromAction {
+    override fun addArticle(articleEntity: ArticleEntity): Single<Long> {
+        return Single.fromCallable {
             dao.insertArticle(articleEntity)
         }
     }

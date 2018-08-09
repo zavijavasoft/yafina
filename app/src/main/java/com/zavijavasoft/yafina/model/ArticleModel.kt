@@ -24,6 +24,6 @@ data class ArticleEntity(
 interface ArticlesStorage {
     fun getArticles(): Single<List<ArticleEntity>>
     fun getArticleById(id: Long): Single<ArticleEntity>
-    fun addArticle(articleEntity: ArticleEntity): Completable
+    fun addArticle(articleEntity: ArticleEntity): Single<Long>
     fun updateArticle(article: ArticleEntity): Completable
 }

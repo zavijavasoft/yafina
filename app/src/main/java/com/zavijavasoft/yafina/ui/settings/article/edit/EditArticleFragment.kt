@@ -10,7 +10,9 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
 import com.zavijavasoft.yafina.model.ArticleEntity
+import com.zavijavasoft.yafina.model.ArticleTemplateEntity
 import com.zavijavasoft.yafina.model.ArticleType
+import com.zavijavasoft.yafina.model.TransactionScheduleTimeUnit
 import com.zavijavasoft.yafina.ui.settings.account.edit.EditAccountFragment
 import kotlinx.android.synthetic.main.fragment_edit_article.*
 import javax.inject.Inject
@@ -42,6 +44,7 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
     lateinit var appContext: Context
 
     private var articleId: Long = 0
+    private var articleTemplateId: Long = 0
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,11 +68,18 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_action_done -> {
-                presenter.save(getArticle())
+                presenter.save(getArticle(), getTemplate())
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun getTemplate(): ArticleTemplateEntity {
+        val isScheduled = chbx_is_scheduled.isChecked
+        val period = TransactionScheduleTimeUnit.values()[spinnerTimeUnits.selectedItemPosition]
+        val comment = etComment.text.toString()
+        return ArticleTemplateEntity(articleTemplateId, articleId, isScheduled, comment, period)
     }
 
     private fun getArticle(): ArticleEntity {
@@ -108,16 +118,26 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
         listener = null
     }
 
-    override fun update(article: ArticleEntity) {
+    override fun update(article: ArticleEntity, articleTemplate: ArticleTemplateEntity) {
         tilArticleTitle.isHintAnimationEnabled = false
         tilArticleDescription.isHintAnimationEnabled = false
 
+        articleTemplateId = articleTemplate.id
         etArticleTitle.setText(article.title)
         etArticleDescription.setText(article.description)
         spinnerArticleType.setSelection(article.type.ordinal)
 
         tilArticleTitle.isHintAnimationEnabled = true
         tilArticleDescription.isHintAnimationEnabled = true
+
+        etComment.setText(articleTemplate.defaultComment)
+        chbx_is_scheduled.setOnCheckedChangeListener {_, isChecked ->
+            spinnerTimeUnits.visibility = if (isChecked) View.VISIBLE else View.INVISIBLE
+        }
+        chbx_is_scheduled.isChecked = articleTemplate.isScheduled
+        if (articleTemplate.isScheduled) {
+            spinnerTimeUnits.setSelection(articleTemplate.period.ordinal)
+        }
     }
 
     override fun close() {

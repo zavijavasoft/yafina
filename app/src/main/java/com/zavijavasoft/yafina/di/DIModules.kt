@@ -1,10 +1,7 @@
 package com.zavijavasoft.yafina.di
 
 import android.support.annotation.NonNull
-import com.zavijavasoft.yafina.data.AccountsStorageImpl
-import com.zavijavasoft.yafina.data.ArticlesStorageImpl
-import com.zavijavasoft.yafina.data.CurrencyStorageImpl
-import com.zavijavasoft.yafina.data.TransactionStorageImpl
+import com.zavijavasoft.yafina.data.*
 import com.zavijavasoft.yafina.data.room.dao.*
 import com.zavijavasoft.yafina.model.*
 import com.zavijavasoft.yafina.services.CbrCurrencyMonitorImpl
@@ -23,6 +20,7 @@ typealias ConcreteTransactionStorageImpl = TransactionStorageImpl
 typealias ConcreteCurrencyMonitorImpl = CbrCurrencyMonitorImpl
 typealias ConcreteCurrencyStorageImpl = CurrencyStorageImpl
 typealias ConcreteArticleStorageImpl = ArticlesStorageImpl
+typealias ConcreteArticleTemplateStorageImpl = ArticleTemplateStorageImpl
 typealias ConcreteAccountsStorageImpl = AccountsStorageImpl
 
 @Module(includes = [(AndroidSupportInjectionModule::class), (RoomModule::class),
@@ -81,6 +79,13 @@ class ArticlesStorageModule {
     @NonNull
     fun getArticlesStorage(dao: ArticleDao): ArticlesStorage {
         return ConcreteArticleStorageImpl(dao)
+    }
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getArticleTemplateStorage(dao: ArticleTemplateDao): ArticleTemplateStorage {
+        return ConcreteArticleTemplateStorageImpl(dao)
     }
 }
 

@@ -15,7 +15,7 @@ interface ArticleDao {
     fun getArticleById(id: Long): ArticleEntity
 
     @Insert
-    fun insertArticle(articleEntity: ArticleEntity)
+    fun insertArticle(articleEntity: ArticleEntity): Long
 
     @Insert
     fun insertArticles(vararg articleEntities: ArticleEntity)

@@ -36,8 +36,8 @@ class StubArticlesStorageImpl : ArticlesStorage {
         return Single.error(InvalidObjectException("no such article id"))
     }
 
-    override fun addArticle(articleEntity: ArticleEntity): Completable {
-        return Completable.complete()
+    override fun addArticle(articleEntity: ArticleEntity): Single<Long> {
+        return Single.just(1)
     }
 
     override fun updateArticle(article: ArticleEntity): Completable {
