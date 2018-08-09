@@ -8,24 +8,6 @@ import javax.inject.Inject
 
 class SettingsPresenterImpl @Inject constructor(private val storage: CurrencyStorage) : MvpPresenter<SettingsView>(), SettingsPresenter {
 
-    override fun addCurrency(currency: String) {
-        storage.addCurrency(currency)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    updateViewState()
-                }
-    }
-
-    override fun removeCurrency(currency: String) {
-        storage.removeCurrency(currency)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    updateViewState()
-                }
-    }
-
     private fun updateViewState() {
         storage.getCurrencyList()
                 .subscribeOn(Schedulers.io())

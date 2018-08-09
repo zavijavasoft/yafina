@@ -1,5 +1,6 @@
 package com.zavijavasoft.yafina.model
 
+import com.zavijavasoft.yafina.utils.getOwnerAccount
 import com.zavijavasoft.yafina.utils.roundSum
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -31,27 +32,45 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         transactionsStorage.add(transaction)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data ->
-                    _transactions = data
+                .doOnComplete {
+                    transactionsStorage.findAll()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { data ->
+                                _transactions = data
+                            }
                 }
+                .subscribe()
     }
 
     override fun removeTransaction(transaction: TransactionInfo) {
         transactionsStorage.remove(transaction)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data ->
-                    _transactions = data
+                .doOnComplete {
+                    transactionsStorage.findAll()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { data ->
+                                _transactions = data
+                            }
                 }
+                .subscribe()
     }
 
     override fun updateTransaction(transaction: TransactionInfo) {
         transactionsStorage.update(transaction)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data ->
-                    _transactions = data
+                .doOnComplete {
+                    transactionsStorage.findAll()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe { data ->
+                                _transactions = data
+                            }
                 }
+                .subscribe()
     }
 
     override fun retrieveTransactions(filter: (TransactionInfo) -> Boolean): Single<List<TransactionInfo>> {
@@ -109,8 +128,8 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
         var sum = 0f
         for (t in transactionsList) {
-            val account = accounts[t.accountId]!!
-            val article = articles[t.article]!!
+            val account = accounts[getOwnerAccount(t)]!!
+            val article = articles[t.articleId]!!
             val ratio = if (account.currency != currency) {
                 val exchange = conv.find { it -> it.currencyFrom == account.currency }
                         ?: throw IllegalStateException()
@@ -169,8 +188,8 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
             for (id in accounts.keys) {
                 val sums = _transactions.asSequence()
-                        .filter { it -> it.accountId == id }
-                        .map { it.sum * if (articles[it.article]?.type == ArticleType.INCOME) 1 else -1 }
+                        .filter { it -> it.accountIdTo == id }
+                        .map { it.sum * if (articles[it.articleId]?.type == ArticleType.INCOME) 1 else -1 }
                         .toList()
                 map[id] = sums.sum().roundSum()
             }

@@ -29,30 +29,9 @@ class CurrencyDaoTest {
     }
 
     @Test
-    fun test_addCurrency() {
-        val expected = CurrencyEntity("USD")
-
-        dao.insertCurrency(expected)
-
-        val actual = dao.getCurrencies()[0]
-        TestCase.assertEquals(expected, actual)
-    }
-
-    @Test
     fun test_addCurrencyList() {
         val expected = listOf("USD", "RUR", "KZT", "EUR").map { CurrencyEntity(it) }
-        expected.forEach { dao.insertCurrency(it) }
-
-        val actual = dao.getCurrencies()
-        TestCase.assertEquals(expected, actual)
-    }
-
-    @Test
-    fun test_deleteCurrency() {
-        val expected = listOf("USD", "RUR", "KZT").map { CurrencyEntity(it) }
-
-        listOf("USD", "RUR", "KZT", "EUR").forEach { dao.insertCurrency(CurrencyEntity(it)) }
-        dao.removeCurrency(CurrencyEntity("EUR"))
+        dao.insertCurrencies(*expected.toTypedArray())
 
         val actual = dao.getCurrencies()
         TestCase.assertEquals(expected, actual)

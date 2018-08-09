@@ -10,10 +10,7 @@ import com.zavijavasoft.yafina.model.TransactionScheduleTimeUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-private const val ARG_SUM = "ARG_SUM"
-private const val ARG_ARTICLE = "ARG_ARTICLE"
-private const val ARG_ACCOUNT = "ARG_ACCOUNT"
-private const val ARG_TIME_UNIT = "ARG_TIME_UNIT"
+private const val ARG_ID = "ARG_ID"
 
 class ScheduledTransactionWorker : Worker() {
 
@@ -25,12 +22,13 @@ class ScheduledTransactionWorker : Worker() {
     }
 
     private fun parseData(): ScheduledTransactionEntity {
-        val transactionId = Date().time
-        val sum = inputData.getFloat(ARG_SUM, -1f)
-        val articleId = inputData.getLong(ARG_ARTICLE, -1)
-        val accountId = inputData.getLong(ARG_ACCOUNT, -1)
-        val timeUnit = TransactionScheduleTimeUnit.values()[inputData.getInt(ARG_TIME_UNIT, -1)]
-        return ScheduledTransactionEntity(transactionId, sum, articleId, accountId, "", timeUnit)
+        val transactionId = inputData.getLong(ARG_ID, -1L)
+        return getPreviousTransaction(transactionId)
+    }
+
+    private fun getPreviousTransaction(transactionId: Long): ScheduledTransactionEntity {
+        val db = AppDatabase.getInstance(applicationContext)
+        return db.getScheduledTransactionDao().getTransactionById(transactionId)
     }
 
     private fun insertTransaction(transaction: ScheduledTransactionEntity) {
@@ -42,10 +40,7 @@ class ScheduledTransactionWorker : Worker() {
 
         fun getData(transactionEntity: ScheduledTransactionEntity): Data {
             return Data.Builder()
-                    .putFloat(ARG_SUM, transactionEntity.sum)
-                    .putLong(ARG_ARTICLE, transactionEntity.article)
-                    .putLong(ARG_ACCOUNT, transactionEntity.accountId)
-                    .putInt(ARG_TIME_UNIT, transactionEntity.period.ordinal)
+                    .putLong(ARG_ID, transactionEntity.transactionId)
                     .build()
         }
 

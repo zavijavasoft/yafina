@@ -5,6 +5,7 @@ import com.zavijavasoft.yafina.model.ArticleType
 import com.zavijavasoft.yafina.model.OneTimeTransactionInfo
 import com.zavijavasoft.yafina.model.ScheduledTransactionInfo
 import com.zavijavasoft.yafina.model.TransactionScheduleTimeUnit
+import com.zavijavasoft.yafina.utils.TransactionType
 import java.util.*
 
 class Converters {
@@ -29,17 +30,20 @@ class Converters {
 
     companion object {
         fun toOneTimeTransactionEntity(ti: OneTimeTransactionInfo) =
-                OneTimeTransactionEntity(ti.transactionId, ti.sum, ti.article, ti.accountId, ti.comment)
+                OneTimeTransactionEntity(ti.transactionId, ti.transactionType.ordinal, ti.sum, ti.accountIdTo,
+                        ti.comment, ti.accountIdFrom, ti.articleId)
 
-        fun toOneTimeTransactionInfo(te: OneTimeTransactionEntity) =
-                OneTimeTransactionInfo(te.sum, te.article, Date(te.transactionId), te.accountId, te.comment)
+        fun toTransactionInfo(te: OneTimeTransactionEntity) =
+                OneTimeTransactionInfo(TransactionType.values()[te.transactionType], te.sum,
+                        Date(te.transactionId), te.accountTo, te.comment, te.accountFrom, te.article)
 
         fun toScheduledTransactionEntity(ti: ScheduledTransactionInfo) =
-                ScheduledTransactionEntity(ti.transactionId, ti.sum, ti.article, ti.accountId,
-                        ti.comment, ti.period)
+                ScheduledTransactionEntity(ti.transactionId, ti.transactionType.ordinal, ti.sum,
+                        ti.period, ti.accountIdTo, ti.comment, ti.accountIdFrom, ti.articleId)
 
         fun toScheduledTransactionInfo(te: ScheduledTransactionEntity) =
-                ScheduledTransactionInfo(te.sum, te.article, Date(te.transactionId), te.accountId,
-                        te.comment, te.period)
+                ScheduledTransactionInfo(TransactionType.values()[te.transactionType], te.sum,
+                        Date(te.transactionId), te.period, te.accountTo,
+                        te.comment, te.accountFrom, te.article)
     }
 }

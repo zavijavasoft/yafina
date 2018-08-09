@@ -8,6 +8,7 @@ import com.zavijavasoft.yafina.model.ScheduledTransactionInfo
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.model.TransactionStorage
 import com.zavijavasoft.yafina.services.scheduleTransaction
+import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -16,71 +17,56 @@ class TransactionStorageImpl
                     private val scheduledDao: ScheduledTransactionDao)
     : TransactionStorage {
 
-    override fun add(transaction: TransactionInfo): Single<List<TransactionInfo>> {
-        return Single.fromCallable {
+    override fun add(transaction: TransactionInfo): Completable {
+        return Completable.fromAction {
             when (transaction) {
-                is OneTimeTransactionInfo -> {
-                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
-                    oneTimeDao.insertTransaction(transactionEntity)
-                }
                 is ScheduledTransactionInfo -> {
                     val transactionEntity = Converters.toScheduledTransactionEntity(transaction)
                     scheduledDao.insertTransaction(transactionEntity)
                     scheduleTransaction(transactionEntity)
                 }
+                is OneTimeTransactionInfo -> {
+                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
+                    oneTimeDao.insertTransaction(transactionEntity)
+                }
             }
-            val oneTimeTransactions = oneTimeDao.getTransactions()
-                    .map { it -> Converters.toOneTimeTransactionInfo(it)}
-            val scheduledTransactions = scheduledDao.getTransactions()
-                    .map { it -> Converters.toScheduledTransactionInfo(it)}
-            (oneTimeTransactions + scheduledTransactions).sortedBy { it.transactionId }
         }
     }
 
-    override fun remove(transaction: TransactionInfo): Single<List<TransactionInfo>> {
-        return Single.fromCallable {
+    override fun remove(transaction: TransactionInfo): Completable {
+        return Completable.fromAction {
             when (transaction) {
-                is OneTimeTransactionInfo -> {
-                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
-                    oneTimeDao.deleteTransaction(transactionEntity)
-                }
                 is ScheduledTransactionInfo -> {
                     val transactionEntity = Converters.toScheduledTransactionEntity(transaction)
                     scheduledDao.deleteTransaction(transactionEntity)
                 }
+                is OneTimeTransactionInfo -> {
+                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
+                    oneTimeDao.deleteTransaction(transactionEntity)
+                }
             }
-            val oneTimeTransactions = oneTimeDao.getTransactions()
-                    .map { it -> Converters.toOneTimeTransactionInfo(it)}
-            val scheduledTransactions = scheduledDao.getTransactions()
-                    .map { it -> Converters.toScheduledTransactionInfo(it)}
-            (oneTimeTransactions + scheduledTransactions).sortedBy { it.transactionId }
         }
     }
 
-    override fun update(transaction: TransactionInfo): Single<List<TransactionInfo>> {
-        return Single.fromCallable {
+    override fun update(transaction: TransactionInfo): Completable {
+        return Completable.fromAction {
             when (transaction) {
-                is OneTimeTransactionInfo -> {
-                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
-                    oneTimeDao.updateTransaction(transactionEntity)
-                }
                 is ScheduledTransactionInfo -> {
                     val transactionEntity = Converters.toScheduledTransactionEntity(transaction)
                     scheduledDao.updateTransaction(transactionEntity)
                 }
+                is OneTimeTransactionInfo -> {
+                    val transactionEntity = Converters.toOneTimeTransactionEntity(transaction)
+                    oneTimeDao.updateTransaction(transactionEntity)
+                }
             }
-            val oneTimeTransactions = oneTimeDao.getTransactions()
-                    .map { it -> Converters.toOneTimeTransactionInfo(it)}
-            val scheduledTransactions = scheduledDao.getTransactions()
-                    .map { it -> Converters.toScheduledTransactionInfo(it)}
-            (oneTimeTransactions + scheduledTransactions).sortedBy { it.transactionId }
         }
     }
 
     override fun findAll(): Single<List<TransactionInfo>> {
         return Single.fromCallable {
             val oneTimeTransactions = oneTimeDao.getTransactions()
-                    .map { it -> Converters.toOneTimeTransactionInfo(it)}
+                    .map { it -> Converters.toTransactionInfo(it)}
             val scheduledTransactions = scheduledDao.getTransactions()
                     .map { it -> Converters.toScheduledTransactionInfo(it)}
             (oneTimeTransactions + scheduledTransactions).sortedBy { it.transactionId }

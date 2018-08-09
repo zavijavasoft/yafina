@@ -1,7 +1,6 @@
 package com.zavijavasoft.yafina.ui.operation
 
 interface OperationPresenter {
-    fun acceptOperation(request: TransactionRequest)
     fun cancelOperation()
     fun needUpdate()
 

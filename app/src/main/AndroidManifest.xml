@@ -20,13 +20,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.OpenTransactionActivity" />
         <activity
             android:name=".ui.settings.account.AccountActivity"
-            android:parentActivityName=".ui.YaFinaActivity"/>
+            android:parentActivityName=".ui.YaFinaActivity" />
         <activity
             android:name=".ui.settings.article.ArticleActivity"
-            android:parentActivityName=".ui.YaFinaActivity"/>
+            android:parentActivityName=".ui.YaFinaActivity" />
+        <activity
+            android:parentActivityName=".ui.YaFinaActivity"
+            android:name=".ui.edittransaction.EditTransactionActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

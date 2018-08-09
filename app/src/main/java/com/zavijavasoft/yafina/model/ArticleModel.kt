@@ -6,10 +6,6 @@ import android.arch.persistence.room.PrimaryKey
 import io.reactivex.Completable
 import io.reactivex.Single
 
-
-const val ARTICLE_INCOME_TRANSITION_SPECIAL_ID = -1L
-const val ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID = -2L
-
 enum class ArticleType {
     INCOME,
     OUTCOME

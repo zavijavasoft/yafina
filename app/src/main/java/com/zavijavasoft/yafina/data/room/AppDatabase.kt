@@ -7,7 +7,9 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import com.zavijavasoft.yafina.data.room.dao.*
-import com.zavijavasoft.yafina.model.*
+import com.zavijavasoft.yafina.model.AccountEntity
+import com.zavijavasoft.yafina.model.ArticleEntity
+import com.zavijavasoft.yafina.model.ArticleType
 import java.util.concurrent.Executors
 
 @Database(entities = [AccountEntity::class, ArticleEntity::class, CurrencyEntity::class,
@@ -45,10 +47,6 @@ abstract class AppDatabase: RoomDatabase() {
 
         private fun insertArticles(dao: ArticleDao) {
             dao.insertArticles(
-                    ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME,
-                            "Скрытая (входящий для переводов между счетами)", ""),
-                    ArticleEntity(ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID, ArticleType.OUTCOME,
-                            "Скрытая (исходящая для переводов между счетами)", ""),
                     ArticleEntity(1, ArticleType.OUTCOME,
                             "Продукты", "То, что едят"),
                     ArticleEntity(2, ArticleType.OUTCOME,

@@ -12,12 +12,16 @@ data class OneTimeTransactionEntity(
         @PrimaryKey
         @ColumnInfo(name = "id")
         val transactionId: Long,
+        @ColumnInfo(name = "transaction_type")
+        val transactionType: Int,
         val sum: Float,
+        @ColumnInfo(name = "account_to")
+        val accountTo: Long,
+        val comment: String,
+        @ColumnInfo(name = "account_from")
+        val accountFrom: Long,
         @ColumnInfo(name = "article_id")
-        val article: Long,
-        @ColumnInfo(name = "account_id")
-        val accountId: Long,
-        val comment: String = ""
+        val article: Long
 ): TransactionEntity()
 
 @Entity(tableName = "scheduled_transaction")
@@ -25,13 +29,17 @@ data class ScheduledTransactionEntity(
         @PrimaryKey
         @ColumnInfo(name = "id")
         val transactionId: Long,
+        @ColumnInfo(name = "transaction_type")
+        val transactionType: Int,
         val sum: Float,
+        val period: TransactionScheduleTimeUnit,
+        @ColumnInfo(name = "account_to")
+        val accountTo: Long,
+        val comment: String,
+        @ColumnInfo(name = "account_from")
+        val accountFrom: Long,
         @ColumnInfo(name = "article_id")
-        val article: Long,
-        @ColumnInfo(name = "account_id")
-        val accountId: Long,
-        val comment: String = "",
-        val period: TransactionScheduleTimeUnit
+        val article: Long
 ): TransactionEntity()
 
 @Entity(tableName = "currency")

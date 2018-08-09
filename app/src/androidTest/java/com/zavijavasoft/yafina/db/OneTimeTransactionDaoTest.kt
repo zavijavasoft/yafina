@@ -5,6 +5,7 @@ import android.support.test.InstrumentationRegistry
 import com.zavijavasoft.yafina.data.room.AppDatabase
 import com.zavijavasoft.yafina.data.room.OneTimeTransactionEntity
 import com.zavijavasoft.yafina.data.room.dao.OneTimeTransactionDao
+import com.zavijavasoft.yafina.utils.TransactionType
 import junit.framework.TestCase
 import org.junit.After
 import org.junit.Before
@@ -29,7 +30,9 @@ class OneTimeTransactionDaoTest {
 
     @Test
     fun test_addTransaction() {
-        val expected = OneTimeTransactionEntity(1, 100000.0f, 5, 1)
+        val expected = OneTimeTransactionEntity(1, TransactionType.INCOME.ordinal, 100000.0f,
+                1, "", 0, 1)
+
 
         dao.insertTransaction(expected)
 
@@ -40,10 +43,12 @@ class OneTimeTransactionDaoTest {
     @Test
     fun test_addTransactionList() {
         val expected = listOf(
-                OneTimeTransactionEntity(2,100000.0f, 5, 1),
-                OneTimeTransactionEntity(3,50000.0f, 2, 1),
-                OneTimeTransactionEntity(4,120.0f, 9, 2),
-                OneTimeTransactionEntity(5,20.0f, 2, 1)
+                OneTimeTransactionEntity(1, TransactionType.INCOME.ordinal, 10000.0f,
+                        1, "", 0, 1),
+                OneTimeTransactionEntity(2, TransactionType.OUTCOME.ordinal, 1000.0f,
+                        0, "", 1, 5),
+                OneTimeTransactionEntity(3, TransactionType.TRANSITION.ordinal, 100000.0f,
+                        1, "", 2, 0)
         )
         expected.forEach { dao.insertTransaction(it) }
 
@@ -54,10 +59,12 @@ class OneTimeTransactionDaoTest {
     @Test
     fun test_deleteTransaction() {
         val transactions = listOf(
-                OneTimeTransactionEntity(2,100000.0f, 5, 1),
-                OneTimeTransactionEntity(3,50000.0f, 2, 1),
-                OneTimeTransactionEntity(4,120.0f, 9, 2),
-                OneTimeTransactionEntity(5,20.0f, 2, 1)
+                OneTimeTransactionEntity(1, TransactionType.INCOME.ordinal, 10000.0f,
+                        1, "", 0, 1),
+                OneTimeTransactionEntity(2, TransactionType.OUTCOME.ordinal, 1000.0f,
+                        0, "", 1, 5),
+                OneTimeTransactionEntity(3, TransactionType.TRANSITION.ordinal, 100000.0f,
+                        1, "", 2, 0)
         )
         transactions.forEach { dao.insertTransaction(it) }
 
@@ -71,10 +78,12 @@ class OneTimeTransactionDaoTest {
     @Test
     fun test_insertTransaction() {
         val transactions = listOf(
-                OneTimeTransactionEntity(2,100000.0f, 5, 1),
-                OneTimeTransactionEntity(3,50000.0f, 2, 1),
-                OneTimeTransactionEntity(4,120.0f, 9, 2),
-                OneTimeTransactionEntity(5,20.0f, 2, 1)
+                OneTimeTransactionEntity(1, TransactionType.INCOME.ordinal, 10000.0f,
+                        1, "", 0, 1),
+                OneTimeTransactionEntity(2, TransactionType.OUTCOME.ordinal, 1000.0f,
+                        0, "", 1, 5),
+                OneTimeTransactionEntity(3, TransactionType.TRANSITION.ordinal, 100000.0f,
+                        1, "", 2, 0)
         )
         transactions.forEach { dao.insertTransaction(it) }
 

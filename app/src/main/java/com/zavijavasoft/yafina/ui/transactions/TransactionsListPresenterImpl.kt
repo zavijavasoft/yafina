@@ -2,45 +2,35 @@ package com.zavijavasoft.yafina.ui.transactions
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import com.zavijavasoft.yafina.model.FinanceTracker
-import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.model.*
+import com.zavijavasoft.yafina.utils.getOwnerAccount
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 @InjectViewState
-class TransactionsListPresenterImpl @Inject constructor(val tracker: FinanceTracker)
-    : MvpPresenter<TransactionsListView>(), TransactionsListPresenter {
-
+class TransactionsListPresenterImpl @Inject constructor(
+        private val tracker: FinanceTracker,
+        private val accountsStorage: AccountsStorage,
+        private val articlesStorage: ArticlesStorage
+) : MvpPresenter<TransactionsListView>(), TransactionsListPresenter {
 
     override fun needUpdate() {
-        tracker.retrieveTransactions().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe { it ->
-                    viewState.update(it)
+        Single.fromCallable {
+            val transactions = tracker.retrieveTransactions().blockingGet()
+            val res: MutableList<Triple<TransactionInfo, ArticleEntity, AccountEntity>> = mutableListOf()
+            for (tr in transactions) {
+                val account = accountsStorage.getAccountById(getOwnerAccount(tr)).blockingGet()
+                val article = articlesStorage.getArticleById(tr.articleId).blockingGet()
+
+                res.add(Triple(tr, article, account))
+            }
+            res
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { res ->
+                    viewState.update(res)
                 }
-    }
-
-    override fun addTransaction(transactionInfo: TransactionInfo) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateTransaction(transactionInfo: TransactionInfo) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun selectTransaction(transactionId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun unselectTransaction(transactionId: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun unselectAllTransactions() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun removeSelected() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
