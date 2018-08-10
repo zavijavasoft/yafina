@@ -10,6 +10,19 @@ import javax.inject.Inject
 class AccountsStorageImpl
 @Inject constructor(private val dao: AccountDao)
     : AccountsStorage {
+
+    override fun deleteAccount(account: AccountEntity): Completable {
+        return Completable.fromAction {
+            dao.deleteAccount(account)
+        }
+    }
+
+    override fun updateAccount(account: AccountEntity): Completable {
+        return Completable.fromAction {
+            dao.updateAccount(account)
+        }
+    }
+
     override fun getAccounts(): Single<List<AccountEntity>> {
         return Single.fromCallable {
             dao.getAccounts().sortedBy { it.id }

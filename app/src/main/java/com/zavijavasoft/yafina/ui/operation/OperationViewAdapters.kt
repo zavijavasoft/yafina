@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.OperationPresenter
 import com.zavijavasoft.yafina.model.ArticleType
 
 
@@ -23,7 +22,7 @@ const val OUTCOME_ARTICLE_RECYCLER_VIEW_TAG = "OUTCOME_ARTICLE_RECYCLER_VIEW_TAG
 const val ACCOUNTS_RECYCLER_VIEW_TAG = "ACCOUNTS_RECYCLER_VIEW_TAG"
 
 
-class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Context, val presenter: OperationPresenter)
+class ArticleAdapter(private var itemsList: List<OperationArticleItem>, val context: Context, val presenter: OperationPresenter)
     : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
 
@@ -102,7 +101,7 @@ class ArticleAdapter(var itemsList: List<OperationArticleItem>, val context: Con
 }
 
 
-class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Context, val presenter: OperationPresenter)
+class AccountAdapter(private var itemsList: List<OperationAccountItem>, val context: Context, val presenter: OperationPresenter)
     : RecyclerView.Adapter<AccountAdapter.AccountViewHolder>() {
 
 
@@ -112,7 +111,7 @@ class AccountAdapter(var itemsList: List<OperationAccountItem>, val context: Con
         var cardView: CardView = view.findViewById(R.id.thumbnail_account)
         var txtTitle: TextView = view.findViewById(R.id.account_title)
         var txtSum: TextView = view.findViewById(R.id.account_sum)
-        var isDragging: Boolean = false
+        private var isDragging: Boolean = false
 
 
         override fun onDrag(view: View, dragEvent: DragEvent): Boolean {

@@ -12,6 +12,18 @@ class ArticlesStorageImpl
     @Inject constructor(private val dao: ArticleDao)
     : ArticlesStorage {
 
+    override fun deleteArticle(article: ArticleEntity): Completable {
+        return Completable.fromAction {
+            dao.deleteArticle(article)
+        }
+    }
+
+    override fun updateArticle(article: ArticleEntity): Completable {
+        return Completable.fromAction {
+            dao.updateArticle(article)
+        }
+    }
+
     override fun getArticles(): Single<List<ArticleEntity>> {
         return Single.fromCallable {
             dao.getArticles().sortedBy { it.articleId }
@@ -24,8 +36,8 @@ class ArticlesStorageImpl
         }
     }
 
-    override fun addArticle(articleEntity: ArticleEntity): Completable {
-        return Completable.fromAction {
+    override fun addArticle(articleEntity: ArticleEntity): Single<Long> {
+        return Single.fromCallable {
             dao.insertArticle(articleEntity)
         }
     }

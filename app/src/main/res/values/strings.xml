@@ -15,15 +15,31 @@
     <string name="zero_money_notification">Недостаточно средств на счете "%1$s"! В наличии %2$s</string>
     <string name="max_sum_on_account_hint">Максимум средств на счете %1$.2f %2$s</string>
 
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="page_is_under_construction">Страница настроек находится в разработке</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_sum_prompt">Введите сумму:</string>
     <string name="button_title_ok">OK</string>
     <string name="button_title_cancel">ОТМЕНА</string>
     <string name="repeatable_transaction">Повторяемая транзакция</string>
-    <string name="message_operations">Чтобы добавить транзакцию, удерживайте и перемещайте ячейку</string>
+    <string name="account_name">Имя аккаунта</string>
+    <string name="currency">Валюта</string>
+    <string name="account_description">Описание</string>
+    <string name="add_account">Добавить аккаунт</string>
+    <string name="save">Сохранить</string>
+    <string name="article_title">Название статьи</string>
+    <string name="article_description">Описание</string>
+    <string name="article_type">Тип</string>
+    <string name="operations">Операции и карты</string>
+    <string name="transactions">Транзакции</string>
+    <string name="charts">Отчеты</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О приложении</string>
+    <string name="choose_currency">Выберите валюту</string>
+    <string name="choose_account">Выберите счет</string>
+    <string name="wrong">Остались незаполенными поля</string>
+    <string name="default_comment">Комментарий по умолчанию…</string>
+    <string name="delete">Delete</string>
+    <string name="done">Done</string>
+    <string name="incomings">Доходы</string>
+    <string name="outgoings">Расходы</string>
+    <string name="transition">Перевод</string>
+    <string name="comment">Комментарий</string>
 </resources>

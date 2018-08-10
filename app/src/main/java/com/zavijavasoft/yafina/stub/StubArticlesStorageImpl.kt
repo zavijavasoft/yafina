@@ -1,6 +1,8 @@
 package com.zavijavasoft.yafina.stub
 
-import com.zavijavasoft.yafina.model.*
+import com.zavijavasoft.yafina.model.ArticleEntity
+import com.zavijavasoft.yafina.model.ArticleType
+import com.zavijavasoft.yafina.model.ArticlesStorage
 import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.InvalidObjectException
@@ -10,8 +12,6 @@ class StubArticlesStorageImpl : ArticlesStorage {
     val list = mutableListOf<ArticleEntity>()
 
     init {
-        list.add(ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME, "Скрытая (входящий для переводов между счетами)", ""))
-        list.add(ArticleEntity(ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID, ArticleType.OUTCOME, "Скрытая (исходящая для переводов между счетами)", ""))
         list.add(ArticleEntity(1, ArticleType.OUTCOME, "Продукты", "То, что едят"))
         list.add(ArticleEntity(2, ArticleType.OUTCOME, "Одежда", "То, что надевают"))
         list.add(ArticleEntity(3, ArticleType.OUTCOME, "Выплаты по кредиту", "Отдавать свои кровные"))
@@ -21,6 +21,10 @@ class StubArticlesStorageImpl : ArticlesStorage {
         list.add(ArticleEntity(7, ArticleType.OUTCOME, "Транспорт", "На проезд"))
         list.add(ArticleEntity(8, ArticleType.OUTCOME, "Прочие расходы", "Не помню куда"))
         list.add(ArticleEntity(9, ArticleType.INCOME, "Прочие доходы", "Не помню откуда"))
+    }
+
+    override fun deleteArticle(article: ArticleEntity): Completable {
+        return Completable.complete()
     }
 
     override fun getArticles(): Single<List<ArticleEntity>> {
@@ -36,7 +40,11 @@ class StubArticlesStorageImpl : ArticlesStorage {
         return Single.error(InvalidObjectException("no such article id"))
     }
 
-    override fun addArticle(articleEntity: ArticleEntity): Completable {
+    override fun addArticle(articleEntity: ArticleEntity): Single<Long> {
+        return Single.just(1)
+    }
+
+    override fun updateArticle(article: ArticleEntity): Completable {
         return Completable.complete()
     }
 }

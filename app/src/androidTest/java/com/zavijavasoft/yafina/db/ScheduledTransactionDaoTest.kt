@@ -6,6 +6,7 @@ import com.zavijavasoft.yafina.data.room.AppDatabase
 import com.zavijavasoft.yafina.data.room.ScheduledTransactionEntity
 import com.zavijavasoft.yafina.data.room.dao.ScheduledTransactionDao
 import com.zavijavasoft.yafina.model.TransactionScheduleTimeUnit
+import com.zavijavasoft.yafina.utils.TransactionType
 import junit.framework.TestCase
 import org.junit.After
 import org.junit.Before
@@ -30,8 +31,10 @@ class ScheduledTransactionDaoTest {
 
     @Test
     fun test_addTransaction() {
-        val expected = ScheduledTransactionEntity(1, 100000.0f, 5, 1,
-                period = TransactionScheduleTimeUnit.WEEK)
+        val expected = ScheduledTransactionEntity(1, TransactionType.INCOME.ordinal,
+                100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                0, 5)
+
 
         dao.insertTransaction(expected)
 
@@ -42,14 +45,15 @@ class ScheduledTransactionDaoTest {
     @Test
     fun test_addTransactionList() {
         val expected = listOf(
-                ScheduledTransactionEntity(2,100000.0f, 5, 1,
-                        period = TransactionScheduleTimeUnit.WEEK),
-                ScheduledTransactionEntity(3,50000.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.YEAR),
-                ScheduledTransactionEntity(4,120.0f, 9, 2,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(5,20.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.WEEK)
+                ScheduledTransactionEntity(1, TransactionType.INCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        0, 5),
+                ScheduledTransactionEntity(2, TransactionType.OUTCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,0, "",
+                        1, 4),
+                ScheduledTransactionEntity(3, TransactionType.TRANSITION.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        2, 0)
         )
         expected.forEach { dao.insertTransaction(it) }
 
@@ -60,14 +64,15 @@ class ScheduledTransactionDaoTest {
     @Test
     fun test_deleteTransaction() {
         val transactions = listOf(
-                ScheduledTransactionEntity(2,100000.0f, 5, 1,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(3,50000.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(4,120.0f, 9, 2,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(5,20.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.MONTH)
+                ScheduledTransactionEntity(1, TransactionType.INCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        0, 5),
+                ScheduledTransactionEntity(2, TransactionType.OUTCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,0, "",
+                        1, 4),
+                ScheduledTransactionEntity(3, TransactionType.TRANSITION.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        2, 0)
         )
         transactions.forEach { dao.insertTransaction(it) }
 
@@ -81,14 +86,15 @@ class ScheduledTransactionDaoTest {
     @Test
     fun test_insertTransaction() {
         val transactions = listOf(
-                ScheduledTransactionEntity(2,100000.0f, 5, 1,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(3,50000.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(4,120.0f, 9, 2,
-                        period = TransactionScheduleTimeUnit.MONTH),
-                ScheduledTransactionEntity(5,20.0f, 2, 1,
-                        period = TransactionScheduleTimeUnit.MONTH)
+                ScheduledTransactionEntity(1, TransactionType.INCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        0, 5),
+                ScheduledTransactionEntity(2, TransactionType.OUTCOME.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,0, "",
+                        1, 4),
+                ScheduledTransactionEntity(3, TransactionType.TRANSITION.ordinal,
+                        100000.0f, TransactionScheduleTimeUnit.WEEK,5, "",
+                        2, 0)
         )
         transactions.forEach { dao.insertTransaction(it) }
 

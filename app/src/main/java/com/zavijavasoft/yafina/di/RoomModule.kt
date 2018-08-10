@@ -52,4 +52,18 @@ class RoomModule {
     fun getCurrencyDao(db: AppDatabase): CurrencyDao {
         return db.getCurrencyDao()
     }
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getArticleTemplateDao(db: AppDatabase): ArticleTemplateDao {
+        return db.getArticleTemplateDao()
+    }
+
+    @Singleton
+    @Provides
+    @NonNull
+    fun getCurrencyExchangeRatioDao(db: AppDatabase): CurrencyExchangeRatioDao {
+        return db.getCurrencyExchangeRatioDao()
+    }
 }

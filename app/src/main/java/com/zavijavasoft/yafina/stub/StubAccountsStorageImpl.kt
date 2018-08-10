@@ -19,6 +19,10 @@ class StubAccountsStorageImpl : AccountsStorage {
         list.add(AccountEntity(6, "USD", "PayPal", "Счет на PayPal"))
     }
 
+    override fun deleteAccount(account: AccountEntity): Completable {
+        return Completable.complete()
+    }
+
     override fun getAccounts(): Single<List<AccountEntity>> {
         return Single.just(list)
 
@@ -33,6 +37,10 @@ class StubAccountsStorageImpl : AccountsStorage {
     }
 
     override fun addAccount(account: AccountEntity): Completable {
+        return Completable.complete()
+    }
+
+    override fun updateAccount(account: AccountEntity): Completable {
         return Completable.complete()
     }
 }

@@ -4,8 +4,6 @@ import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import com.zavijavasoft.yafina.data.room.AppDatabase
 import com.zavijavasoft.yafina.data.room.dao.ArticleDao
-import com.zavijavasoft.yafina.model.ARTICLE_INCOME_TRANSITION_SPECIAL_ID
-import com.zavijavasoft.yafina.model.ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID
 import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.ArticleType
 import junit.framework.TestCase
@@ -32,7 +30,8 @@ class ArticleDaoTest {
 
     @Test
     fun test_addAccount() {
-        val expected = ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME, "Скрытая (входящий для переводов между счетами)", "")
+        val expected = ArticleEntity(1, ArticleType.OUTCOME,
+                "Продукты", "То, что едят")
 
         dao.insertArticle(expected)
 
@@ -43,10 +42,6 @@ class ArticleDaoTest {
     @Test
     fun test_addArticleList() {
         val expected = listOf(
-                ArticleEntity(ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID, ArticleType.OUTCOME,
-                        "Скрытая (исходящая для переводов между счетами)", ""),
-                ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME,
-                        "Скрытая (входящий для переводов между счетами)", ""),
                 ArticleEntity(1, ArticleType.OUTCOME,
                         "Продукты", "То, что едят"),
                 ArticleEntity(2, ArticleType.OUTCOME,

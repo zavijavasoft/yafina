@@ -11,7 +11,7 @@ class StubTest {
     @Test
     fun testStubStorage() {
         val storage = StubTransactionStorageImpl()
-        assertEquals(storage.transactions.size, 13)
+        assertEquals(storage.transactions.size, 3)
     }
 
     @Test

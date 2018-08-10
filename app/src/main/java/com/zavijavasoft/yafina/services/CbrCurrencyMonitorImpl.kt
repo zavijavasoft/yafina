@@ -1,6 +1,7 @@
 package com.zavijavasoft.yafina.services
 
 import com.zavijavasoft.yafina.model.CurrencyExchangeRatio
+import com.zavijavasoft.yafina.model.CurrencyExchangeRatioStorage
 import com.zavijavasoft.yafina.model.CurrencyMonitor
 import com.zavijavasoft.yafina.model.CurrencyStorage
 import io.reactivex.Single
@@ -18,6 +19,8 @@ import retrofit2.http.GET
 import java.util.*
 import javax.inject.Inject
 
+
+private const val HALF_DAY = 1000 * 60 * 60 * 12
 
 /*
 
@@ -65,7 +68,10 @@ interface CbrApi {
     fun getCurrenciesStatus(): Single<CbrDataList>
 }
 
-class CbrCurrencyMonitorImpl @Inject constructor(private val currencyStorage: CurrencyStorage) : CurrencyMonitor {
+class CbrCurrencyMonitorImpl @Inject constructor(
+        private val currencyStorage: CurrencyStorage,
+        private val currencyExchangeRatioStorage: CurrencyExchangeRatioStorage
+) : CurrencyMonitor {
 
     private val retrofit = Retrofit.Builder()
             .baseUrl("http://www.cbr.ru")
@@ -76,30 +82,33 @@ class CbrCurrencyMonitorImpl @Inject constructor(private val currencyStorage: Cu
 
     private val api = retrofit.create(CbrApi::class.java)
 
-    var listCurrencyExchangeRatio = listOf<CurrencyExchangeRatio>()
+    private var listCurrencyExchangeRatio = listOf<CurrencyExchangeRatio>()
 
     override fun pull(): Single<List<CurrencyExchangeRatio>> {
         return Single.fromCallable<List<CurrencyExchangeRatio>> {
-            val response = api.getCurrenciesStatus()
-            val pack: CbrDataList = response.blockingGet()
+            val lastUpdatedRatios = currencyExchangeRatioStorage.getLastUpdatedCurrencies().toMutableList()
+            val lastUpdate = lastUpdatedRatios.maxBy { it.requestTime }?.requestTime?.time ?: 0
             val currencies = currencyStorage.getCurrencyList().blockingGet().toSet()
-            val listOut = mutableListOf<CurrencyExchangeRatio>()
-
-            val listIn: List<CbrDataItem> = pack.list ?: listOf()
-            for (valute in listIn) {
-                if (currencies.contains(valute.charCode)) {
-                    val nominal = (valute.nominal ?: "1.0").toFloat()
-                    val value = (valute.value ?: "1.0").replace(",", ".").toFloat()
-                    val charCode = valute.charCode ?: "UNK"
-                    listOut.add(CurrencyExchangeRatio(charCode, "RUR",
-                            (value / nominal), Date()))
-                    listOut.add(CurrencyExchangeRatio("RUR", charCode,
-                            (nominal / value), Date()))
+            if (Date().time - lastUpdate > HALF_DAY) {
+                lastUpdatedRatios.clear()
+                val response = api.getCurrenciesStatus()
+                val pack: CbrDataList = response.blockingGet()
+                for (valute in pack.list ?: listOf()) {
+                    if (currencies.contains(valute.charCode)) {
+                        val nominal = (valute.nominal ?: "1.0").toFloat()
+                        val value = (valute.value ?: "1.0").replace(",", ".").toFloat()
+                        val charCode = valute.charCode ?: "UNK"
+                        lastUpdatedRatios.add(CurrencyExchangeRatio(0, charCode, "RUR",
+                                (value / nominal), Date()))
+                        lastUpdatedRatios.add(CurrencyExchangeRatio(0, "RUR", charCode,
+                                (nominal / value), Date()))
+                    }
                 }
+                currencyExchangeRatioStorage.insertCurrencyRatios(lastUpdatedRatios)
             }
-
-            listCurrencyExchangeRatio = listOut
-            listOut
+            listCurrencyExchangeRatio = lastUpdatedRatios
+            lastUpdatedRatios
         }
+
     }
 }

@@ -11,7 +11,8 @@ import com.zavijavasoft.yafina.model.*
 import java.util.concurrent.Executors
 
 @Database(entities = [AccountEntity::class, ArticleEntity::class, CurrencyEntity::class,
-    OneTimeTransactionEntity::class, ScheduledTransactionEntity::class],
+    OneTimeTransactionEntity::class, ScheduledTransactionEntity::class,
+    ArticleTemplateEntity::class, CurrencyExchangeRatio::class],
         version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
@@ -32,6 +33,7 @@ abstract class AppDatabase: RoomDatabase() {
                                 insertAccounts(appDb.getAccountDao())
                                 insertArticles(appDb.getArticleDao())
                                 insertCurrencies(appDb.getCurrencyDao())
+                                insertArticleTemplates(appDb.getArticleTemplateDao())
                             }
                         }
                     })
@@ -45,10 +47,6 @@ abstract class AppDatabase: RoomDatabase() {
 
         private fun insertArticles(dao: ArticleDao) {
             dao.insertArticles(
-                    ArticleEntity(ARTICLE_INCOME_TRANSITION_SPECIAL_ID, ArticleType.INCOME,
-                            "Скрытая (входящий для переводов между счетами)", ""),
-                    ArticleEntity(ARTICLE_OUTCOME_TRANSITION_SPECIAL_ID, ArticleType.OUTCOME,
-                            "Скрытая (исходящая для переводов между счетами)", ""),
                     ArticleEntity(1, ArticleType.OUTCOME,
                             "Продукты", "То, что едят"),
                     ArticleEntity(2, ArticleType.OUTCOME,
@@ -70,6 +68,29 @@ abstract class AppDatabase: RoomDatabase() {
             )
         }
 
+        private fun insertArticleTemplates(dao: ArticleTemplateDao) {
+            dao.insertTemplates(
+                    ArticleTemplateEntity(1, 1, false,
+                            "То, что едят"),
+                    ArticleTemplateEntity(2, 2, false,
+                            "То, что надевают"),
+                    ArticleTemplateEntity(3, 3, true,
+                            "Отдавать свои кровные", TransactionScheduleTimeUnit.MONTH),
+                    ArticleTemplateEntity(4, 4, true,
+                            "За воду и свет", TransactionScheduleTimeUnit.MONTH),
+                    ArticleTemplateEntity(5, 5, true,
+                            "Зарплата -- она и есть зарплата", TransactionScheduleTimeUnit.MONTH),
+                    ArticleTemplateEntity(6, 6, true,
+                            "Доход от акций и облигаций", TransactionScheduleTimeUnit.MONTH),
+                    ArticleTemplateEntity(7, 7, false,
+                            "На проезд"),
+                    ArticleTemplateEntity(8, 8, false,
+                            "Не помню куда"),
+                    ArticleTemplateEntity(9, 9, false,
+                            "Не помню откуда")
+            )
+        }
+
         private fun insertCurrencies(dao: CurrencyDao) {
             dao.insertCurrencies(
                     CurrencyEntity("USD"),
@@ -85,5 +106,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun getOneTimeTransactionDao(): OneTimeTransactionDao
     abstract fun getScheduledTransactionDao(): ScheduledTransactionDao
     abstract fun getCurrencyDao(): CurrencyDao
+    abstract fun getArticleTemplateDao(): ArticleTemplateDao
+    abstract fun getCurrencyExchangeRatioDao(): CurrencyExchangeRatioDao
 
 }

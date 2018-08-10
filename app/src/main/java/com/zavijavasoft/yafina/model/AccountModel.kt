@@ -19,4 +19,6 @@ interface AccountsStorage {
     fun getAccounts(): Single<List<AccountEntity>>
     fun getAccountById(id: Long): Single<AccountEntity>
     fun addAccount(account: AccountEntity): Completable
+    fun updateAccount(account: AccountEntity): Completable
+    fun deleteAccount(account: AccountEntity): Completable
 }

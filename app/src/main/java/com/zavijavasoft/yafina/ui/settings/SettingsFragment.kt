@@ -2,16 +2,15 @@ package com.zavijavasoft.yafina.ui.settings
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.arellomobile.mvp.MvpAppCompatFragment
+import android.support.v7.preference.PreferenceFragmentCompat
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
 
-class SettingsFragment : MvpAppCompatFragment(), SettingsView {
+class SettingsFragment : SettingsView, PreferenceFragmentCompat() {
 
+    private lateinit var preferences: SharedPreferences
 
     companion object {
         const val TAG_YAFINA_SETTINGS_FRAGMENT = "TAG_YAFINA_SETTINGS_FRAGMENT"
@@ -24,6 +23,10 @@ class SettingsFragment : MvpAppCompatFragment(), SettingsView {
         }
     }
 
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.pref_general, rootKey)
+
+    }
 
     override fun update(currencyList: List<String>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -34,13 +37,4 @@ class SettingsFragment : MvpAppCompatFragment(), SettingsView {
         YaFinaApplication.component.inject(this)
         super.onAttach(context)
     }
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
-    }
-
-
 }

@@ -8,7 +8,7 @@ fun Float.roundSum() = BigDecimal(this.toDouble()).setScale(2, BigDecimal.ROUND_
 
 object ColorSelector {
 
-    val mColors = arrayOf("#39add1", // light blue
+    private val mColors = arrayOf("#39add1", // light blue
             "#3079ab", // dark blue
             "#c25975", // mauve
             "#e15258", // red
