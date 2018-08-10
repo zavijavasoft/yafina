@@ -38,7 +38,7 @@ class EditTransactionPresenterImpl @Inject constructor(
             transactionStorage.update(transactionInfo)
         res.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { ->
+                .subscribe {
                     viewState.close()
                 }
     }
@@ -47,7 +47,7 @@ class EditTransactionPresenterImpl @Inject constructor(
         transactionStorage.remove(transactionInfo)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { ->
+                .subscribe {
                     viewState.close()
                 }
     }
@@ -75,7 +75,7 @@ class EditTransactionPresenterImpl @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { accounts ->
-                    viewState.setAccounts(accounts.filterNot { it.id == accountId })
+                    viewState.setAccounts(accounts.filterNot { it.id == accountId }, true)
                 }
     }
 

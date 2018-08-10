@@ -62,13 +62,20 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.menu_account_edit, menu)
+        inflater.inflate(R.menu.menu_edit, menu)
+        if (articleId == 0L) {
+            menu.getItem(0).isVisible = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_action_done -> {
                 presenter.save(getArticle(), getTemplate())
+                true
+            }
+            R.id.mi_action_delete -> {
+                presenter.delete(getArticle(), getTemplate())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -101,6 +108,9 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
         if (articleId != 0L) {
             presenter.update(articleId)
         }
+        chbx_is_scheduled.setOnCheckedChangeListener {_, isChecked ->
+            spinnerTimeUnits.visibility = if (isChecked) View.VISIBLE else View.INVISIBLE
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -131,9 +141,6 @@ class EditArticleFragment : MvpAppCompatFragment(), ArticleEditView {
         tilArticleDescription.isHintAnimationEnabled = true
 
         etComment.setText(articleTemplate.defaultComment)
-        chbx_is_scheduled.setOnCheckedChangeListener {_, isChecked ->
-            spinnerTimeUnits.visibility = if (isChecked) View.VISIBLE else View.INVISIBLE
-        }
         chbx_is_scheduled.isChecked = articleTemplate.isScheduled
         if (articleTemplate.isScheduled) {
             spinnerTimeUnits.setSelection(articleTemplate.period.ordinal)

@@ -1,5 +1,6 @@
 package com.zavijavasoft.yafina.model
 
+import com.zavijavasoft.yafina.utils.TransactionType
 import com.zavijavasoft.yafina.utils.getOwnerAccount
 import com.zavijavasoft.yafina.utils.roundSum
 import io.reactivex.Completable
@@ -25,7 +26,7 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
 
     override var currencyRatios: List<CurrencyExchangeRatio> = listOf()
 
-    val articles = mutableMapOf<Long, ArticleEntity>()
+    private val articles = mutableMapOf<Long, ArticleEntity>()
     val accounts = mutableMapOf<Long, AccountEntity>()
 
     override fun addTransaction(transaction: TransactionInfo) {
@@ -146,7 +147,7 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
         return sum.roundSum()
     }
 
-    fun updateArticlesAndAccounts(): Completable {
+    private fun updateArticlesAndAccounts(): Completable {
         val updateArticles = Completable.fromAction {
             val articlelist = articlesStorage.getArticles().blockingGet()
             for (article in articlelist) {
@@ -189,9 +190,13 @@ class FinanceTrackerImpl @Inject constructor(private val transactionsStorage: Tr
             for (id in accounts.keys) {
                 val sums = _transactions.asSequence()
                         .filter { it -> it.accountIdTo == id }
-                        .map { it.sum * if (articles[it.articleId]?.type == ArticleType.INCOME) 1 else -1 }
+                        .map { it.sum * if (it.transactionType != TransactionType.OUTCOME) 1 else -1 }
                         .toList()
-                map[id] = sums.sum().roundSum()
+                val neg = _transactions.asSequence()
+                        .filter { it -> it.accountIdFrom == id }
+                        .map { -it.sum }
+                        .toList()
+                map[id] = (sums + neg).sum().roundSum()
             }
             /*lambda return*/map
         }

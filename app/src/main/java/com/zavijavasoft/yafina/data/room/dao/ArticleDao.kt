@@ -1,9 +1,6 @@
 package com.zavijavasoft.yafina.data.room.dao
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import android.arch.persistence.room.*
 import com.zavijavasoft.yafina.model.ArticleEntity
 
 @Dao
@@ -22,4 +19,7 @@ interface ArticleDao {
 
     @Update
     fun updateArticle(articleEntity: ArticleEntity)
+
+    @Delete
+    fun deleteArticle(articleEntity: ArticleEntity)
 }

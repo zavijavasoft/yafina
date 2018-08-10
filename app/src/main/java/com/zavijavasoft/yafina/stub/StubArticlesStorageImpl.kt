@@ -23,6 +23,10 @@ class StubArticlesStorageImpl : ArticlesStorage {
         list.add(ArticleEntity(9, ArticleType.INCOME, "Прочие доходы", "Не помню откуда"))
     }
 
+    override fun deleteArticle(article: ArticleEntity): Completable {
+        return Completable.complete()
+    }
+
     override fun getArticles(): Single<List<ArticleEntity>> {
         return Single.just(list)
 

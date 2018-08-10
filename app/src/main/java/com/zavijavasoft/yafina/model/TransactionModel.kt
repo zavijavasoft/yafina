@@ -5,7 +5,7 @@ import com.zavijavasoft.yafina.utils.TransactionType
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-abstract class TransactionInfo(
+sealed class TransactionInfo(
         open val transactionId: Long,
         open val transactionType: TransactionType,
         open val sum: Float,

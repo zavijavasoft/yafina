@@ -21,8 +21,15 @@ class TransactionsListPresenterImpl @Inject constructor(
             val transactions = tracker.retrieveTransactions().blockingGet()
             val res: MutableList<Triple<TransactionInfo, ArticleEntity, AccountEntity>> = mutableListOf()
             for (tr in transactions) {
+                val ownerId = getOwnerAccount(tr)
+                val receiverId = if (tr.accountIdFrom == ownerId) tr.accountIdTo else tr.accountIdFrom
                 val account = accountsStorage.getAccountById(getOwnerAccount(tr)).blockingGet()
-                val article = articlesStorage.getArticleById(tr.articleId).blockingGet()
+                val article = if (tr.articleId != 0L) {
+                    articlesStorage.getArticleById(tr.articleId).blockingGet()
+                } else {
+                    val acc = accountsStorage.getAccountById(receiverId).blockingGet()
+                    ArticleEntity(0, ArticleType.INCOME, acc.name)
+                }
 
                 res.add(Triple(tr, article, account))
             }

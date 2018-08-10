@@ -18,6 +18,16 @@ class AccountEditPresenterImpl @Inject constructor(
         private val currencyStorage: CurrencyStorage
         ) : MvpPresenter<AccountEditView>(), AccountEditPresenter {
 
+    override fun delete(account: AccountEntity) {
+        Completable.fromAction {
+            accountsStorage.deleteAccount(account)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    viewState.close()
+                }
+    }
+
     override fun update(accountId: Long) {
         Single.zip(
                 accountsStorage.getAccountById(accountId),

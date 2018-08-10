@@ -97,7 +97,7 @@ class EditTransactionActivity : MvpAppCompatActivity(), EditTransactionView {
     private fun initCurrencyButton() {
         presenter.getCurrencies()
         btnCurrency.setOnClickListener {
-            showDialog("Choose currency", currencyArrayAdapter) { position ->
+            showDialog(getString(R.string.choose_currency), currencyArrayAdapter) { position ->
                 currentCurrency = currencyArrayAdapter.getItem(position)
                 btnCurrency.text = currentCurrency
             }
@@ -109,7 +109,7 @@ class EditTransactionActivity : MvpAppCompatActivity(), EditTransactionView {
         presenter.getAccount(currentAccountId)
         presenter.getAccounts()
         btnCurrentAccount.setOnClickListener {
-            showDialog("Choose account", accountArrayAdapter) { position ->
+            showDialog(getString(R.string.choose_account), accountArrayAdapter) { position ->
                 val account = accountArrayAdapter.getItem(position)
                 currentAccountId = account.first
                 btnCurrentAccount.text = account.second
@@ -214,7 +214,7 @@ class EditTransactionActivity : MvpAppCompatActivity(), EditTransactionView {
             presenter.saveTransaction(updatedTransaction, isNew)
             return
         }
-        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.wrong, Toast.LENGTH_SHORT).show()
     }
 
     private fun deleteTransaction() {

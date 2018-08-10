@@ -17,4 +17,7 @@ interface AccountDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateAccount(accountEntity: AccountEntity)
+
+    @Delete
+    fun deleteAccount(accountEntity: AccountEntity)
 }

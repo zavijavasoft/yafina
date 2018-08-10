@@ -5,11 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -61,9 +59,9 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
     @BindView(R.id.recycler_view_accounts)
     lateinit var recyclerAccounts: RecyclerView
 
-    lateinit var accountAdapter: AccountAdapter
-    lateinit var incomeAdapter: ArticleAdapter
-    lateinit var outcomeAdapter: ArticleAdapter
+    private lateinit var accountAdapter: AccountAdapter
+    private lateinit var incomeAdapter: ArticleAdapter
+    private lateinit var outcomeAdapter: ArticleAdapter
 
 
     lateinit var unbinder: Unbinder
@@ -92,14 +90,6 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
 
 
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val toast = Toast.makeText(appContext,
-                R.string.message_operations,
-                Toast.LENGTH_LONG)
-        toast.setGravity(Gravity.CENTER, 0, 0)
-        toast.show()
     }
 
 

@@ -40,7 +40,7 @@ class EditAccountFragment : MvpAppCompatFragment(), AccountEditView {
     @Inject
     lateinit var appContext: Context
 
-    private var accountId: Long? = null
+    private var accountId: Long = 0
     private var listener: OnFragmentInteractionListener? = null
 
     private lateinit var spinnerCurrenciesAdapter: ArrayAdapter<String>
@@ -60,7 +60,10 @@ class EditAccountFragment : MvpAppCompatFragment(), AccountEditView {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
-        inflater.inflate(R.menu.menu_account_edit, menu)
+        inflater.inflate(R.menu.menu_edit, menu)
+        if (accountId == 0L) {
+            menu.getItem(0).isVisible = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -69,12 +72,16 @@ class EditAccountFragment : MvpAppCompatFragment(), AccountEditView {
                 presenter.save(getAccount())
                 true
             }
+            R.id.mi_action_delete -> {
+                presenter.delete(getAccount())
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun getAccount(): AccountEntity {
-        val id = accountId ?: 0L
+        val id = accountId
         val name = etAccountName.text.toString()
         val currency = spinnerCurrencies.selectedItem as String
         val description = etAccountDescription.text.toString()
@@ -89,8 +96,8 @@ class EditAccountFragment : MvpAppCompatFragment(), AccountEditView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (accountId != null) {
-            presenter.update(accountId!!)
+        if (accountId != 0L) {
+            presenter.update(accountId)
         } else {
             presenter.update()
         }

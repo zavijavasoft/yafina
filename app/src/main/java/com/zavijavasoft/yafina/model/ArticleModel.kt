@@ -26,4 +26,5 @@ interface ArticlesStorage {
     fun getArticleById(id: Long): Single<ArticleEntity>
     fun addArticle(articleEntity: ArticleEntity): Single<Long>
     fun updateArticle(article: ArticleEntity): Completable
+    fun deleteArticle(article: ArticleEntity): Completable
 }

@@ -42,7 +42,17 @@ class ArticleEditPresenterImpl @Inject constructor(
                 articlesStorage.updateArticle(article).blockingAwait()
                 articleTemplateStorage.updateTemplate(template)
             }
-            Completable.complete()
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    viewState.close()
+                }
+    }
+
+    override fun delete(article: ArticleEntity, template: ArticleTemplateEntity) {
+        Completable.fromAction {
+            articleTemplateStorage.deleteTemplate(template)
+            articlesStorage.deleteArticle(article)
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {

@@ -6,14 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+        <item name="preferenceTheme">@style/YaPreferenceTheme</item>
     </style>
 
-    <style name="SpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:textDirection">rtl</item>
-        <item name="android:textColor">@color/colorYaYellow</item>
+    <style name="YaPreferenceTheme" parent="@style/PreferenceThemeOverlay">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorGrey</item>
     </style>
 
 </resources>

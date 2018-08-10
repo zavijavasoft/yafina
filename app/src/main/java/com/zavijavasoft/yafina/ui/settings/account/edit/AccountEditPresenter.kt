@@ -6,4 +6,5 @@ interface AccountEditPresenter {
     fun update()
     fun update(accountId: Long)
     fun save(account: AccountEntity)
+    fun delete(account: AccountEntity)
 }

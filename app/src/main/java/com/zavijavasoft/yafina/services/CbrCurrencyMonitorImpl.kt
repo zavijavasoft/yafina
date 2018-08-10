@@ -82,7 +82,7 @@ class CbrCurrencyMonitorImpl @Inject constructor(
 
     private val api = retrofit.create(CbrApi::class.java)
 
-    var listCurrencyExchangeRatio = listOf<CurrencyExchangeRatio>()
+    private var listCurrencyExchangeRatio = listOf<CurrencyExchangeRatio>()
 
     override fun pull(): Single<List<CurrencyExchangeRatio>> {
         return Single.fromCallable<List<CurrencyExchangeRatio>> {

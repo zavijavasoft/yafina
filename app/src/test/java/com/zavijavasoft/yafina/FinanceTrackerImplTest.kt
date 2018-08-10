@@ -11,17 +11,17 @@ import java.util.logging.Logger
 class FinanceTrackerImplTest {
 
     companion object {
-        val logger = Logger.getAnonymousLogger()
+        val logger: Logger = Logger.getAnonymousLogger()
     }
 
-    val currencyStorage = StubCurrencyStorageImpl()
-    val transactionsStorage = StubTransactionStorageImpl()
-    val currencyMonitor = StubCurrencyMonitorImpl(currencyStorage)
-    val balanceStorage = StubBalanceStorageImpl()
-    val accountsStorage = StubAccountsStorageImpl()
-    val articlesStorage = StubArticlesStorageImpl()
+    private val currencyStorage = StubCurrencyStorageImpl()
+    private val transactionsStorage = StubTransactionStorageImpl()
+    private val currencyMonitor = StubCurrencyMonitorImpl(currencyStorage)
+    private val balanceStorage = StubBalanceStorageImpl()
+    private val accountsStorage = StubAccountsStorageImpl()
+    private val articlesStorage = StubArticlesStorageImpl()
 
-    val tracker: FinanceTracker = FinanceTrackerImpl(transactionsStorage, balanceStorage, articlesStorage, accountsStorage)
+    private val tracker: FinanceTracker = FinanceTrackerImpl(transactionsStorage, balanceStorage, articlesStorage, accountsStorage)
 
 
     @Test

@@ -16,7 +16,7 @@ import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.utils.ColorSelector
 
 class TransactionsListViewAdapter(
-        var itemsList: List<Triple<TransactionInfo, ArticleEntity, AccountEntity>>,
+        private var itemsList: List<Triple<TransactionInfo, ArticleEntity, AccountEntity>>,
         val context: Context,
         val presenter: TransactionsListPresenter,
         private val listener: OnClickListener
