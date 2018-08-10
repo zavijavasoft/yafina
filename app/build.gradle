@@ -98,6 +98,8 @@ dependencies {
     implementation "com.android.support:cardview-v7:${depVersions.support}"
     implementation "com.android.support:preference-v7:${depVersions.support}"
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
     androidTestImplementation("com.android.support.test:runner:${depTestVersions.runner}") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }

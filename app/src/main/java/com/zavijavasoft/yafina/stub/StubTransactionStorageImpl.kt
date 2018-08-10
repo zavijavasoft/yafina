@@ -32,5 +32,9 @@ class StubTransactionStorageImpl : TransactionStorage {
         return Single.just(transactions)
     }
 
+    override fun findAllBetween(dateFrom: Date, dateTo: Date): Single<List<TransactionInfo>> {
+        return Single.just(transactions)
+    }
+
 }
 

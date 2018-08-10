@@ -10,6 +10,7 @@ import com.zavijavasoft.yafina.model.TransactionStorage
 import com.zavijavasoft.yafina.services.scheduleTransaction
 import io.reactivex.Completable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
 
 class TransactionStorageImpl
@@ -73,5 +74,17 @@ class TransactionStorageImpl
         }
     }
 
+    override fun findAllBetween(dateFrom: Date, dateTo: Date): Single<List<TransactionInfo>> {
+        return Single.fromCallable {
+            val oneTimeTransactions = oneTimeDao
+                    .getTransactionsBetweenDate(dateFrom.time, dateTo.time)
+                    .map { it -> Converters.toTransactionInfo(it) }
+            val scheduledTransactions = scheduledDao
+                    .getTransactionsBetweenDate(dateFrom.time, dateTo.time)
+                    .map { it -> Converters.toScheduledTransactionInfo(it) }
+            (oneTimeTransactions + scheduledTransactions)
+                    .sortedBy { it.transactionId }
+        }
+    }
 }
 

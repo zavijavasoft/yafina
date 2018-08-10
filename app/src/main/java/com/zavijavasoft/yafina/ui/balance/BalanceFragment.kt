@@ -1,25 +1,25 @@
 package com.zavijavasoft.yafina.ui.balance
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageButton
-import butterknife.BindView
+import android.widget.Button
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.model.BalanceChunk
-import com.zavijavasoft.yafina.utils.CharteeGraphicView
-import com.zavijavasoft.yafina.utils.ColorSelector
+import kotlinx.android.synthetic.main.fragment_balance.*
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -49,20 +49,11 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         return presenter
     }
 
-    @BindView(R.id.balance_update)
-    lateinit var buttonUpdate: ImageButton
-
-    @BindView(R.id.chart_placeholder)
-    lateinit var chartPlaceholder: FrameLayout
-
-    lateinit var chartee: CharteeGraphicView
-
-    @BindView(R.id.balance_recyclerview)
-    lateinit var recyclerView: RecyclerView
-
-    lateinit var adapter: BalanceAdapter
-
     lateinit var unbinder: Unbinder
+
+    private lateinit var chartAdapter: ChartRecyclerViewAdapter
+    private var dateFrom = Date(0)
+    private var dateTo = Date()
 
     override fun onAttach(context: Context?) {
         YaFinaApplication.component.inject(this)
@@ -75,21 +66,17 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
         val view = inflater.inflate(R.layout.fragment_balance, container, false)
         unbinder = ButterKnife.bind(this, view)
 
-
-        adapter = BalanceAdapter(listOf(), appContext, presenter)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.HORIZONTAL, false)
-
-
-        buttonUpdate.setOnClickListener {
-            presenter.needUpdate()
-        }
-
-
-        chartee = CharteeGraphicView(appContext)
-        chartPlaceholder.addView(chartee)
-
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        chartAdapter = ChartRecyclerViewAdapter(mutableListOf())
+        rvCharts.adapter = chartAdapter
+
+        btnDateFrom.setOnClickListener { showDateDialog(btnDateFrom, dateFrom) }
+        showSelectedDate(btnDateFrom, dateFrom)
+        btnDateTo.setOnClickListener { showDateDialog(btnDateTo, dateTo) }
+        showSelectedDate(btnDateTo, dateTo)
     }
 
     override fun onDestroyView() {
@@ -99,18 +86,56 @@ class BalanceFragment : MvpAppCompatFragment(), BalanceView {
 
     override fun onResume() {
         super.onResume()
-        presenter.needUpdate()
+        requestUpdate()
     }
 
-    override fun update(balances: List<BalanceChunk>) {
+    private fun requestUpdate() {
+        chartAdapter.clear()
+        rvCharts.removeAllViews()
+        rvCharts.recycledViewPool.clear()
+        presenter.needUpdatePieCurrenciesBetween(dateFrom, dateTo)
+        presenter.needUpdateBarSpendingBetween(dateFrom, dateTo)
+    }
 
-        adapter.update(balances)
+    override fun updateBarSpending(data: MutableList<IBarDataSet>) {
+        val chart = BarChart(context)
+        val barData = BarData(data)
+        chart.data = barData
+        chart.description.isEnabled = false
+        chartAdapter.add(chart)
+    }
 
-        // код ниже не несет никакого практического смысла и нужен лишь для отрисовки пробного чарта
-        val sum = balances.map { it.sum }.sum()
-        val arrayValues = Array(balances.size) { balances[it].sum / sum }
-        val colors = Array(balances.size) { ColorSelector.getColorByLeadingLetter(balances[it].currency[0]) }
-        chartee.update(values = arrayValues.toFloatArray(), colors = colors.toIntArray())
+    override fun updateBarCurrencies(data: MutableList<IBarDataSet>) {
+        val chart = BarChart(context)
+        val barData = BarData(data)
+        chart.data = barData
+        chart.description.isEnabled = false
+        chartAdapter.add(chart)
+    }
 
+    private fun showDateDialog(btnDate: Button, date: Date) {
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+
+        val dateChangeCallback = DatePickerDialog.OnDateSetListener { _, y, m, d ->
+            calendar.set(y, m, d)
+            val dt = calendar.time
+            showSelectedDate(btnDate, dt)
+            if (btnDate == btnDateFrom) {
+                dateFrom = dt
+            } else {
+                dateTo = dt
+            }
+            requestUpdate()
+        }
+        val dpk = DatePickerDialog(context, dateChangeCallback, year, month, day)
+        dpk.show()
+    }
+
+    private fun showSelectedDate(btnDate: Button, date: Date) {
+        btnDate.text = SimpleDateFormat.getDateInstance().format(date)
     }
 }

@@ -11,6 +11,7 @@ interface TransactionDao<T: TransactionEntity> {
     fun insertTransaction(transaction: T)
     fun deleteTransaction(transaction: T)
     fun updateTransaction(transaction: T)
+    fun getTransactionsBetweenDate(dateFrom: Long, dateTo: Long): List<T>
 }
 
 @Dao
@@ -21,6 +22,9 @@ interface OneTimeTransactionDao: TransactionDao<OneTimeTransactionEntity> {
 
     @Query("SELECT * FROM `transaction`")
     override fun getTransactions(): List<OneTimeTransactionEntity>
+
+    @Query("SELECT * FROM `transaction` WHERE id BETWEEN :dateFrom AND :dateTo")
+    override fun getTransactionsBetweenDate(dateFrom: Long, dateTo: Long): List<OneTimeTransactionEntity>
 
     @Insert
     override fun insertTransaction(transaction: OneTimeTransactionEntity)
@@ -40,6 +44,9 @@ interface ScheduledTransactionDao: TransactionDao<ScheduledTransactionEntity> {
 
     @Query("SELECT * FROM scheduled_transaction")
     override fun getTransactions(): List<ScheduledTransactionEntity>
+
+    @Query("SELECT * FROM scheduled_transaction WHERE id BETWEEN :dateFrom AND :dateTo")
+    override fun getTransactionsBetweenDate(dateFrom: Long, dateTo: Long): List<ScheduledTransactionEntity>
 
     @Insert
     override fun insertTransaction(transaction: ScheduledTransactionEntity)

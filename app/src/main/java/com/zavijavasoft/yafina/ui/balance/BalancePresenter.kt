@@ -1,5 +1,8 @@
 package com.zavijavasoft.yafina.ui.balance
 
+import java.util.*
+
 interface BalancePresenter {
-    fun needUpdate()
+    fun needUpdatePieCurrenciesBetween(dateFrom: Date, dateTo: Date)
+    fun needUpdateBarSpendingBetween(dateFrom: Date, dateTo: Date)
 }
