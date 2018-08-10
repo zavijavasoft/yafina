@@ -11,7 +11,8 @@ import com.zavijavasoft.yafina.model.*
 import java.util.concurrent.Executors
 
 @Database(entities = [AccountEntity::class, ArticleEntity::class, CurrencyEntity::class,
-    OneTimeTransactionEntity::class, ScheduledTransactionEntity::class, ArticleTemplateEntity::class],
+    OneTimeTransactionEntity::class, ScheduledTransactionEntity::class,
+    ArticleTemplateEntity::class, CurrencyExchangeRatio::class],
         version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
@@ -106,5 +107,6 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun getScheduledTransactionDao(): ScheduledTransactionDao
     abstract fun getCurrencyDao(): CurrencyDao
     abstract fun getArticleTemplateDao(): ArticleTemplateDao
+    abstract fun getCurrencyExchangeRatioDao(): CurrencyExchangeRatioDao
 
 }

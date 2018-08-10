@@ -22,8 +22,8 @@ class StubCurrencyMonitorImpl @Inject constructor(val currencyStorage: CurrencyS
 
 
     init {
-        val usdrur = CurrencyExchangeRatio("USD", "RUR", 63.46f, Date())
-        val rurusd = CurrencyExchangeRatio("RUR", "USD", 1.0f / 63.46f, Date())
+        val usdrur = CurrencyExchangeRatio(1,"USD", "RUR", 63.46f, Date())
+        val rurusd = CurrencyExchangeRatio(2,"RUR", "USD", 1.0f / 63.46f, Date())
         ratios = listOf(usdrur, rurusd)
     }
 

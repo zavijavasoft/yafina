@@ -19,6 +19,7 @@ typealias ConcreteBalanceStorageImpl = SharedPrefBalanceStorageImpl
 typealias ConcreteTransactionStorageImpl = TransactionStorageImpl
 typealias ConcreteCurrencyMonitorImpl = CbrCurrencyMonitorImpl
 typealias ConcreteCurrencyStorageImpl = CurrencyStorageImpl
+typealias ConcreteCurrencyExchangeRatioStorageImpl = CurrencyExchangeRatioStorageImpl
 typealias ConcreteArticleStorageImpl = ArticlesStorageImpl
 typealias ConcreteArticleTemplateStorageImpl = ArticleTemplateStorageImpl
 typealias ConcreteAccountsStorageImpl = AccountsStorageImpl
@@ -56,6 +57,12 @@ class CurrencyStorageModule {
         return ConcreteCurrencyStorageImpl(dao)
     }
 
+    @Singleton
+    @Provides
+    @NonNull
+    fun getCurrencyExchangeRatioStorage(dao: CurrencyExchangeRatioDao): CurrencyExchangeRatioStorage {
+        return ConcreteCurrencyExchangeRatioStorageImpl(dao)
+    }
 }
 
 @Module
