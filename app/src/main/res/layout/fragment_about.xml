@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBlack"
     android:orientation="vertical"
     tools:context=".ui.AboutFragment">
 
@@ -13,7 +12,6 @@
         android:layout_marginTop="60dp"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="@color/colorYaYellow"
         android:textSize="40sp" />
 
     <TextView
@@ -21,8 +19,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/app_version"
-        android:textColor="@color/colorYaYellow"
-
         android:textSize="12sp" />
 
     <TextView
@@ -31,7 +27,6 @@
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="@string/app_description"
-        android:textColor="@color/colorYaYellow"
         android:textSize="14sp" />
 
 

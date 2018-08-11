@@ -9,16 +9,8 @@ import javax.inject.Inject
 
 
 class StubCurrencyStorageImpl : CurrencyStorage {
-    override fun getCurrencyList(): List<String> {
-        return listOf("USD", "RUR", "KZT", "EUR")
-    }
-
-    override fun addCurrency(currency: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun removeCurrency(currency: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getCurrencyList(): Single<List<String>> {
+        return Single.just(listOf("USD", "RUR", "KZT", "EUR"))
     }
 }
 
@@ -30,8 +22,8 @@ class StubCurrencyMonitorImpl @Inject constructor(val currencyStorage: CurrencyS
 
 
     init {
-        val usdrur = CurrencyExchangeRatio("USD", "RUR", 63.46f, Date())
-        val rurusd = CurrencyExchangeRatio("RUR", "USD", 1.0f / 63.46f, Date())
+        val usdrur = CurrencyExchangeRatio(1,"USD", "RUR", 63.46f, Date())
+        val rurusd = CurrencyExchangeRatio(2,"RUR", "USD", 1.0f / 63.46f, Date())
         ratios = listOf(usdrur, rurusd)
     }
 

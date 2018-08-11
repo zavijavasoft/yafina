@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="timeUnits">
+        <item>Каждую неделю</item>
+        <item>Каждый месяц</item>
+        <item>Каждый год</item>
+    </string-array>
+    <string-array name="articleTypes">
+        <item>Incomings</item>
+        <item>Outgoings</item>
+    </string-array>
+</resources>

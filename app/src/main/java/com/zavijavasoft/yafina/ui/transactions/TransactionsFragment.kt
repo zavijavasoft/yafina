@@ -15,8 +15,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.TransactionsListPresenterImpl
+import com.zavijavasoft.yafina.model.AccountEntity
+import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.ui.edittransaction.EditTransactionActivity
 import javax.inject.Inject
 
 
@@ -60,7 +62,12 @@ class TransactionsFragment : MvpAppCompatFragment(), TransactionsListView {
         val view = inflater.inflate(R.layout.fragment_transactions, container, false)
         unbinder = ButterKnife.bind(this, view)
 
-        adapter = TransactionsListViewAdapter(listOf(), appContext, presenter)
+        adapter = TransactionsListViewAdapter(listOf(), appContext, presenter,
+                object: TransactionsListViewAdapter.OnClickListener {
+                    override fun onEdit(transaction: TransactionInfo) {
+                        startActivity(EditTransactionActivity.newIntent(context, transaction))
+                    }
+                })
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(appContext, LinearLayoutManager.VERTICAL, false)
 
@@ -84,7 +91,7 @@ class TransactionsFragment : MvpAppCompatFragment(), TransactionsListView {
     }
 
 
-    override fun update(transactionsList: List<TransactionInfo>) {
-        adapter.update(transactionsList)
+    override fun update(res: List<Triple<TransactionInfo, ArticleEntity, AccountEntity>>) {
+        adapter.update(res)
     }
 }

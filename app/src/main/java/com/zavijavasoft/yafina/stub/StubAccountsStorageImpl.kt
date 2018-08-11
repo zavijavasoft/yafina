@@ -2,6 +2,7 @@ package com.zavijavasoft.yafina.stub
 
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.AccountsStorage
+import io.reactivex.Completable
 import io.reactivex.Single
 import java.io.InvalidObjectException
 
@@ -18,6 +19,10 @@ class StubAccountsStorageImpl : AccountsStorage {
         list.add(AccountEntity(6, "USD", "PayPal", "Счет на PayPal"))
     }
 
+    override fun deleteAccount(account: AccountEntity): Completable {
+        return Completable.complete()
+    }
+
     override fun getAccounts(): Single<List<AccountEntity>> {
         return Single.just(list)
 
@@ -29,5 +34,13 @@ class StubAccountsStorageImpl : AccountsStorage {
             return Single.just(item)
         }
         return Single.error(InvalidObjectException("no such article id"))
+    }
+
+    override fun addAccount(account: AccountEntity): Completable {
+        return Completable.complete()
+    }
+
+    override fun updateAccount(account: AccountEntity): Completable {
+        return Completable.complete()
     }
 }

@@ -6,15 +6,21 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.zavijavasoft.yafina.R
-import com.zavijavasoft.yafina.core.TransactionsListPresenter
+import com.zavijavasoft.yafina.model.AccountEntity
+import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.TransactionInfo
 import com.zavijavasoft.yafina.utils.ColorSelector
 
-class TransactionsListViewAdapter(var itemsList: List<TransactionInfo>, val context: Context, val presenter: TransactionsListPresenter)
-    : RecyclerView.Adapter<TransactionsListViewAdapter.TransactionViewHolder>() {
+class TransactionsListViewAdapter(
+        private var itemsList: List<Triple<TransactionInfo, ArticleEntity, AccountEntity>>,
+        val context: Context,
+        val presenter: TransactionsListPresenter,
+        private val listener: OnClickListener
+) : RecyclerView.Adapter<TransactionsListViewAdapter.TransactionViewHolder>() {
 
 
     inner class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -25,6 +31,7 @@ class TransactionsListViewAdapter(var itemsList: List<TransactionInfo>, val cont
         var txtActicle: TextView = view.findViewById(R.id.transaction_article_title)
         var txtAccount: TextView = view.findViewById(R.id.transaction_account_title)
         var txtSum: TextView = view.findViewById(R.id.transaction_sum)
+        val btnEdit: ImageButton = view.findViewById(R.id.btnEdit)
 
 
     }
@@ -36,14 +43,16 @@ class TransactionsListViewAdapter(var itemsList: List<TransactionInfo>, val cont
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val (transaction, article, account) = itemsList[position]
 
-        val item = itemsList[position]
-        holder.id = item.transactionId
+        holder.id = transaction.transactionId
         holder.cardView.setCardBackgroundColor(ColorSelector.randomColor)
-        holder.txtAccount.text = "Счет такой-то"
-        holder.txtActicle.text = "Статья такая-то"
-        holder.txtSum.text = item.sum.toString()
-
+        holder.txtAccount.text = account.name
+        holder.txtActicle.text = article.title
+        holder.txtSum.text = transaction.sum.toString()
+        holder.btnEdit.setOnClickListener {
+            listener.onEdit(transaction)
+        }
     }
 
 
@@ -51,9 +60,13 @@ class TransactionsListViewAdapter(var itemsList: List<TransactionInfo>, val cont
         return itemsList.size
     }
 
-    fun update(list: List<TransactionInfo>) {
+    fun update(list: List<Triple<TransactionInfo, ArticleEntity, AccountEntity>>) {
         itemsList = list
         notifyDataSetChanged()
+    }
+
+    interface OnClickListener {
+        fun onEdit(transaction: TransactionInfo)
     }
 }
 

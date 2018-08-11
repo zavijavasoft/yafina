@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="Аккаунты" >
+        <intent
+            android:targetClass="com.zavijavasoft.yafina.ui.settings.account.AccountActivity"
+            android:targetPackage="com.zavijavasoft.yafina"/>
+    </Preference>
+    <Preference
+        android:title="Статьи" >
+        <intent
+            android:targetClass="com.zavijavasoft.yafina.ui.settings.article.ArticleActivity"
+            android:targetPackage="com.zavijavasoft.yafina"/>
+    </Preference>
+</PreferenceScreen>

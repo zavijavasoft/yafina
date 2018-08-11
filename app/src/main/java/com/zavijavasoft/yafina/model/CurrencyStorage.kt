@@ -1,8 +1,8 @@
 package com.zavijavasoft.yafina.model
 
+import io.reactivex.Single
+
 interface CurrencyStorage {
-    fun getCurrencyList(): List<String>
-    fun addCurrency(currency: String)
-    fun removeCurrency(currency: String)
+    fun getCurrencyList(): Single<List<String>>
 }
 

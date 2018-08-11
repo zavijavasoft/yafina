@@ -2,14 +2,12 @@ package com.zavijavasoft.yafina.ui.operation
 
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -18,11 +16,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.zavijavasoft.yafina.R
 import com.zavijavasoft.yafina.YaFinaApplication
-import com.zavijavasoft.yafina.core.OperationPresenterImpl
 import com.zavijavasoft.yafina.model.AccountEntity
 import com.zavijavasoft.yafina.model.ArticleEntity
 import com.zavijavasoft.yafina.model.ArticleType
-import com.zavijavasoft.yafina.ui.OpenTransactionActivity
+import com.zavijavasoft.yafina.model.TransactionInfo
+import com.zavijavasoft.yafina.ui.edittransaction.EditTransactionActivity
 import com.zavijavasoft.yafina.utils.ColorSelector
 import javax.inject.Inject
 
@@ -61,9 +59,9 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
     @BindView(R.id.recycler_view_accounts)
     lateinit var recyclerAccounts: RecyclerView
 
-    lateinit var accountAdapter: AccountAdapter
-    lateinit var incomeAdapter: ArticleAdapter
-    lateinit var outcomeAdapter: ArticleAdapter
+    private lateinit var accountAdapter: AccountAdapter
+    private lateinit var incomeAdapter: ArticleAdapter
+    private lateinit var outcomeAdapter: ArticleAdapter
 
 
     lateinit var unbinder: Unbinder
@@ -144,27 +142,7 @@ class OperationFragment : MvpAppCompatFragment(), OperationView {
 
     }
 
-    override fun notifyInsufficientMoney(accountTitle: String, sumExists: String, sumRequired: String) {
-        if (sumRequired.isEmpty())
-            Toast.makeText(context, getString(R.string.zero_money_notification, accountTitle, sumExists), Toast.LENGTH_LONG)
-        else
-            Toast.makeText(context, getString(R.string.not_enough_money_notification, accountTitle, sumExists, sumRequired), Toast.LENGTH_LONG)
-    }
-
-    override fun requireTransaction(request: TransactionRequest) {
-        val intent = Intent(context, OpenTransactionActivity::class.java)
-        intent.putExtra(TRANSACTION_REQUEST_TAG, request)
-        startActivityForResult(intent, 1)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (data != null) {
-            if (resultCode == OpenTransactionActivity.TRANSACTION_ACCEPTED) {
-                val request: TransactionRequest = data.getParcelableExtra(TRANSACTION_REQUEST_TAG)
-                presenter.acceptOperation(request)
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-
+    override fun requireTransaction(transaction: TransactionInfo) {
+        startActivity(EditTransactionActivity.newIntent(context, transaction, true))
     }
 }

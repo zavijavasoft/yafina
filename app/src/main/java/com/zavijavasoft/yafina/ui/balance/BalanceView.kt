@@ -1,8 +1,9 @@
 package com.zavijavasoft.yafina.ui.balance
 
 import com.arellomobile.mvp.MvpView
-import com.zavijavasoft.yafina.model.BalanceChunk
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 
 interface BalanceView : MvpView {
-    fun update(balances: List<BalanceChunk>)
+    fun updateBarCurrencies(data: MutableList<IBarDataSet>)
+    fun updateBarSpending(data: MutableList<IBarDataSet>)
 }
